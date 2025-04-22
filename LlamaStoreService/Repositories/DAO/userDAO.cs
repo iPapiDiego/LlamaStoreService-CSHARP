@@ -9,7 +9,7 @@ namespace LlamaStoreService.Repositories.DAO
     public class userDAO
     {
         private readonly string _cadenaDB;
-
+        //XDDDD
         public userDAO()
         {
             _cadenaDB = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("DefaultConnection");
