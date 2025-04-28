@@ -1,0 +1,87 @@
+﻿@model IEnumerable<LlamaStoreVista.Models.Producto>
+
+@{
+    ViewData["Title"] = "ProductosVista";
+}
+
+<h1>ProductosVista</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.idcel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idmarca)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.modelo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.precio)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idgama)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.stock)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idsistema)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.idestado)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.idcel)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.idmarca)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.modelo)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.precio)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.idgama)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.stock)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.idsistema)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.idestado)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+<div>
+    @for (int i = 0; i < (int)ViewBag.pages; i++)
+    {
+        <a asp-action="Index" asp-route-page="@(i+1)"
+           class=@(i ==(int)ViewBag.page?"btn btn-success":"btn btn-primary")>
+            @(i + 1)
+        </a>
+    }
+</div>
