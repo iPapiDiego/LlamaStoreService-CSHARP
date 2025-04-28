@@ -1,0 +1,120 @@
+﻿
+.imagen1 {
+    text-align: center;
+    background-color: #fffffff5;
+    img
+
+{
+    width: 100%;
+}
+
+}
+
+/* ================CARROSUL================== */
+.carrusel1 {
+    justify-items: center;
+    background-color: #fffffff5;
+}
+
+.carousel-container {
+    position: relative;
+    width: 90%;
+    max-width: 1200px;
+    padding: 1rem 0;
+}
+
+.carousel {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+    gap: 1rem;
+    padding: 1rem;
+    scroll-behavior: smooth;
+}
+
+    .carousel::-webkit-scrollbar {
+        display: none;
+    }
+
+.slide {
+    flex: none;
+    scroll-snap-align: start;
+    width: 100%;
+    max-width: 300px;
+    border-radius: 1rem;
+    background: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 1rem;
+}
+
+    .slide img {
+        max-width: 100%;
+        border-radius: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .slide h3 {
+        margin: 0.5rem 0 0.2rem;
+        font-size: 1.2rem;
+    }
+
+    .slide p {
+        font-size: 0.9rem;
+        color: #555;
+    }
+
+.nav-button {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 10;
+}
+
+    .nav-button:hover {
+        background: rgba(0, 0, 0, 0.7);
+    }
+
+.prev {
+    left: 0.5rem;
+}
+
+.next {
+    right: 0.5rem;
+}
+
+@media (max-width: 600px) {
+    .nav-button {
+        font-size: 1.2rem;
+        padding: 0.4rem 0.8rem;
+    }
+}
+
+/* ================PRODUCTOS================== */
+
+.imagen2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 10px;
+    /*LIMITAR EL NUMERO DE COLUMNAS*/
+    max-width: 1400px;
+}
+
+.card {
+    border-radius: 4px;
+    width: 100%;
+    height: auto;
+}
+
+.titulossssss {
+    text-align: center;
+    margin: 20px;
+}

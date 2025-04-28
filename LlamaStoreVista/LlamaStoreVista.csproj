@@ -11,4 +11,22 @@
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\img\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="wwwroot\img\baners\baner_azul.png" />
+    <None Include="wwwroot\img\baners\baner_principal.png" />
+    <None Include="wwwroot\img\baners\baner_secundario.png" />
+    <None Include="wwwroot\img\baners\bannerIphone.jpg" />
+    <None Include="wwwroot\img\Logos\llama-store-logo-blanco.png" />
+    <None Include="wwwroot\img\Logos\llama-store-logo-negro.PNG" />
+    <None Include="wwwroot\img\Logos\llama-store-logo-transparente.PNG" />
+    <None Include="wwwroot\img\Logos\llamaStoreLogoLargo.PNG" />
+    <None Include="wwwroot\img\Logos\llamaStoreLogoLargoTransparente.PNG" />
+    <None Include="wwwroot\img\Logos\logo-llamastore.png" />
+    <None Include="wwwroot\img\productos\producto1.png" />
+  </ItemGroup>
+
 </Project>

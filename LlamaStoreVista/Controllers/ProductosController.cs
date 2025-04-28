@@ -8,6 +8,13 @@ namespace LlamaStoreVista.Controllers
     {
         private readonly string conexionService = "https://localhost:44331/api/Products/";
 
+
+        public IActionResult Index()
+        {
+            return View();
+        }
+
+
         //LISTA DE VENDEDORES CON NUMERACION
         public async Task<IActionResult> ProductosVista(int page = 1)
         {
