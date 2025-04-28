@@ -132,15 +132,25 @@
                     {
                         <div class="col-lg-3 col-md-4 col-sm-6">
                             <div class="card iphone-card text-center h-100">
-                                <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
+                                <img src="@Url.Content($"~/img/productos/iphones/{item.idcel}.png")" class="iphone-img p-4" alt="iPhone 11">
                                 <div class="card-body">
-                                    <h5 class="card-title fw-bold">@Html.DisplayFor(modelItem => item.idcel)</h5>
+                                    <h5 class="card-title fw-bold">@Html.DisplayFor(modelItem => item.idmarca) @Html.DisplayFor(modelItem => item.modelo)</h5>
                                     <p class="card-text text-primary fw-bold fs-5">@Html.DisplayFor(modelItem => item.precio)</p>
                                     <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
                                 </div>
                             </div>
                         </div>
                     }
+
+                    <div>
+                        @for (int i = 0; i < (int)ViewBag.pages; i++)
+                        {
+                            <a asp-action="IphonesProductos" asp-route-page="@(i+1)"
+                               class=@(i ==(int)ViewBag.page?"btn btn-success":"btn btn-primary")>
+                                @(i + 1)
+                            </a>
+                        }
+                    </div>
                 </div>
             </section>
         </main>

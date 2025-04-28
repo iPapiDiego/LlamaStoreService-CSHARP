@@ -45,7 +45,7 @@ namespace LlamaStoreVista.Controllers
             }
 
             // Proceso para la paginación
-            int fila = 5;
+            int fila = 12;
             int count = temporal.Count();
             int pages = count % fila == 0 ? count / fila : count / fila + 1;
             page = page - 1;
