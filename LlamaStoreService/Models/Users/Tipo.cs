@@ -2,7 +2,7 @@
 {
     public class Tipo
     {
-        public int idtipo { get; set; }
-        public string descripcion { get; set; }
+        public int idroll { get; set; }
+        public string roll { get; set; }
     }
 }

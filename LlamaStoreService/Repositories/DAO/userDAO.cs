@@ -35,7 +35,7 @@ namespace LlamaStoreService.Repositories.DAO
                             correo = reader.GetString(3),
                             clave = reader.GetString(4),
                             fnacim = reader.GetDateTime(5),
-                            tipo = reader.GetInt32(6),
+                            idroll = reader.GetInt32(6),
                             estado = reader.GetInt32(7)
                         };
                         list.Add(u);
@@ -93,7 +93,7 @@ namespace LlamaStoreService.Repositories.DAO
                     cmd.Parameters.AddWithValue("@correo", usuario.correo);
                     cmd.Parameters.AddWithValue("@clave", usuario.clave);
                     cmd.Parameters.AddWithValue("@fnacim", usuario.fnacim);
-                    cmd.Parameters.AddWithValue("@tipo", usuario.tipo);
+                    cmd.Parameters.AddWithValue("@tipo", usuario.idroll);
                     cmd.Parameters.AddWithValue("@estado", usuario.estado);
 
                     cn.Open();

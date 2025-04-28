@@ -10,7 +10,7 @@ namespace LlamaStoreService.Models.Users
         [Display(Name = "Correo")] public string correo { get; set; }
         [Display(Name = "Clave")] public string clave { get; set; }
         [Display(Name = "Fecha")] public DateTime fnacim { get; set; }
-        [Display(Name = "Tipo")] public int tipo { get; set; }
+        [Display(Name = "Tipo")] public int idroll { get; set; }
         [Display(Name = "Estado")] public int estado { get; set; }
     }
 }
