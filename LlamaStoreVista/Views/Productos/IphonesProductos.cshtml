@@ -1,4 +1,7 @@
-﻿@{
+﻿@model IEnumerable<LlamaStoreVista.Models.Producto>
+
+@{
+    ViewData["Title"] = "IphonesProductos";
     Layout = null;
 }
 
@@ -7,16 +10,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
+    <title>iPhones</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <link rel="stylesheet" href="~/css/ContainerGeneral.css">
-    <link rel="stylesheet" href="~/css/Header.css">
-    <link rel="stylesheet" href="~/css/Footer.css">
-    <link rel="stylesheet" href="~/css/Main.css">
-    <link rel="stylesheet" href="~/css/Index.css">
+    <link rel="stylesheet" href="/css/ContainerGeneral.css">
+    <link rel="stylesheet" href="/css/Header.css">
+    <link rel="stylesheet" href="/css/Footer.css">
+    <link rel="stylesheet" href="/css/Main.css">
+    <link rel="stylesheet" href="/css/Iphone.css">
 
 
 </head>
@@ -29,7 +32,7 @@
             <nav class="navbar navbar-expand-lg bg-body-tertiary">
                 <div class="container-fluid">
                     <a class="navbar-brand" href="Index.html">
-                        <img src="~/img/Logos/llama-store-logo-transparente.PNG">
+                        <img src="../img/Logos/llama-store-logo-transparente.PNG">
                     </a>
                     <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                             data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
@@ -47,13 +50,13 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="dropdown-item" href="/Productos/IphonesProductos">
+                                        <a class="dropdown-item" href="#">
                                             iPhones
                                             <i class="fa-brands fa-apple"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="~/html/producto.html">
+                                        <a class="dropdown-item" href="#">
                                             Android
                                             <i class="fa-brands fa-android"></i>
                                         </a>
@@ -80,7 +83,7 @@
 
                             </li>
                             <li class="nav-item">
-                                <a class="underline-hover" href="./Html/PreguntasFrecuentes.html">
+                                <a class="underline-hover" href="#">
                                     Preguntas Frecuentes
                                     <i class="fa-solid fa-question"></i>
                                 </a>
@@ -108,118 +111,38 @@
         <!--========================================================ASIDE================================================================-->
 
         <main>
-            <div class="container">
-                <div class="imagen1">
+            <section class="container my-5">
 
-                    <img src="/img/baners/baner_principal.png">
-
+                <div class="banner-iphones">
+                    <img src="/img/baners/bannerIphone.jpg" alt="Banner_Iphone" class="imagen-banner">
+                    <div class="titulo-superpuesto">Iphones</div>
                 </div>
-                <div class="imagen1">
 
-                    <img src="/img/baners/baner_azul.png">
 
+                <div class="banner-azul">
+                    <img src="/img/baners/baner_azul.png" alt="Banner Azul">
                 </div>
-                <div class="imagen1">
 
-                    <img src="/img/baners/baner_secundario.png">
-
-                </div>
-                <div class="titulossssss">
-                    <h2>¿Selfies increíbles 📸 o rendimiento para juegos🏆?</h2>
-                    <h5>Encuentra el iPhone que se adapta más a tu estilo de vida. Vamos>></h5>
-                </div>
-                <div class="imagen2">
-
-                    <div class="card">
-                        <img src="/img/productos/producto1.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">
-                                Some quick example text to build on the card title and make up the bulk
-                                of the card's content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="/img/productos/producto1.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">
-                                Some quick example text to build on the card title and make up the bulk
-                                of the card's content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="/img/productos/producto1.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">
-                                Some quick example text to build on the card title and make up the bulk
-                                of the card's content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="/img/productos/producto1.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">
-                                Some quick example text to build on the card title and make up the bulk
-                                of the card's content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-
-                </div>
                 <br>
 
-                <div class="carrusel1">
-                    <div>
-                        <h2>Nuestros clientes opinan💖</h2>
-                    </div>
-                    <div class="carousel-container">
-                        <button class="nav-button prev" onclick="scrollCarousel(-1)">‹</button>
-                        <div class="carousel" id="carousel">
-                            <div class="slide">
-                                <img src="https://via.placeholder.com/300x200?text=Slide+1" alt="Slide 1">
-                                <h3>Título 1</h3>
-                                <p>Descripción breve del slide 1.</p>
-                            </div>
-                            <div class="slide">
-                                <img src="https://via.placeholder.com/300x200?text=Slide+2" alt="Slide 2">
-                                <h3>Título 2</h3>
-                                <p>Descripción breve del slide 2.</p>
-                            </div>
-                            <div class="slide">
-                                <img src="https://via.placeholder.com/300x200?text=Slide+3" alt="Slide 3">
-                                <h3>Título 3</h3>
-                                <p>Descripción breve del slide 3.</p>
-                            </div>
-                            <div class="slide">
-                                <img src="https://via.placeholder.com/300x200?text=Slide+3" alt="Slide 3">
-                                <h3>Título 3</h3>
-                                <p>Descripción breve del slide 4.</p>
-                            </div>
-                            <div class="slide">
-                                <img src="https://via.placeholder.com/300x200?text=Slide+3" alt="Slide 3">
-                                <h3>Título 3</h3>
-                                <p>Descripción breve del slide 5.</p>
-                            </div>
-                            <div class="slide">
-                                <img src="https://via.placeholder.com/300x200?text=Slide+3" alt="Slide 3">
-                                <h3>Título 3</h3>
-                                <p>Descripción breve del slide 6.</p>
+
+                <div class="row justify-content-center g-4">
+                    <!-- Iphone 1 -->
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-lg-3 col-md-4 col-sm-6">
+                            <div class="card iphone-card text-center h-100">
+                                <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">@Html.DisplayFor(modelItem => item.idcel)</h5>
+                                    <p class="card-text text-primary fw-bold fs-5">@Html.DisplayFor(modelItem => item.precio)</p>
+                                    <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
+                                </div>
                             </div>
                         </div>
-                        <button class="nav-button next" onclick="scrollCarousel(1)">›</button>
-                    </div>
+                    }
                 </div>
-            </div>
+            </section>
         </main>
 
         <!--========================================================FOOTER================================================================-->
@@ -265,7 +188,7 @@
             <div class="footer-bottom">
                 <div class="brand">
                     <div class="footer_bottom_logo">
-                        <img src="./img/Logos/llama-store-logo-transparente.PNG" />
+                        <img src="../img/Logos/llama-store-logo-transparente.PNG" />
                     </div>
                     <div class="social-icons">
                         <a class="underline-hover" href="#"><i class="fab fa-facebook-square"></i></a>
@@ -334,18 +257,6 @@
             integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
             crossorigin="anonymous"></script>
 
-    <script>
-        function scrollCarousel(direction) {
-            const carousel = document.getElementById('carousel');
-            const slide = carousel.querySelector('.slide');
-            const slideWidth = slide.offsetWidth + 16; // 16px es el gap entre slides
-
-            carousel.scrollBy({
-                left: direction * slideWidth,
-                behavior: 'smooth'
-            });
-        }
-    </script>
 </body>
 
 </html>

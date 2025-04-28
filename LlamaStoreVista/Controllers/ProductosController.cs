@@ -18,7 +18,7 @@ namespace LlamaStoreVista.Controllers
 
 
         //LISTA DE VENDEDORES CON NUMERACION
-        public async Task<IActionResult> ProductosVista(int page = 1)
+        public async Task<IActionResult> IphonesProductos(int page = 1)
         {
             List<Producto> temporal = new List<Producto>();
 
