@@ -1,24 +1,35 @@
-﻿.container-fluid {
-    padding-left: 20px;
-    padding-right: 20px;
-    img
+﻿
+.container-fluid {
+    padding-left: 10px;
+    padding-right: 10px;
+}
 
-{
+.logo-img {
     width: 200px;
+    height: auto;
+    transition: all 0.3s ease;
 }
 
+@media (max-width: 430px) {
+    .logo-img {
+        width: 150px;
+    }
 }
 
-.d-flex {
-    padding-top: 15px;
-    gap: 10px;
+.login-text {
+    display: inline;
+}
+
+@media (max-width: 600px) {
+    .login-text {
+        display: none;
+    }
 }
 
 
 .navbar-nav {
     gap: 1px 30px;
 }
-
 
 
 /* ==========================HOVER GENERAL=========================== */

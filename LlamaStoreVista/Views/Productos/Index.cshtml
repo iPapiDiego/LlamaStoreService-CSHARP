@@ -26,34 +26,62 @@
     <div class="container1">
 
         <header>
-            <nav class="navbar navbar-expand-lg bg-body-tertiary">
-                <div class="container-fluid">
-                    <a class="navbar-brand" href="Index.html">
-                        <img src="~/img/Logos/llama-store-logo-transparente.PNG">
-                    </a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
-                            data-bs-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false"
-                            aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
+            <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+                <div class="container-fluid d-flex align-items-center justify-content-between">
 
-                    <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
-                        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <!-- Logo -->
+                    <a class="navbar-brand d-flex align-items-center" href="#">
+                        <img src="img/Logos/llama-store-logo-transparente.PNG" alt="Logo" class="me-2 logo-img">
+
+                    </a>
+
+                    <!-- Sección derecha: carrito, login y hamburguesa SIEMPRE visibles -->
+                    <div class="d-flex align-items-center gap-3 order-lg-2">
+
+                        <!-- Carrito -->
+                        <button class="btn position-relative" type="button" data-bs-toggle="offcanvas"
+                                data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
+                            <i class="fa-solid fa-cart-shopping fa-lg"></i>
+                            <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                                2
+                            </span>
+                        </button>
+
+                        <!-- Login -->
+                        <a href="#" class="btn btn-outline-primary">
+                            <i class="fa-solid fa-user"></i>
+                            <span class="login-text ms-2">Ingresar</span>
+                        </a>
+
+                        <!-- Botón Hamburguesa -->
+                        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                                data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
+                                aria-label="Toggle navigation">
+                            <span class="navbar-toggler-icon"></span>
+                        </button>
+
+                    </div>
+
+                    <!-- Menú principal que se colapsa -->
+                    <div class="collapse navbar-collapse order-lg-1 justify-content-center" id="navbarContent">
+                        <ul class="navbar-nav mb-2 mb-lg-0">
+
+                            <!-- Dropdown de Productos -->
                             <li class="nav-item dropdown">
                                 <a class="underline-hover" href="#" role="button" data-bs-toggle="dropdown"
                                    aria-expanded="false">
-                                    Comprar
+                                    Productos
                                     <i class="fa-solid fa-cart-shopping"></i>
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="dropdown-item" href="/Productos/IphonesProductos">
+                                        <a class="dropdown-item" href="#">
                                             iPhones
                                             <i class="fa-brands fa-apple"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="~/html/producto.html">
+                                        <a class="dropdown-item" href="#">
                                             Android
                                             <i class="fa-brands fa-android"></i>
                                         </a>
@@ -64,41 +92,77 @@
                                             <i class="fa-solid fa-headphones"></i>
                                         </a>
                                     </li>
+
                                     <li>
                                         <a class="dropdown-item" href="#">
-                                            Ofertas
+                                            Ofertas Especiales
                                             <i class="fa-solid fa-tags"></i>
                                         </a>
                                     </li>
                                 </ul>
                             </li>
+
                             <li class="nav-item">
                                 <a class="underline-hover" href="#">
                                     Nosotros
                                     <i class="fa-solid fa-users"></i>
                                 </a>
-
                             </li>
                             <li class="nav-item">
-                                <a class="underline-hover" href="./Html/PreguntasFrecuentes.html">
+                                <a class="underline-hover" href="#">
                                     Preguntas Frecuentes
                                     <i class="fa-solid fa-question"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
                                 <a class="underline-hover" href="#">
-                                    Contacto
+                                    Contactanos
                                     <i class="fa-solid fa-address-book"></i>
                                 </a>
                             </li>
                         </ul>
-                        <form class="d-flex">
-                            <button class="btn btn-outline-success" type="submit">Ingresar</button>
-                            <button class="btn btn-outline-Primary" type="submit">Registrate</button>
-                        </form>
                     </div>
+
                 </div>
             </nav>
+
+
+            <!-- Offcanvas Carrito -->
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasCartLabel">Mi Carrito</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <div class="list-group">
+
+                        <!-- Producto 1 -->
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6>Producto 1</h6>
+                                <small>Cantidad: 1</small>
+                            </div>
+                            <span>S/ 150</span>
+                        </div>
+
+                        <!-- Producto 2 -->
+                        <div class="list-group-item d-flex justify-content-between align-items-center">
+                            <div>
+                                <h6>Producto 2</h6>
+                                <small>Cantidad: 2</small>
+                            </div>
+                            <span>S/ 300</span>
+                        </div>
+
+                    </div>
+
+                    <!-- Total -->
+                    <div class="mt-4 border-top pt-3">
+                        <h5>Total: <strong>S/ 450</strong></h5>
+                        <a href="#" class="btn btn-success w-100 mt-2">Ir a Pagar</a>
+                    </div>
+                </div>
+            </div>
         </header>
 
         <!--========================================================ASIDE================================================================-->
