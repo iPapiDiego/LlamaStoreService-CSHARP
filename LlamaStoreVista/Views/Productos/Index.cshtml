@@ -1,4 +1,7 @@
-﻿@{
+﻿@model IEnumerable<LlamaStoreVista.Models.Producto>
+
+@{
+    ViewData["Title"] = "Index";
     Layout = null;
 }
 
@@ -8,17 +11,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <link rel="icon" href="img/Logos/logo-llamastore.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
-    <link rel="stylesheet" href="~/css/ContainerGeneral.css">
-    <link rel="stylesheet" href="~/css/Header.css">
-    <link rel="stylesheet" href="~/css/Footer.css">
-    <link rel="stylesheet" href="~/css/Main.css">
-    <link rel="stylesheet" href="~/css/Index.css">
-
-
+    <link rel="stylesheet" href="/css/ContainerGeneral.css">
+    <link rel="stylesheet" href="/css/Header.css">
+    <link rel="stylesheet" href="/css/Footer.css">
+    <link rel="stylesheet" href="/css/Index.css">
 </head>
 
 <body>
@@ -28,17 +28,10 @@
         <header>
             <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
                 <div class="container-fluid d-flex align-items-center justify-content-between">
-
-                    <!-- Logo -->
-                    <a class="navbar-brand d-flex align-items-center" href="#">
+                    <a class="navbar-brand d-flex align-items-center" href="/Productos/Index">
                         <img src="~/img/Logos/transparente.png" alt="Logo" class="me-2 logo-img">
-
                     </a>
-
-                    <!-- Sección derecha: carrito, login y hamburguesa SIEMPRE visibles -->
                     <div class="d-flex align-items-center gap-3 order-lg-2">
-
-                        <!-- Carrito -->
                         <button class="btn position-relative" type="button" data-bs-toggle="offcanvas"
                                 data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
                             <i class="fa-solid fa-cart-shopping fa-lg"></i>
@@ -47,22 +40,18 @@
                             </span>
                         </button>
 
-                        <!-- Login -->
                         <a href="#" class="btn btn-outline-primary">
                             <i class="fa-solid fa-user"></i>
                             <span class="login-text ms-2">Ingresar</span>
                         </a>
 
-                        <!-- Botón Hamburguesa -->
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
                                 aria-label="Toggle navigation">
                             <span class="navbar-toggler-icon"></span>
                         </button>
-
                     </div>
 
-                    <!-- Menú principal que se colapsa -->
                     <div class="collapse navbar-collapse order-lg-1 justify-content-center" id="navbarContent">
                         <ul class="navbar-nav mb-2 mb-lg-0">
 
@@ -81,7 +70,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="~/html/producto.html">
+                                        <a class="dropdown-item" href="#">
                                             Android
                                             <i class="fa-brands fa-android"></i>
                                         </a>
@@ -92,7 +81,6 @@
                                             <i class="fa-solid fa-headphones"></i>
                                         </a>
                                     </li>
-
                                     <li>
                                         <a class="dropdown-item" href="#">
                                             Ofertas Especiales
@@ -109,7 +97,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="underline-hover" href="~/html/PreguntasFrecuentes.html">
+                                <a class="underline-hover" href="Html/PreguntasFrecuentes.html">
                                     Preguntas Frecuentes
                                     <i class="fa-solid fa-question"></i>
                                 </a>
@@ -194,93 +182,154 @@
                 </div>
                 <div class="imagen2">
 
-                    <div class="card">
-                        <img src="/img/productos/producto1.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">
-                                Some quick example text to build on the card title and make up the bulk
-                                of the card's content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="/img/productos/producto1.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">
-                                Some quick example text to build on the card title and make up the bulk
-                                of the card's content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="/img/productos/producto1.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">
-                                Some quick example text to build on the card title and make up the bulk
-                                of the card's content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
-                    <div class="card">
-                        <img src="/img/productos/producto1.png" class="card-img-top" alt="...">
-                        <div class="card-body">
-                            <h5 class="card-title">Card title</h5>
-                            <p class="card-text">
-                                Some quick example text to build on the card title and make up the bulk
-                                of the card's content.
-                            </p>
-                            <a href="#" class="btn btn-primary">Go somewhere</a>
-                        </div>
-                    </div>
+                    <section class="container my-5">
 
+
+                        <div class="row justify-content-center g-4">
+                            <!-- Iphone 1 -->
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="card iphone-card text-center h-100">
+                                    <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
+                                    <div class="card-body">
+                                        <h5 class="card-title fw-bold">iPhone 11</h5>
+                                        <p class="card-text text-primary fw-bold fs-5">S/1500.00</p>
+                                        <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Iphone 2 -->
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+
+                                <div class="card iphone-card text-center h-100">
+                                    <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
+                                    <div class="card-body">
+                                        <h5 class="card-title fw-bold">iPhone 11</h5>
+                                        <p class="card-text text-primary fw-bold fs-5">S/1500.00</p>
+                                        <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Iphone 3-->
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+
+                                <div class="card iphone-card text-center h-100">
+                                    <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
+                                    <div class="card-body">
+                                        <h5 class="card-title fw-bold">iPhone 11</h5>
+                                        <p class="card-text text-primary fw-bold fs-5">S/1500.00</p>
+                                        <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Iphone 4 -->
+                            <div class="col-lg-3 col-md-4 col-sm-6">
+                                <div class="card iphone-card text-center h-100">
+                                    <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
+                                    <div class="card-body">
+                                        <h5 class="card-title fw-bold">iPhone 11</h5>
+                                        <p class="card-text text-primary fw-bold fs-5">S/1500.00</p>
+                                        <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
                 </div>
                 <br>
 
                 <div class="carrusel1">
-                    <div>
-                        <h2>Nuestros clientes opinan💖</h2>
-                    </div>
+                    <h2>Nuestros clientes opinan 💖</h2>
+
                     <div class="carousel-container">
-                        <button class="nav-button prev" onclick="scrollCarousel(-1)">‹</button>
-                        <div class="carousel" id="carousel">
-                            <div class="slide">
-                                <img src="https://via.placeholder.com/300x200?text=Slide+1" alt="Slide 1">
-                                <h3>Título 1</h3>
-                                <p>Descripción breve del slide 1.</p>
+                        <div class="carousel-track" id="carousel-track">
+                            <div class="card1">
+                                <img src="https://i.pravatar.cc/60?img=1" alt="Cliente 1" />
+                                <h4>Nayeli A</h4>
+                                <p>Mayo 2024</p>
+                                <div class="stars">★★★★★</div>
+                                <p>He comprado mi celular...</p>
                             </div>
-                            <div class="slide">
-                                <img src="https://via.placeholder.com/300x200?text=Slide+2" alt="Slide 2">
-                                <h3>Título 2</h3>
-                                <p>Descripción breve del slide 2.</p>
+                            <div class="card1">
+                                <img src="https://i.pravatar.cc/60?img=2" alt="Cliente 2" />
+                                <h4>Jorge B</h4>
+                                <p>12 Mayo 2024</p>
+                                <div class="stars">★★★★★</div>
+                                <p>Es mi segunda compra y fue...</p>
                             </div>
-                            <div class="slide">
-                                <img src="https://via.placeholder.com/300x200?text=Slide+3" alt="Slide 3">
-                                <h3>Título 3</h3>
-                                <p>Descripción breve del slide 3.</p>
+                            <div class="card1">
+                                <img src="https://i.pravatar.cc/60?img=3" alt="Cliente 3" />
+                                <h4>Manuel G</h4>
+                                <p>1 Mayo 2024</p>
+                                <div class="stars">★★★★★</div>
+                                <p>Buen producto y buen servicio</p>
                             </div>
-                            <div class="slide">
-                                <img src="https://via.placeholder.com/300x200?text=Slide+3" alt="Slide 3">
-                                <h3>Título 3</h3>
-                                <p>Descripción breve del slide 4.</p>
+                            <div class="card1">
+                                <img src="https://i.pravatar.cc/60?img=4" alt="Cliente 4" />
+                                <h4>Cory C</h4>
+                                <p>16 Abril 2024</p>
+                                <div class="stars">★★★★★</div>
+                                <p>Visité la tienda y me dieron...</p>
                             </div>
-                            <div class="slide">
-                                <img src="https://via.placeholder.com/300x200?text=Slide+3" alt="Slide 3">
-                                <h3>Título 3</h3>
-                                <p>Descripción breve del slide 5.</p>
+                            <div class="card1">
+                                <img src="https://i.pravatar.cc/60?img=1" alt="Cliente 1" />
+                                <h4>Nayeli A</h4>
+                                <p>Mayo 2024</p>
+                                <div class="stars">★★★★★</div>
+                                <p>He comprado mi celular...</p>
                             </div>
-                            <div class="slide">
-                                <img src="https://via.placeholder.com/300x200?text=Slide+3" alt="Slide 3">
-                                <h3>Título 3</h3>
-                                <p>Descripción breve del slide 6.</p>
+                            <div class="card1">
+                                <img src="https://i.pravatar.cc/60?img=2" alt="Cliente 2" />
+                                <h4>Jorge B</h4>
+                                <p>12 Mayo 2024</p>
+                                <div class="stars">★★★★★</div>
+                                <p>Es mi segunda compra y fue...</p>
+                            </div>
+                            <div class="card1">
+                                <img src="https://i.pravatar.cc/60?img=3" alt="Cliente 3" />
+                                <h4>Manuel G</h4>
+                                <p>1 Mayo 2024</p>
+                                <div class="stars">★★★★★</div>
+                                <p>Buen producto y buen servicio</p>
+                            </div>
+                            <div class="card1">
+                                <img src="https://i.pravatar.cc/60?img=4" alt="Cliente 4" />
+                                <h4>Cory C</h4>
+                                <p>16 Abril 2024</p>
+                                <div class="stars">★★★★★</div>
+                                <p>Visité la tienda y me dieron...</p>
+                            </div>
+                            <div class="card1">
+                                <img src="https://i.pravatar.cc/60?img=1" alt="Cliente 1" />
+                                <h4>Nayeli A</h4>
+                                <p>Mayo 2024</p>
+                                <div class="stars">★★★★★</div>
+                                <p>He comprado mi celular...</p>
+                            </div>
+                            <div class="card1">
+                                <img src="https://i.pravatar.cc/60?img=2" alt="Cliente 2" />
+                                <h4>Jorge B</h4>
+                                <p>12 Mayo 2024</p>
+                                <div class="stars">★★★★★</div>
+                                <p>Es mi segunda compra y fue...</p>
+                            </div>
+                            <div class="card1">
+                                <img src="https://i.pravatar.cc/60?img=3" alt="Cliente 3" />
+                                <h4>Manuel G</h4>
+                                <p>1 Mayo 2024</p>
+                                <div class="stars">★★★★★</div>
+                                <p>Buen producto y buen servicio</p>
+                            </div>
+                            <div class="card1">
+                                <img src="https://i.pravatar.cc/60?img=4" alt="Cliente 4" />
+                                <h4>Cory C</h4>
+                                <p>16 Abril 2024</p>
+                                <div class="stars">★★★★★</div>
+                                <p>Visité la tienda y me dieron...</p>
                             </div>
                         </div>
-                        <button class="nav-button next" onclick="scrollCarousel(1)">›</button>
                     </div>
                 </div>
             </div>
@@ -394,11 +443,9 @@
         </footer>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
-            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 
-    <script src="~/js/Index.js"></script>
+    <script src="Js/index.js"></script>
 </body>
 
 </html>

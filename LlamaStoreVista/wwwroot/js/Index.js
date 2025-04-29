@@ -1,20 +1,8 @@
-﻿
-const carousel = document.getElementById('carousel');
-const slides = carousel.querySelectorAll('.slide');
+﻿const track = document.getElementById("carousel-track");
+const cards = document.querySelectorAll(".card");
 let index = 0;
 
-function scrollCarousel(direction) {
-    index += direction;
-    if (index < 0) index = slides.length - 1;
-    if (index >= slides.length) index = 0;
-
-    const slideWidth = slides[0].offsetWidth + 16; // slide + gap
-    carousel.scrollTo({
-        left: slideWidth * index,
-        behavior: 'smooth'
-    });
-}
-
 setInterval(() => {
-    scrollCarousel(1);
-}, 3000); // cambia cada 3 segundos
+    index = (index + 1) % cards.length;
+    track.style.transform = `translateX(-${index * cards[0].offsetWidth}px)`;
+}, 4000);
