@@ -1,0 +1,324 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Productos</title>
+    <link rel="icon" href="/img/Logos/logo-llamastore.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <link rel="stylesheet" href="/css/Header.css">
+    <link rel="stylesheet" href="/css/Footer.css">
+    <link rel="stylesheet" href="/css/Main.css">
+    <link rel="stylesheet" href="/css/renteseg.css">
+
+    <style>
+        .nav-item.dropdown:hover .dropdown-menu {
+            display: block;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            z-index: 1050;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
+            <div class="container-fluid d-flex align-items-center justify-content-between">
+                <a class="navbar-brand d-flex align-items-center" href="/Productos/Index">
+                    <img src="../img/Logos/llama-store-logo-transparente.PNG" alt="Logo" class="me-2 logo-img">
+                </a>
+                <div class="d-flex align-items-center gap-3 order-lg-2">
+                    <button class="btn position-relative" type="button" data-bs-toggle="offcanvas"
+                            data-bs-target="#offcanvasCart" aria-controls="offcanvasCart">
+                        <i class="fa-solid fa-cart-shopping fa-lg"></i>
+                        <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+                            2
+                        </span>
+                    </button>
+
+                    <a href="#" class="btn btn-outline-primary">
+                        <i class="fa-solid fa-user"></i>
+                        <span class="login-text ms-2">Ingresar</span>
+                    </a>
+
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                            aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+
+                <div class="collapse navbar-collapse order-lg-1 justify-content-center" id="navbarContent">
+                    <ul class="navbar-nav mb-2 mb-lg-0">
+
+                        <!-- Dropdown de Productos -->
+                        <li class="nav-item dropdown">
+                            <a class="underline-hover" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Productos
+                                <i class="fa-solid fa-cart-shopping"></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li>
+                                    <a class="dropdown-item" href="/Productos/IphonesProductos">
+                                        iPhones
+                                        <i class="fa-brands fa-apple"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        Android
+                                        <i class="fa-brands fa-android"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        Accesorios
+                                        <i class="fa-solid fa-headphones"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a class="dropdown-item" href="#">
+                                        Ofertas Especiales
+                                        <i class="fa-solid fa-tags"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="underline-hover" href="#">
+                                Nosotros
+                                <i class="fa-solid fa-users"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="underline-hover" href="Html/PreguntasFrecuentes.html">
+                                Preguntas Frecuentes
+                                <i class="fa-solid fa-question"></i>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="underline-hover" href="#">
+                                Contactanos
+                                <i class="fa-solid fa-address-book"></i>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </nav>
+
+
+        <!-- Offcanvas Carrito -->
+        <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
+            <div class="offcanvas-header">
+                <h5 class="offcanvas-title" id="offcanvasCartLabel">Mi Carrito</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
+            </div>
+            <div class="offcanvas-body">
+                <div class="list-group">
+
+                    <!-- Producto 1 -->
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6>Producto 1</h6>
+                            <small>Cantidad: 1</small>
+                        </div>
+                        <span>S/ 150</span>
+                    </div>
+
+                    <!-- Producto 2 -->
+                    <div class="list-group-item d-flex justify-content-between align-items-center">
+                        <div>
+                            <h6>Producto 2</h6>
+                            <small>Cantidad: 2</small>
+                        </div>
+                        <span>S/ 300</span>
+                    </div>
+
+                </div>
+
+                <!-- Total -->
+                <div class="mt-4 border-top pt-3">
+                    <h5>Total: <strong>S/ 450</strong></h5>
+                    <a href="#" class="btn btn-success w-100 mt-2">Ir a Pagar</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+
+    <div class="head">
+        <h1>¡Hola! <span>😊</span></h1>
+        <h2>Resolvamos tus preguntas.</h2>
+    </div>
+
+
+    <nav class="tabs">
+        <a href="PreguntasFrecuentes-producto.html" class="tab">📦 Productos</a>
+        <a href="PreguntasFrecuentes-garantia.html" class="tab">🛡️ Garantía</a>
+        <a href="PreguntasFrecuentes-pago.html" class="tab">💳 Pagos</a>
+        <a href="PreguntasFrecuentes-atencion.html" class="tab">📞 Atención</a>
+        <a href="PreguntasFrecuentes-envios.html" class="tab">🚚 Envíos</a>
+        <a href="PreguntasFrecuentes-retenseg.html" class="tab">📋 RENTESeg</a>
+    </nav>
+
+    <main class="faq">
+        <h3 class="tema-activo">Productos</h3>
+
+        <details open>
+            <summary>¿Qué son los estados de uso?</summary>
+            <p>
+                Nuestro sistema de categorización de grados hace referencia al <strong>estado visual</strong> en que se
+                encuentran los equipos usados (Usado A+, Usado A y Usado B). La única diferencia entre los estados de uso está
+                en la <strong>apariencia visual</strong>, es decir, como se ve tu iPhone. <strong>
+                    Lo funcional u operativo no
+                    está comprometido en lo absoluto.
+                </strong>
+            </p>
+            <p>
+                En el caso el producto sea nuevo, como accesorios, la condición estará detallada en la página del mismo
+                producto.
+            </p>
+        </details>
+
+        <details>
+            <summary>¿Cambian las baterías y/o pantallas de los equipos?</summary>
+            <p>
+                Todos los equipos iPhone usados que importamos y comercializamos llegan en lotes y pasan por una meticulosa
+                revisión técnica por parte de nuestro equipo antes de ser vendidos.
+            </p>
+            <p>
+                En esta inspección, nuestro equipo técnico evalúa si es necesario realizar un cambio de batería al equipo,
+                dependiendo de su condición, para cumplir con el requisito de contar con entre un 90 % y 100 % de capacidad
+                restante. Consideramos que este rango ofrece capacidad suficiente para un buen tiempo de uso futuro en un iPhone
+                usado.
+            </p>
+            <p>
+                Asimismo, las pantallas también pasan por una evaluación técnica previa a la venta, para garantizar una
+                funcionalidad óptima y de calidad. En caso de requerir un cambio de pantalla, <strong>
+                    utilizamos repuestos con
+                    especificaciones similares a las de una pantalla original de Apple, los cuales no difieren en calidad de
+                    imagen, color o brillo.
+                </strong>
+            </p>
+            <p>
+                <strong>Las baterías y pantallas que usamos son componentes compatibles de alta calidad</strong>, que cumplen
+                funciones y características similares a las del fabricante original. Es importante tener en cuenta que la única
+                forma de conseguir repuestos originales de Apple a nivel mundial es a través de sus establecimientos oficiales.
+            </p>
+        </details>
+
+        <details>
+            <summary>¿Puedo dejar mi equipo como parte de pago? ¿Compran equipos?</summary>
+            <p>Por el momento <strong>no</strong> compramos o aceptamos equipos como parte de pago.</p>
+        </details>
+    </main>
+
+    <footer>
+        <div class="footer-top">
+            <div class="feature">
+                <h1><i class="fas fa-handshake"></i></h1>
+                <div>
+                    <h4>Servicio Perfecto</h4>
+                    <b>Nuestro amigable equipo a la mano los 7 días de la semana.</b>
+                </div>
+            </div>
+            <div class="feature">
+                <h1><i class="fa-solid fa-sack-dollar"></i></h1>
+                <div>
+                    <h4>Valor asombroso</h4>
+                    <b>Las marcas que prefieres al precio que deseas.</b>
+                </div>
+            </div>
+            <div class="feature">
+                <h1><i class="fas fa-truck"></i></h1>
+                <div>
+                    <h4>Envío rápido y gratuito</h4>
+                    <b>El pedido se envía en un instante y se envía en 1-3 días.</b>
+                </div>
+            </div>
+            <div class="feature">
+                <h1><i class="fas fa-box"></i></h1>
+                <div>
+                    <h4>Selección Inmejorable</h4>
+                    <b>Todo lo que quieras para tu carro, todo en un solo lugar.</b>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <div class="brand">
+                <div class="footer_bottom_logo">
+                    <a class="navbar-brand" href="../Index.html">
+
+                        <img src="../img/Logos/llama-store-logo-transparente.PNG" />
+                </div>
+                <div class="social-icons">
+                    <a class="underline-hover" href="#"><i class="fab fa-facebook-square"></i></a>
+                    <a class="underline-hover" href="#"><i class="fab fa-instagram"></i></a>
+                    <a class="underline-hover" href="#"><i class="fab fa-linkedin"></i></a>
+                    <a class="underline-hover" href="#"><i class="fab fa-x"></i></a>
+                    <a class="underline-hover" href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="links">
+                <div>
+                    <h3>Cuenta</h3>
+                    <ul>
+                        <li><a class="underline-hover" href="#">Órdenes</a></li>
+                        <li><a class="underline-hover" href="#">Wishlist</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Catálogo</h3>
+                    <ul>
+                        <li><a class="underline-hover" href="catalogo.php">Comprar por partes</a></li>
+                        <li><a class="underline-hover" href="catalogo.php">Comprar por marcas</a></li>
+                        <li><a class="underline-hover" href="#">Promociones</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Ayuda</h3>
+                    <ul>
+                        <li><a class="underline-hover" href="sobreNosotros.php">Sobre Nosotros</a></li>
+                        <li><a class="underline-hover" href="preguntasfrecuentes.php">Preguntas Frecuentes</a></li>
+                        <li><a class="underline-hover" href="contactanos.php">Contáctanos</a></li>
+                        <li><a class="underline-hover" href="#">Nuestras Tiendas</a></li>
+                        <li><a class="underline-hover" href="tyc.php">Términos y Condiciones</a></li>
+                        <li><a class="underline-hover" href="#">Libro de Reclamaciones Virtual</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="contact">
+                <div class="contac_titulo">
+                    <h3>¡Contáctanos!</h3>
+                </div>
+                <div class="contact_info_1">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <a class="underline-hover" href="#">calle. Emily Car 115 - Surquillo</a><br />
+                        <b>Lima, Perú</b>
+                    </div>
+                </div>
+                <div class="contact_info_2">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <a class="underline-hover" href="#">Llámanos entre las 9 am - 8 pm</a><br />
+                        <a href="tel:666855558464" style="color:#edab4e">6668 5555 8464</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
