@@ -1,5 +1,6 @@
 ﻿using LlamaStoreService.Models.Productos;
 using LlamaStoreService.Models.Products;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
@@ -54,6 +55,21 @@ namespace LlamaStoreService.Repositories.DAO
         public CelularLista buscarCelular(string id)
         {
             return listaDeCelulares().Where(v => v.idcel == id).FirstOrDefault();
+        }
+
+        public ActionResult Select(string id, int cantidad)
+        {
+            CelularLista celular = buscarCelular(id);
+            if (celular == null)
+            {
+                return new NotFoundResult();
+            }
+            if (celular.stock < cantidad)
+            {
+                return new BadRequestObjectResult("No hay suficiente stock");
+            }
+            celular.stock -= cantidad;
+            return new OkObjectResult(celular);
         }
 
         //ELIMINAR CELULAR
