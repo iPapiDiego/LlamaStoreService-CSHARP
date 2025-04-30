@@ -1,0 +1,262 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/userStyles/registro.css">
+</head>
+
+<body>
+    <!-- Video de fondo -->
+    <video autoplay muted loop playsinline class="background-video">
+        <source src="/video/Fondo.mp4" type="video/mp4" />
+        <!-- Fallback para navegadores que no soportan video -->
+        <img src="/img/fondo-login.jpg" alt="Fondo alternativo">
+        Tu navegador no soporta videos HTML5.
+    </video>
+
+    <!-- Capa de oscurecimiento -->
+    <div class="overlay"></div>
+
+    <!-- Contenedor del registro -->
+    <div class="register-container">
+        <form class="register-form" id="registerForm">
+            <h2>Crear Cuenta</h2>
+
+            <!-- DNI -->
+            <div class="input-group">
+                <i class="fas fa-id-card"></i>
+                <input type="text" name="dni" id="dni" placeholder="DNI" pattern="\d{8}" required
+                       title="Debe tener 8 dígitos numéricos" />
+                <div class="error-message" id="dni-error">El DNI debe tener exactamente 8 dígitos</div>
+            </div>
+
+            <!-- Nombre -->
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" name="nombre" id="nombre" placeholder="Nombre" required pattern="[A-Za-zÁ-ú\s]{2,}"
+                       title="Solo letras y espacios (mínimo 2 caracteres)" />
+                <div class="error-message" id="nombre-error">Ingrese un nombre válido (solo letras)</div>
+            </div>
+
+            <!-- Apellidos -->
+            <div class="input-group">
+                <i class="fas fa-users"></i>
+                <input type="text" name="apellidos" id="apellidos" placeholder="Apellidos" required
+                       pattern="[A-Za-zÁ-ú\s]{2,}" title="Solo letras y espacios (mínimo 2 caracteres)" />
+                <div class="error-message" id="apellidos-error">Ingrese apellidos válidos</div>
+            </div>
+
+            <!-- Fecha de Nacimiento -->
+            <label for="fecha">Fecha de nacimiento</label>
+            <div class="input-group">
+                <i class="fas fa-calendar-alt"></i>
+                <input type="date" name="fecha" id="fecha" required max="2005-12-31" />
+                <div class="error-message" id="fecha-error">Debes ser mayor de 18 años</div>
+            </div>
+
+            <!-- País -->
+            <div class="input-group">
+                <i class="fas fa-globe-americas"></i>
+                <select name="pais" id="pais" required>
+                    <option value="">Seleccione país</option>
+                    <option value="PE">Perú</option>
+                    <option value="MX">México</option>
+                    <option value="CO">Colombia</option>
+                    <option value="CL">Chile</option>
+                    <option value="AR">Argentina</option>
+                    <option value="ES">España</option>
+                    <option value="US">Estados Unidos</option>
+                </select>
+                <i class="fas fa-chevron-down select-arrow"></i>
+                <div class="error-message" id="pais-error">Seleccione un país</div>
+            </div>
+
+            <!-- Email -->
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" name="correo" id="correo" placeholder="Correo electrónico" required />
+                <div class="error-message" id="correo-error">Ingrese un correo válido</div>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="clave" id="clave" placeholder="Contraseña (mínimo 8 caracteres)"
+                       minlength="8" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
+                       title="Debe contener al menos una mayúscula, una minúscula y un número" />
+                <div class="password-strength" id="password-strength">
+                    <div class="strength-bar" id="strength-bar"></div>
+                </div>
+                <div class="error-message" id="clave-error">Mínimo 8 caracteres con mayúscula, minúscula y número</div>
+            </div>
+
+            <!-- Confirmar Contraseña -->
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="confirmar" id="confirmar" placeholder="Confirmar contraseña" minlength="8"
+                       required />
+                <div class="error-message" id="confirmar-error">Las contraseñas no coinciden</div>
+            </div>
+
+            <!-- Botón de Registro -->
+            <button type="submit" id="register-button">
+                <i class="fas fa-user-plus"></i> Registrarse
+            </button>
+
+            <!-- Enlace a Login -->
+            <div class="login-link">
+                ¿Ya tienes una cuenta? <a href="login.html">Inicia sesión</a>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const form = document.getElementById('registerForm');
+            const registerButton = document.getElementById('register-button');
+            const passwordInput = document.getElementById('clave');
+            const confirmPasswordInput = document.getElementById('confirmar');
+            const passwordStrength = document.getElementById('password-strength');
+            const strengthBar = document.getElementById('strength-bar');
+
+            // Mostrar fortaleza de la contraseña
+            passwordInput.addEventListener('input', function () {
+                const password = this.value;
+                passwordStrength.style.display = password ? 'block' : 'none';
+
+                // Calcular fortaleza
+                let strength = 0;
+                if (password.length >= 8) strength += 1;
+                if (password.match(/[a-z]/)) strength += 1;
+                if (password.match(/[A-Z]/)) strength += 1;
+                if (password.match(/[0-9]/)) strength += 1;
+                if (password.match(/[^a-zA-Z0-9]/)) strength += 1;
+
+                // Actualizar barra
+                const width = strength * 20;
+                let color = '#ff4444'; // Rojo
+                if (strength >= 4) color = '#4CAF50'; // Verde
+                else if (strength >= 3) color = '#FFC107'; // Amarillo
+
+                strengthBar.style.width = width + '%';
+                strengthBar.style.background = color;
+            });
+
+            // Validación en tiempo real
+            form.addEventListener('input', function (e) {
+                const input = e.target;
+                const errorElement = document.getElementById(input.id + '-error');
+
+                if (input.validity.valid) {
+                    errorElement.style.display = 'none';
+                    input.style.border = 'none';
+                } else {
+                    // No mostrar error hasta que el usuario haya interactuado
+                    if (input.value) {
+                        errorElement.style.display = 'block';
+                        input.style.border = '1px solid #ff6b6b';
+                    }
+                }
+
+                // Validación especial para confirmar contraseña
+                if (input.id === 'confirmar' && passwordInput.value !== input.value && input.value) {
+                    errorElement.style.display = 'block';
+                    input.style.border = '1px solid #ff6b6b';
+                }
+            });
+
+            // Validación al enviar el formulario
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                let isValid = true;
+
+                // Validar DNI
+                const dniInput = document.getElementById('dni');
+                if (!/^\d{8}$/.test(dniInput.value)) {
+                    showError(dniInput);
+                    isValid = false;
+                }
+
+                // Validar nombre y apellidos
+                const nameInputs = ['nombre', 'apellidos'];
+                nameInputs.forEach(id => {
+                    const input = document.getElementById(id);
+                    if (!/^[A-Za-zÁ-ú\s]{2,}$/.test(input.value)) {
+                        showError(input);
+                        isValid = false;
+                    }
+                });
+
+                // Validar fecha (mayor de 18 años)
+                const fechaInput = document.getElementById('fecha');
+                const birthDate = new Date(fechaInput.value);
+                const minDate = new Date();
+                minDate.setFullYear(minDate.getFullYear() - 18);
+
+                if (birthDate > minDate) {
+                    showError(fechaInput);
+                    isValid = false;
+                }
+
+                // Validar país seleccionado
+                const paisInput = document.getElementById('pais');
+                if (!paisInput.value) {
+                    showError(paisInput);
+                    isValid = false;
+                }
+
+                // Validar email
+                const emailInput = document.getElementById('correo');
+                if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailInput.value)) {
+                    showError(emailInput);
+                    isValid = false;
+                }
+
+                // Validar contraseña
+                const password = passwordInput.value;
+                if (password.length < 8 || !/[a-z]/.test(password) || !/[A-Z]/.test(password) || !/[0-9]/.test(password)) {
+                    showError(passwordInput);
+                    isValid = false;
+                }
+
+                // Validar confirmación de contraseña
+                if (password !== confirmPasswordInput.value) {
+                    showError(confirmPasswordInput);
+                    isValid = false;
+                }
+
+                // Si todo es válido, simular envío
+                if (isValid) {
+                    registerButton.disabled = true;
+                    registerButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Registrando...';
+
+                    // Simular envío al servidor
+                    setTimeout(() => {
+                        alert('¡Registro exitoso! Bienvenido/a');
+                        registerButton.disabled = false;
+                        registerButton.innerHTML = '<i class="fas fa-user-plus"></i> Registrarse';
+                        // form.submit(); // Descomentar para envío real
+                    }, 1500);
+                } else {
+                    // Efecto de "shake" para indicar error
+                    form.style.animation = 'shake 0.4s';
+                    setTimeout(() => {
+                        form.style.animation = '';
+                    }, 400);
+                }
+            });
+
+            function showError(input) {
+                const errorElement = document.getElementById(input.id + '-error');
+                errorElement.style.display = 'block';
+                input.style.border = '1px solid #ff6b6b';
+            }
+        });
+    </script>
+</body>
+
+</html>
