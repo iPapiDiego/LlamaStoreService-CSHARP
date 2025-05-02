@@ -27,15 +27,6 @@ namespace LlamaStoreService.Controllers
         {
             var mensaje = await Task.Run(() => new userDAO().actualizarUsuarios(usu));
             return Ok(mensaje);
-        }
-
-        [HttpDelete("deleteUsuario")]
-        public async Task<ActionResult<string>> DeleteUsuario(int id)
-        {
-            var mensaje= await Task.Run(()=> new userDAO().eliminarUsuario(id));
-            return Ok(mensaje);
-        }
-
-        
+        }  
     }
 }

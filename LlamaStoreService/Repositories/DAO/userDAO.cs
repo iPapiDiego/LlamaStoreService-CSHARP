@@ -55,28 +55,7 @@ namespace LlamaStoreService.Repositories.DAO
             return listaDeUsuarios().Where(v => v.codigo == id).FirstOrDefault();
         }
 
-        public string eliminarUsuario(int id)
-        {
-            string mensaje = "";
-            using (SqlConnection cn = new SqlConnection(_cadenaDB))
-            {
-                try
-                {
-                    SqlCommand cmd = new SqlCommand("sp_elimnar_usuario", cn);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@codigo", id);
-
-                    cn.Open();
-                    int totalRegistros = cmd.ExecuteNonQuery();
-                    mensaje = $"Se elimino {totalRegistros} usuario";
-                }
-                catch (Exception ex)
-                {
-                    mensaje = ex.Message;
-                }
-            }
-            return mensaje;
-        }
+        
 
         public string agregarUsuarios(Usuario usuario)
         {
