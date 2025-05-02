@@ -18,7 +18,6 @@ namespace LlamaStoreService.Controllers
             return Ok(lista);
         }
 
-
         [HttpPost("postAgregaUsuarios")]
         public async Task<ActionResult<string>> PostAgregarUsuario(Usuario usu)
         {
