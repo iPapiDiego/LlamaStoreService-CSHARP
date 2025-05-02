@@ -1,4 +1,6 @@
-﻿namespace LlamaStoreService.Models.Users
+﻿using System.Data.SqlTypes;
+
+namespace LlamaStoreService.Models.Users
 {
     public class Usuario
     {

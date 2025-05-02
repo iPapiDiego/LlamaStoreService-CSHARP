@@ -76,8 +76,8 @@ namespace LlamaStoreService.Repositories.DAO
                     cmd.Parameters.AddWithValue("@apellido", usuario.apellido);
                     cmd.Parameters.AddWithValue("@correo", usuario.correo);
                     cmd.Parameters.AddWithValue("@clave", usuario.clave);
-                    // cmd.Parameters.AddWithValue("@fnacim", usuario.fnacim);
-                    // cmd.Parameters.AddWithValue("@tipo", usuario.idroll);
+                    cmd.Parameters.AddWithValue("@fnacim", usuario.fnacim);
+                    
 
 
                     cn.Open();
@@ -92,7 +92,7 @@ namespace LlamaStoreService.Repositories.DAO
             return mensaje;
         }
 
-        public string actualizarUsuarios(Usuario usuario)
+        public string actualizarUsuariosCliente(Usuario usuario)
         {
             string mensaje = "";
             using (SqlConnection cn = new SqlConnection(_cade))
@@ -106,13 +106,41 @@ namespace LlamaStoreService.Repositories.DAO
                     cmd.Parameters.AddWithValue("@apellido", usuario.apellido);
                     cmd.Parameters.AddWithValue("@correo", usuario.correo);
                     cmd.Parameters.AddWithValue("@clave", usuario.clave);
-                    // cmd.Parameters.AddWithValue("@fnacim", usuario.fnacim);
-                    // cmd.Parameters.AddWithValue("@tipo", usuario.idroll);
-                    // cmd.Parameters.AddWithValue("@estado", usuario.estado);
+                    cmd.Parameters.AddWithValue("@fnacim", usuario.fnacim);
+                    
+                    cn.Open();
+                    int totalRegistro = cmd.ExecuteNonQuery();
+                    mensaje = $"Se actualizo {totalRegistro} usuario";
+                }
+                catch (Exception ex)
+                {
+                    mensaje = ex.Message;
+                }
+            }
+            return mensaje;
+        }
+
+        public string actualizarUsuariosAdmin(Usuario usuario)
+        {
+            string mensaje = "";
+            using (SqlConnection cn = new SqlConnection(_cade))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_merge_usuario", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@codigo", usuario.codigo);
+                    cmd.Parameters.AddWithValue("@nombre", usuario.nombre);
+                    cmd.Parameters.AddWithValue("@apellido", usuario.apellido);
+                    cmd.Parameters.AddWithValue("@correo", usuario.correo);
+                    cmd.Parameters.AddWithValue("@clave", usuario.clave);
+                    cmd.Parameters.AddWithValue("@fnacim", usuario.fnacim);
+                    cmd.Parameters.AddWithValue("@idrol", usuario.idrol);
+                    cmd.Parameters.AddWithValue("@estado", usuario.estado);
 
                     cn.Open();
                     int totalRegistro = cmd.ExecuteNonQuery();
-                    mensaje = $"Se inserto {totalRegistro} usuario";
+                    mensaje = $"Se actualizo {totalRegistro} usuario";
                 }
                 catch (Exception ex)
                 {
