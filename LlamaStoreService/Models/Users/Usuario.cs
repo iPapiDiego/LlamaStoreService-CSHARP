@@ -12,5 +12,10 @@ namespace LlamaStoreService.Models.Users
         [Display(Name = "Fecha")] public DateTime fnacim { get; set; }
         [Display(Name = "Tipo")] public int idroll { get; set; }
         [Display(Name = "Estado")] public int estado { get; set; }
+        [Display(Name = "Fecha")] public DateTime created_at { get; set; }
+        [Display(Name = "Fecha")] public DateTime updated_at { get; set; }
+        [Display(Name = "Fecha")] public DateTime last_login { get; set; }
+        [Display(Name = "Fecha")] public DateTime intentos_login { get; set; }
+
     }
 }

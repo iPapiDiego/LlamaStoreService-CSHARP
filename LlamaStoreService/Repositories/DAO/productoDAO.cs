@@ -24,7 +24,7 @@ namespace LlamaStoreService.Repositories.DAO
                 using (SqlConnection cn = new SqlConnection(_cadenaDB))
                 {
                     cn.Open();
-                    SqlCommand cmd = new SqlCommand("sp_lista_celulares", cn);
+                    SqlCommand cmd = new SqlCommand("sp_listar_productos", cn);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
@@ -33,11 +33,11 @@ namespace LlamaStoreService.Repositories.DAO
                             idcel = reader.GetString(0),
                             idmarca = reader.GetString(1),
                             modelo = reader.GetString(2),
-                            precio = reader.GetDecimal(3),
-                            idgama = reader.GetString(4),
-                            stock = reader.GetInt32(5),
-                            idsistema = reader.GetString(6),
-                            idestado = reader.GetString(7)
+                            idgama = reader.GetString(3),
+                            precio = reader.GetDecimal(4),
+                            idsistema = reader.GetString(5),
+                            stock = reader.GetInt32(6),
+                            especificaciones = reader.GetString(7)
                         };
                         list.Add(c);
                     }
@@ -57,20 +57,7 @@ namespace LlamaStoreService.Repositories.DAO
             return listaDeCelulares().Where(v => v.idcel == id).FirstOrDefault();
         }
 
-        public ActionResult Select(string id, int cantidad)
-        {
-            CelularLista celular = buscarCelular(id);
-            if (celular == null)
-            {
-                return new NotFoundResult();
-            }
-            if (celular.stock < cantidad)
-            {
-                return new BadRequestObjectResult("No hay suficiente stock");
-            }
-            celular.stock -= cantidad;
-            return new OkObjectResult(celular);
-        }
+       
 
         //ELIMINAR CELULAR
         public string eliminarCelular(string id)
@@ -80,7 +67,7 @@ namespace LlamaStoreService.Repositories.DAO
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("sp_elimnar_celular", cn);
+                    SqlCommand cmd = new SqlCommand("sp_eliminar_celular", cn);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@idcel", id);
 
@@ -97,14 +84,44 @@ namespace LlamaStoreService.Repositories.DAO
         }
 
         //ACTUALIZAR O CREAR CELULARES
-        public string mergeCelulares(CelularCrear celular)
+        public string agregarCelulares(CelularCrear celular)
         {
             string mensaje = "";
             using (SqlConnection cn = new SqlConnection(_cadenaDB))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("sp_actualiza_o_crea_celular", cn);
+                    SqlCommand cmd = new SqlCommand("sp_guardar_celular", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@idcel", celular.idcel);
+                    cmd.Parameters.AddWithValue("@idmarca", celular.idmarca);
+                    cmd.Parameters.AddWithValue("@modelo", celular.modelo);
+                    cmd.Parameters.AddWithValue("@precio", celular.precio);
+                    cmd.Parameters.AddWithValue("@idgama", celular.idgama);
+                    cmd.Parameters.AddWithValue("@stock", celular.stock);
+                    cmd.Parameters.AddWithValue("@idsistema", celular.idsistema);
+                    
+
+                    cn.Open();
+                    int totalRegistro = cmd.ExecuteNonQuery();
+                    mensaje = $"Se agrego {totalRegistro} celular";
+                }
+                catch (Exception ex)
+                {
+                    mensaje = ex.Message;
+                }
+            }
+            return mensaje;
+        }
+
+        public string actualizarCelulares(CelularCrear celular)
+        {
+            string mensaje = "";
+            using (SqlConnection cn = new SqlConnection(_cadenaDB))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_guardar_celular", cn);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@idcel", celular.idcel);
                     cmd.Parameters.AddWithValue("@idmarca", celular.idmarca);
@@ -117,7 +134,7 @@ namespace LlamaStoreService.Repositories.DAO
 
                     cn.Open();
                     int totalRegistro = cmd.ExecuteNonQuery();
-                    mensaje = $"Se inserto {totalRegistro} celular";
+                    mensaje = $"Se actualizo {totalRegistro} celular";
                 }
                 catch (Exception ex)
                 {

@@ -18,10 +18,17 @@ namespace LlamaStoreService.Controllers
             return Ok(lista);
         }
 
-        [HttpPost("postMergeCelular")]
-        public async Task<ActionResult<string>> mergeCelular(CelularCrear cel)
+        [HttpPost("postAgregarCelular")]
+        public async Task<ActionResult<string>> postCrear(CelularCrear cel)
         {
-            var mensaje = await Task.Run(() => new productoDAO().mergeCelulares(cel));
+            var mensaje = await Task.Run(() => new productoDAO().agregarCelulares(cel));
+            return Ok(mensaje);
+        }
+
+        [HttpPost("postActualizarCelular")]
+        public async Task<ActionResult<string>> postActualiza(CelularCrear cel)
+        {
+            var mensaje = await Task.Run(() => new productoDAO().actualizarCelulares(cel));
             return Ok(mensaje);
         }
 
