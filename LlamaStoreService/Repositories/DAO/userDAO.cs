@@ -78,7 +78,37 @@ namespace LlamaStoreService.Repositories.DAO
             return mensaje;
         }
 
-        public string mergeUsuarios(Usuario usuario)
+        public string agregarUsuarios(Usuario usuario)
+        {
+            string mensaje = "";
+            using (SqlConnection cn = new SqlConnection(_cadenaDB))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_actualiza_o_crea_usuario", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@codigo", usuario.codigo);
+                    cmd.Parameters.AddWithValue("@nombre", usuario.nombre);
+                    cmd.Parameters.AddWithValue("@apellido", usuario.apellido);
+                    cmd.Parameters.AddWithValue("@correo", usuario.correo);
+                    cmd.Parameters.AddWithValue("@clave", usuario.clave);
+                    cmd.Parameters.AddWithValue("@fnacim", usuario.fnacim);
+                    cmd.Parameters.AddWithValue("@tipo", usuario.idroll);
+
+
+                    cn.Open();
+                    int totalRegistro = cmd.ExecuteNonQuery();
+                    mensaje = $"Se agrego {totalRegistro} usuario";
+                }
+                catch (Exception ex)
+                {
+                    mensaje = ex.Message;
+                }
+            }
+            return mensaje;
+        }
+
+        public string actualizarUsuarios(Usuario usuario)
         {
             string mensaje = "";
             using (SqlConnection cn = new SqlConnection(_cadenaDB))
