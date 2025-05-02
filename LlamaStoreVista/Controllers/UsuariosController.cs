@@ -1,0 +1,49 @@
+﻿using LlamaStoreService.Models.Users;
+using LlamaStoreVista.Models;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
+using Newtonsoft.Json;
+
+namespace LlamaStoreVista.Controllers
+{
+    public class UsuariosController : Controller
+    {
+        private readonly string conexionService = "https://localhost:44331/api/Usuario/";
+       
+        public async Task<IActionResult> ListaUsuarios(int page = 1)
+        {
+            List<Usuario> temporal = new List<Usuario>();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionService);
+                HttpResponseMessage response = await client.GetAsync("getUsuarios");
+
+                if (response.IsSuccessStatusCode) // 👈 Verifica que el API respondió OK
+                {
+                    string apiresponse = await response.Content.ReadAsStringAsync();
+                    if (!string.IsNullOrEmpty(apiresponse))
+                    {
+                        var deserialized = JsonConvert.DeserializeObject<List<Usuario>>(apiresponse);
+                        if (deserialized != null)
+                            temporal = deserialized.ToList();
+                    }
+                }
+                else
+                {
+                    // Opcional: manejar el error
+                    Console.WriteLine($"Error API: {response.StatusCode}");
+                }
+            }
+            // Proceso para la paginación
+            int fila = 12;
+            int count = temporal.Count();
+            int pages = count % fila == 0 ? count / fila : count / fila + 1;
+            page = page - 1;
+            ViewBag.page = page;
+            ViewBag.pages = pages;
+
+            return View(await Task.Run(() => temporal.Skip(fila * page).Take(fila)));
+        }
+    }
+}
