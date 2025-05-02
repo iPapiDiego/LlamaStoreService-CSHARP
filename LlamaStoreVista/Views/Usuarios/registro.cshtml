@@ -46,17 +46,25 @@
             <!-- Apellidos -->
             <div class="input-group">
                 <i class="fas fa-users"></i>
-                <input asp-for="apellido" type="text" name="apellidos" id="apellidos" placeholder="Apellidos" required
+                <input asp-for="apellido" type="text" name="apellido" id="apellido" placeholder="Apellidos" required
                        pattern="[A-Za-zÁ-ú\s]{2,}" title="Solo letras y espacios (mínimo 2 caracteres)" />
                 <div class="error-message" id="apellidos-error">Ingrese apellidos válidos</div>
                 <span asp-validation-for="apellido" class="text-danger"></span>
+            </div>
+
+            <!-- Email -->
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input asp-for="correo" type="email" name="correo" id="correo" placeholder="Correo electrónico" required />
+                <div class="error-message" id="correo-error">Ingrese un correo válido</div>
+                <span asp-validation-for="correo" class="text-danger"></span>
             </div>
 
             <!-- Fecha de Nacimiento -->
             <label for="fecha">Fecha de nacimiento</label>
             <div class="input-group">
                 <i class="fas fa-calendar-alt"></i>
-                <input asp-for="fnacim" type="date" name="fecha" id="fecha" required max="2005-12-31" />
+                <input asp-for="fnacim" type="date" name="fnacim" id="fnacim" required max="2000-12-31" />
                 <div class="error-message" id="fecha-error">Debes ser mayor de 18 años</div>
                 <span asp-validation-for="fnacim" class="text-danger"></span>
             </div>
@@ -78,13 +86,7 @@
                 <div class="error-message" id="pais-error">Seleccione un país</div>
             </div>-->
 
-            <!-- Email -->
-            <div class="input-group">
-                <i class="fas fa-envelope"></i>
-                <input asp-for="correo" type="email" name="correo" id="correo" placeholder="Correo electrónico" required />
-                <div class="error-message" id="correo-error">Ingrese un correo válido</div>
-                <span asp-validation-for="correo" class="text-danger"></span>
-            </div>
+            
 
             <!-- Contraseña -->
             <div class="input-group">
@@ -108,7 +110,7 @@
             </div>
 
             <!-- Botón de Registro -->
-            <button type="submit" id="register-button" value="registro">
+            <button type="submit" id="register-button" value="Create">
                 <i class="fas fa-user-plus"></i> Registrarse
             </button>
 

@@ -1,5 +1,4 @@
-﻿
-document.addEventListener('DOMContentLoaded', function () {
+﻿document.addEventListener('DOMContentLoaded', function () {
     const form = document.getElementById('registerForm');
     const registerButton = document.getElementById('register-button');
     const passwordInput = document.getElementById('clave');
