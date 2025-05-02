@@ -2,7 +2,9 @@
 using LlamaStoreVista.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace LlamaStoreVista.Controllers
 {
@@ -44,6 +46,28 @@ namespace LlamaStoreVista.Controllers
             ViewBag.pages = pages;
 
             return View(await Task.Run(() => temporal.Skip(fila * page).Take(fila)));
+        }
+
+        public IActionResult login()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> login(Usuario usuario)
+        {
+            string mensaje = "";
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionService);
+                StringContent content = new StringContent(JsonConvert.SerializeObject(usuario), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync("postAgregaUsuarios", content);
+                string apiresponse = await response.Content.ReadAsStringAsync();
+                mensaje = apiresponse;
+            }
+            TempData["mensaje"] = mensaje;
+            return RedirectToAction("Index");
         }
     }
 }

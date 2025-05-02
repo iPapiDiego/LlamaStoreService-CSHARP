@@ -1,0 +1,83 @@
+﻿@model IEnumerable<LlamaStoreService.Models.Users.Usuario>
+
+@{
+    ViewData["Title"] = "login";
+    Layout = null;
+}
+
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Iniciar Sesión</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/userStyles/login.css">
+    <script href="/js/login.js"></script>
+</head>
+
+<body>
+    <!-- Video de fondo -->
+    <video autoplay muted loop playsinline class="background-video">
+        <source src="/video/Fondo.mp4" type="video/mp4" />
+        <!-- Fallback para navegadores que no soportan video -->
+        <img src="/img/fondo-login.jpg" alt="Fondo alternativo">
+        Tu navegador no soporta videos HTML5.
+    </video>
+
+    <!-- Capa de superposición con gradiente -->
+    <div class="overlay"></div>
+
+    <!-- Contenedor de login -->
+    <div class="login-container">
+        <form class="login-form">
+            <h2>Bienvenido</h2>
+
+            <!-- Campo de email -->
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" placeholder="Correo electrónico" required
+                       pattern="[a-z0-9._%+-]+[a-z0-9.-]+\.[a-z]{2,}$" />
+            </div>
+
+            <!-- Campo de contraseña -->
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" placeholder="Contraseña" required minlength="6" />
+            </div>
+
+            <!-- Opciones adicionales -->
+            <div class="options">
+                <div class="remember-me">
+                    <input type="checkbox" id="remember">
+                    <label for="remember">Recordar sesión</label>
+                </div>
+                <div class="forgot-password">
+                    <a href="#">¿Olvidaste tu contraseña?</a>
+                </div>
+            </div>
+
+            <!-- Botón de login -->
+            <button type="submit" id="login-button">Ingresar</button>
+
+            <!-- Login social -->
+            <div class="social-login">
+                <p>o ingresa con</p>
+                <div class="social-icons">
+                    <a href="#" title="Ingresar con Google"><i class="fab fa-google"></i></a>
+                    <a href="#" title="Ingresar con Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" title="Ingresar con Apple"><i class="fab fa-apple"></i></a>
+                </div>
+            </div>
+
+            <!-- Enlace a registro -->
+            <div class="register-link">
+                ¿No tienes una cuenta? <a href="#">Regístrate</a>
+            </div>
+        </form>
+    </div>
+
+    
+</body>
+
+</html>
