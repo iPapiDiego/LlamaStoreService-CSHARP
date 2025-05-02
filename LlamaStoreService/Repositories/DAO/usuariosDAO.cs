@@ -82,7 +82,7 @@ namespace LlamaStoreService.Repositories.DAO
 
                     cn.Open();
                     int totalRegistro = cmd.ExecuteNonQuery();
-                    mensaje = $"Se agrego {totalRegistro} usuario";
+                    mensaje = $"Bienvenido, inicia secion para continuar.";
                 }
                 catch (Exception ex)
                 {
@@ -110,7 +110,7 @@ namespace LlamaStoreService.Repositories.DAO
                     
                     cn.Open();
                     int totalRegistro = cmd.ExecuteNonQuery();
-                    mensaje = $"Se actualizo {totalRegistro} usuario";
+                    mensaje = $"Sus datos se actualizaron correctamente.";
                 }
                 catch (Exception ex)
                 {
