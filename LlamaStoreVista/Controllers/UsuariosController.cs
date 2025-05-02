@@ -53,9 +53,13 @@ namespace LlamaStoreVista.Controllers
             return View();
         }
 
+        public IActionResult registro()
+        {
+            return View();
+        }
 
         [HttpPost]
-        public async Task<IActionResult> login(Usuario usuario)
+        public async Task<IActionResult> registro(Usuario usuario)
         {
             string mensaje = "";
             using (var client = new HttpClient())
@@ -67,7 +71,7 @@ namespace LlamaStoreVista.Controllers
                 mensaje = apiresponse;
             }
             TempData["mensaje"] = mensaje;
-            return RedirectToAction("Index");
+            return RedirectToAction("login");
         }
     }
 }

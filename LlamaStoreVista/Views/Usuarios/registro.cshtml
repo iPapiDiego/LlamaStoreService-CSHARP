@@ -1,0 +1,125 @@
+﻿@model LlamaStoreService.Models.Users.Usuario
+
+@{
+    ViewData["Title"] = "registro";
+    Layout = null;
+}
+
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Registro de Usuario</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <link rel="stylesheet" href="/css/userStyles/registro.css">
+    <script href="/js/registro.js"></script>
+</head>
+
+<body>
+    <!-- Video de fondo -->
+    <video autoplay muted loop playsinline class="background-video">
+        <source src="/video/Fondo.mp4" type="video/mp4" />
+        <!-- Fallback para navegadores que no soportan video -->
+        <img src="/img/fondo-login.jpg" alt="Fondo alternativo">
+        Tu navegador no soporta videos HTML5.
+    </video>
+
+    <!-- Capa de oscurecimiento -->
+    <div class="overlay"></div>
+
+    <!-- Contenedor del registro -->
+    <div class="register-container">
+        <form asp-action="registro" class="register-form" id="registerForm">
+            <h2>Crear Cuenta</h2>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Nombre -->
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input asp-for="nombre" type="text" name="nombre" id="nombre" placeholder="Nombre" required pattern="[A-Za-zÁ-ú\s]{2,}"
+                       title="Solo letras y espacios (mínimo 2 caracteres)" />
+                <div class="error-message" id="nombre-error">Ingrese un nombre válido (solo letras)</div>
+                <span asp-validation-for="nombre" class="text-danger"></span>
+            </div>
+
+            <!-- Apellidos -->
+            <div class="input-group">
+                <i class="fas fa-users"></i>
+                <input asp-for="apellido" type="text" name="apellidos" id="apellidos" placeholder="Apellidos" required
+                       pattern="[A-Za-zÁ-ú\s]{2,}" title="Solo letras y espacios (mínimo 2 caracteres)" />
+                <div class="error-message" id="apellidos-error">Ingrese apellidos válidos</div>
+                <span asp-validation-for="apellido" class="text-danger"></span>
+            </div>
+
+            <!-- Fecha de Nacimiento -->
+            <label for="fecha">Fecha de nacimiento</label>
+            <div class="input-group">
+                <i class="fas fa-calendar-alt"></i>
+                <input asp-for="fnacim" type="date" name="fecha" id="fecha" required max="2005-12-31" />
+                <div class="error-message" id="fecha-error">Debes ser mayor de 18 años</div>
+                <span asp-validation-for="fnacim" class="text-danger"></span>
+            </div>
+
+            <!-- País
+            <div class="input-group">
+                <i class="fas fa-globe-americas"></i>
+                <select name="pais" id="pais" required>
+                    <option value="">Seleccione país</option>
+                    <option value="PE">Perú</option>
+                    <option value="MX">México</option>
+                    <option value="CO">Colombia</option>
+                    <option value="CL">Chile</option>
+                    <option value="AR">Argentina</option>
+                    <option value="ES">España</option>
+                    <option value="US">Estados Unidos</option>
+                </select>
+                <i class="fas fa-chevron-down select-arrow"></i>
+                <div class="error-message" id="pais-error">Seleccione un país</div>
+            </div>-->
+
+            <!-- Email -->
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input asp-for="correo" type="email" name="correo" id="correo" placeholder="Correo electrónico" required />
+                <div class="error-message" id="correo-error">Ingrese un correo válido</div>
+                <span asp-validation-for="correo" class="text-danger"></span>
+            </div>
+
+            <!-- Contraseña -->
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input asp-for="clave" type="password" name="clave" id="clave" placeholder="Contraseña (mínimo 8 caracteres)"
+                       minlength="8" required pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
+                       title="Debe contener al menos una mayúscula, una minúscula y un número" />
+                <span asp-validation-for="clave" class="text-danger"></span>
+                <div class="password-strength" id="password-strength">
+                    <div class="strength-bar" id="strength-bar"></div>
+                </div>
+                <div class="error-message" id="clave-error">Mínimo 8 caracteres con mayúscula, minúscula y número</div>
+            </div>
+
+            <!-- Confirmar Contraseña -->
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="confirmar" id="confirmar" placeholder="Confirmar contraseña" minlength="8"
+                       required />
+                <div class="error-message" id="confirmar-error">Las contraseñas no coinciden</div>
+            </div>
+
+            <!-- Botón de Registro -->
+            <button type="submit" id="register-button" value="registro">
+                <i class="fas fa-user-plus"></i> Registrarse
+            </button>
+
+            <!-- Enlace a Login -->
+            <div class="login-link">
+                ¿Ya tienes una cuenta? <a href="/Usuarios/login">Inicia sesión</a>
+            </div>
+        </form>
+    </div>
+
+
+</body>
+
+</html>
