@@ -1,18 +1,18 @@
-﻿
-using LlamaStoreService.Models.Products;
+﻿using LlamaStoreService.Models.Productos;
 using LlamaStoreService.Models.Users;
 using Microsoft.Data.SqlClient;
 using System.Data;
 
 namespace LlamaStoreService.Repositories.DAO
 {
-    public class userDAO
+    public class usuariosDAO
     {
-        private readonly string _cadenaDB;
+
+        private readonly string _cade;
         //XDDDD
-        public userDAO()
+        public usuariosDAO()
         {
-            _cadenaDB = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("DefaultConnection");
+            _cade = new ConfigurationBuilder().AddJsonFile("appsettings.json").Build().GetConnectionString("DefaultConnection");
         }
 
         public IEnumerable<Usuario> listaDeUsuarios()
@@ -20,10 +20,10 @@ namespace LlamaStoreService.Repositories.DAO
             List<Usuario> list = new List<Usuario>();
             try
             {
-                using (SqlConnection cn = new SqlConnection(_cadenaDB))
+                using (SqlConnection cn = new SqlConnection(_cade))
                 {
                     cn.Open();
-                    SqlCommand cmd = new SqlCommand("sp_lista_usuarios", cn);
+                    SqlCommand cmd = new SqlCommand("sp_ListarUsuariosBasico", cn);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
@@ -33,10 +33,9 @@ namespace LlamaStoreService.Repositories.DAO
                             nombre = reader.GetString(1),
                             apellido = reader.GetString(2),
                             correo = reader.GetString(3),
-                            clave = reader.GetString(4),
-                            fnacim = reader.GetDateTime(5),
-                            idroll = reader.GetInt32(6),
-                            estado = reader.GetInt32(7)
+                            fnacim = reader.GetDateTime(4),
+                            clave = reader.GetString(5)
+                            
                         };
                         list.Add(u);
                     }
@@ -50,29 +49,35 @@ namespace LlamaStoreService.Repositories.DAO
             return list;
         }
 
+
+
+
+
+
+
         public Usuario buscarUsuarioPorID(int id)
         {
             return listaDeUsuarios().Where(v => v.codigo == id).FirstOrDefault();
         }
 
-        
+
 
         public string agregarUsuarios(Usuario usuario)
         {
             string mensaje = "";
-            using (SqlConnection cn = new SqlConnection(_cadenaDB))
+            using (SqlConnection cn = new SqlConnection(_cade))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("sp_actualiza_o_crea_usuario", cn);
+                    SqlCommand cmd = new SqlCommand("sp_merge_usuario", cn);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@codigo", usuario.codigo);
                     cmd.Parameters.AddWithValue("@nombre", usuario.nombre);
                     cmd.Parameters.AddWithValue("@apellido", usuario.apellido);
                     cmd.Parameters.AddWithValue("@correo", usuario.correo);
                     cmd.Parameters.AddWithValue("@clave", usuario.clave);
-                    cmd.Parameters.AddWithValue("@fnacim", usuario.fnacim);
-                    cmd.Parameters.AddWithValue("@tipo", usuario.idroll);
+                    // cmd.Parameters.AddWithValue("@fnacim", usuario.fnacim);
+                    // cmd.Parameters.AddWithValue("@tipo", usuario.idroll);
 
 
                     cn.Open();
@@ -90,20 +95,20 @@ namespace LlamaStoreService.Repositories.DAO
         public string actualizarUsuarios(Usuario usuario)
         {
             string mensaje = "";
-            using (SqlConnection cn = new SqlConnection(_cadenaDB))
+            using (SqlConnection cn = new SqlConnection(_cade))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("sp_actualiza_o_crea_usuario", cn);
+                    SqlCommand cmd = new SqlCommand("sp_merge_usuario", cn);
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.AddWithValue("@codigo", usuario.codigo);
                     cmd.Parameters.AddWithValue("@nombre", usuario.nombre);
                     cmd.Parameters.AddWithValue("@apellido", usuario.apellido);
                     cmd.Parameters.AddWithValue("@correo", usuario.correo);
                     cmd.Parameters.AddWithValue("@clave", usuario.clave);
-                    cmd.Parameters.AddWithValue("@fnacim", usuario.fnacim);
-                    cmd.Parameters.AddWithValue("@tipo", usuario.idroll);
-                    cmd.Parameters.AddWithValue("@estado", usuario.estado);
+                    // cmd.Parameters.AddWithValue("@fnacim", usuario.fnacim);
+                    // cmd.Parameters.AddWithValue("@tipo", usuario.idroll);
+                    // cmd.Parameters.AddWithValue("@estado", usuario.estado);
 
                     cn.Open();
                     int totalRegistro = cmd.ExecuteNonQuery();
@@ -117,4 +122,6 @@ namespace LlamaStoreService.Repositories.DAO
             return mensaje;
         }
     }
+
 }
+

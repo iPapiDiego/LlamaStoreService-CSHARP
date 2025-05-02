@@ -1,21 +1,19 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace LlamaStoreService.Models.Users
+﻿namespace LlamaStoreService.Models.Users
 {
     public class Usuario
     {
-        [Display(Name = "Codigo")] public int codigo { get; set; }
-        [Display(Name = "Nombre")] public string nombre { get; set; }
-        [Display(Name = "Apellido")] public string apellido { get; set; }
-        [Display(Name = "Correo")] public string correo { get; set; }
-        [Display(Name = "Clave")] public string clave { get; set; }
-        [Display(Name = "Fecha")] public DateTime fnacim { get; set; }
-        [Display(Name = "Tipo")] public int idroll { get; set; }
-        [Display(Name = "Estado")] public int estado { get; set; }
-        [Display(Name = "Fecha")] public DateTime created_at { get; set; }
-        [Display(Name = "Fecha")] public DateTime updated_at { get; set; }
-        [Display(Name = "Fecha")] public DateTime last_login { get; set; }
-        [Display(Name = "Fecha")] public DateTime intentos_login { get; set; }
+        public int codigo { get; set; }
+        public string nombre { get; set; }
+        public string apellido { get; set; }
+        public string correo { get; set; }
+        public DateTime fnacim { get; set; }
+        public string clave { get; set; }
+        public int idrol { get; set; }
+        public int estado { get; set; }
+        public DateTime created_at { get; set; }
+        public DateTime updated_at { get; set; }
+        public DateTime last_login { get; set; }
+        public int intentos_login { get; set; }
 
     }
 }
