@@ -11,7 +11,7 @@ namespace LlamaStoreVista.Controllers
     public class UsuariosController : Controller
     {
         private readonly string conexionService = "https://localhost:44331/api/Usuario/";
-       
+
         public async Task<IActionResult> ListaUsuarios(int page = 1)
         {
             List<Usuario> temporal = new List<Usuario>();
@@ -51,6 +51,51 @@ namespace LlamaStoreVista.Controllers
         public IActionResult login()
         {
             return View();
+        }
+
+        public IActionResult ActualizarUsuario()
+        {
+
+            //SI VAMOS A USAR ESTE CODIGO NO OLVIDAR COLOCAR asyng TASK<IActionResult>
+
+            /*
+            public async Task<IActionResult> ActualizarUsuario(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return RedirectToAction("Index");
+
+            Vendedor vendedor = new Vendedor();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionService);
+                HttpResponseMessage respons = await client.GetAsync("getBuscarVendedor/?id=" + id);
+                string apiResponse = await respons.Content.ReadAsStringAsync();
+                vendedor = JsonConvert.DeserializeObject<Vendedor>(apiResponse);
+            }
+
+            var paises = await ListaPaises();
+            ViewBag.paises = new SelectList(paises, "idPais", "pais", vendedor?.idPais);
+            return View(await Task.Run(() => vendedor));
+
+        }
+            }*/
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ActualizarUsuario(Usuario usuario)
+        {
+            string mensaje = "";
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionService);
+                StringContent content = new StringContent(JsonConvert.SerializeObject(usuario), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync("postActuaUsuariosCliente", content);
+                string apiresponse = await response.Content.ReadAsStringAsync();
+                mensaje = apiresponse;
+            }
+            TempData["mensaje"] = mensaje;
+            return RedirectToAction("ActualizarUsuario");
         }
 
         public IActionResult registro()
