@@ -1,35 +1,34 @@
-﻿@model IEnumerable<LlamaStoreVista.Models.Producto>
+﻿@model LlamaStoreService.Models.Users.Usuario
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "ActualizarUsuario";
     Layout = null;
 }
 
 <html lang="es">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
-    <link rel="icon" href="img/Logos/logo-llamastore.png" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Actualizar Perfil</title>
+    <link rel="icon" href="/img/Logos/logo-llamastore.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
     <link rel="stylesheet" href="/css/ContainerGeneral.css">
     <link rel="stylesheet" href="/css/Header.css">
     <link rel="stylesheet" href="/css/Footer.css">
-    <link rel="stylesheet" href="/css/Index.css">
-    <script href="/js/index.js"></script>
+    <link rel="stylesheet" href="/css/userStyles/actualizar.css">
+    <script href="/js/userJs/actualizar.js"></script>
 </head>
 
 <body>
-
     <div class="container1">
-
         <header>
             <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
                 <div class="container-fluid d-flex align-items-center justify-content-between">
-                    <a class="navbar-brand d-flex align-items-center" href="/Productos/Index">
-                        <img src="~/img/Logos/transparente.png" alt="Logo" class="me-2 logo-img">
+                    <a class="navbar-brand d-flex align-items-center" href="#">
+                        <img src="/img/Logos/llama-store-logo-transparente.PNG" alt="Logo" class="me-2 logo-img">
                     </a>
                     <div class="d-flex align-items-center gap-3 order-lg-2">
                         <button class="btn position-relative" type="button" data-bs-toggle="offcanvas"
@@ -40,7 +39,7 @@
                             </span>
                         </button>
 
-                        <a href="/Usuarios/login" class="btn btn-outline-primary">
+                        <a href="#" class="btn btn-outline-primary">
                             <i class="fa-solid fa-user"></i>
                             <span class="login-text ms-2">Ingresar</span>
                         </a>
@@ -64,7 +63,7 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="dropdown-item" href="/Productos/IphonesProductos">
+                                        <a class="dropdown-item" href="#">
                                             iPhones
                                             <i class="fa-brands fa-apple"></i>
                                         </a>
@@ -91,32 +90,20 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="underline-hover" href="~/html/sobre_nosotros.html">
+                                <a class="underline-hover" href="#">
                                     Nosotros
                                     <i class="fa-solid fa-users"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="underline-hover" href="~/html/PreguntasFrecuentes.html">
+                                <a class="underline-hover" href="Html/PreguntasFrecuentes.html">
                                     Preguntas Frecuentes
                                     <i class="fa-solid fa-question"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="underline-hover" href="~/html/contacto.html">
+                                <a class="underline-hover" href="#">
                                     Contactanos
-                                    <i class="fa-solid fa-address-book"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="underline-hover" href="/Usuarios/ListaUsuarios">
-                                    Admin
-                                    <i class="fa-solid fa-address-book"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="underline-hover" href="/Usuarios/ActualizarUsuario">
-                                    Actualizar
                                     <i class="fa-solid fa-address-book"></i>
                                 </a>
                             </li>
@@ -165,185 +152,97 @@
             </div>
         </header>
 
-        <!--========================================================ASIDE================================================================-->
-        <!--========================================================ASIDE================================================================-->
-        <!--========================================================ASIDE================================================================-->
-        <!--========================================================ASIDE================================================================-->
-        <!--========================================================ASIDE================================================================-->
-
         <main>
-            <div class="container">
-                <div class="imagen1">
+            <div class="overlay"></div>
 
-                    <img src="/img/baners/baner_principal.png">
+            <div class="form-container">
+                <form asp-action="ActualizarUsuario" class="profile-form" id="profileForm">
+                    <h2><i class="fas fa-user-edit"></i> Actualizar Perfil</h2>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-                </div>
-                <div class="imagen1">
+                    <!-- Nombre -->
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input asp-for="codigo" type="text" name="codigo" id="codigo" placeholder="Codigo" required
+                               title="Solo letras y espacios (mínimo 2 caracteres)" />
+                        <div class="error-message" id="nombre-error">Ingrese un nombre válido (solo letras)</div>
+                        <span asp-validation-for="codigo" class="text-danger"></span>
+                    </div>
 
-                    <img src="/img/baners/baner_azul.png">
+                    <!-- Nombre -->
+                    <div class="input-group">
+                        <i class="fas fa-user"></i>
+                        <input asp-for="nombre" type="text" name="nombre" id="nombre" placeholder="Nombre" required
+                               pattern="[A-Za-zÁ-ú\s]{2,}" title="Solo letras y espacios (mínimo 2 caracteres)" />
+                        <div class="error-message" id="nombre-error">Ingrese un nombre válido (solo letras)</div>
+                        <span asp-validation-for="nombre" class="text-danger"></span>
+                    </div>
 
-                </div>
-                <div class="imagen1">
+                    <!-- Apellido -->
+                    <div class="input-group">
+                        <i class="fas fa-users"></i>
+                        <input asp-for="apellido" type="text" name="apellido" id="apellido" placeholder="Apellido" required
+                               pattern="[A-Za-zÁ-ú\s]{2,}" title="Solo letras y espacios (mínimo 2 caracteres)" />
+                        <div class="error-message" id="apellido-error">Ingrese un apellido válido</div>
+                        <span asp-validation-for="apellido" class="text-danger"></span>
+                    </div>
 
-                    <img src="/img/baners/baner_secundario.png">
+                    <!-- Email -->
+                    <div class="input-group">
+                        <i class="fas fa-users"></i>
+                        <input asp-for="correo" type="email" name="correo" id="correo" placeholder="Correo electrónico" required />
+                        <div class="error-message" id="correo-error">Ingrese un correo válido</div>
+                        <span asp-validation-for="correo" class="text-danger"></span>
+                    </div>
 
-                </div>
-                <div class="titulossssss">
-                    <h2>¿Selfies increíbles 📸 o rendimiento para juegos🏆?</h2>
-                    <h5>Encuentra el iPhone que se adapta más a tu estilo de vida. Vamos>></h5>
-                </div>
-                <div class="imagen2">
+                    <!-- Fecha de Nacimiento -->
+                    <label for="fnacim">Fecha de nacimiento</label>
+                    <div class="input-group">
+                        <i class="fas fa-calendar-alt"></i>
+                        <input asp-for="fnacim" type="date" name="fnacim" id="fnacim" required max="2005-12-31" />
+                        <div class="error-message" id="fnacim-error">Debes ser mayor de 18 años</div>
+                        <span asp-validation-for="fnacim" class="text-danger"></span>
+                    </div>
 
-                    <section class="container my-5">
-
-
-                        <div class="row justify-content-center g-4">
-                            <!-- Iphone 1 -->
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <div class="card iphone-card text-center h-100">
-                                    <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
-                                    <div class="card-body">
-                                        <h5 class="card-title fw-bold">iPhone 11</h5>
-                                        <p class="card-text text-primary fw-bold fs-5">S/1500.00</p>
-                                        <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Iphone 2 -->
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-
-                                <div class="card iphone-card text-center h-100">
-                                    <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
-                                    <div class="card-body">
-                                        <h5 class="card-title fw-bold">iPhone 11</h5>
-                                        <p class="card-text text-primary fw-bold fs-5">S/1500.00</p>
-                                        <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Iphone 3-->
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-
-                                <div class="card iphone-card text-center h-100">
-                                    <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
-                                    <div class="card-body">
-                                        <h5 class="card-title fw-bold">iPhone 11</h5>
-                                        <p class="card-text text-primary fw-bold fs-5">S/1500.00</p>
-                                        <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Iphone 4 -->
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <div class="card iphone-card text-center h-100">
-                                    <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
-                                    <div class="card-body">
-                                        <h5 class="card-title fw-bold">iPhone 11</h5>
-                                        <p class="card-text text-primary fw-bold fs-5">S/1500.00</p>
-                                        <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
-                                    </div>
-                                </div>
-                            </div>
+                    <!-- Contraseña -->
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input asp-for="clave" type="password" name="clave" id="clave"
+                               placeholder="Nueva contraseña (mínimo 8 caracteres)" minlength="8" required
+                               pattern="^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$"
+                               title="Debe contener al menos una mayúscula, una minúscula y un número" />
+                        <span asp-validation-for="clave" class="text-danger"></span>
+                        <div class="password-strength" id="password-strength">
+                            <div class="strength-bar" id="strength-bar"></div>
                         </div>
-                    </section>
-                </div>
-                <br>
-
-                <div class="carrusel1">
-                    <h2>Nuestros clientes opinan 💖</h2>
-
-                    <div class="carousel-container">
-                        <div class="carousel-track" id="carousel-track">
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=1" alt="Cliente 1" />
-                                <h4>Nayeli A</h4>
-                                <p>Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>He comprado mi celular...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=2" alt="Cliente 2" />
-                                <h4>Jorge B</h4>
-                                <p>12 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Es mi segunda compra y fue...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=3" alt="Cliente 3" />
-                                <h4>Manuel G</h4>
-                                <p>1 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Buen producto y buen servicio</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=4" alt="Cliente 4" />
-                                <h4>Cory C</h4>
-                                <p>16 Abril 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Visité la tienda y me dieron...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=1" alt="Cliente 1" />
-                                <h4>Nayeli A</h4>
-                                <p>Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>He comprado mi celular...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=2" alt="Cliente 2" />
-                                <h4>Jorge B</h4>
-                                <p>12 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Es mi segunda compra y fue...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=3" alt="Cliente 3" />
-                                <h4>Manuel G</h4>
-                                <p>1 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Buen producto y buen servicio</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=4" alt="Cliente 4" />
-                                <h4>Cory C</h4>
-                                <p>16 Abril 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Visité la tienda y me dieron...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=1" alt="Cliente 1" />
-                                <h4>Nayeli A</h4>
-                                <p>Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>He comprado mi celular...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=2" alt="Cliente 2" />
-                                <h4>Jorge B</h4>
-                                <p>12 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Es mi segunda compra y fue...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=3" alt="Cliente 3" />
-                                <h4>Manuel G</h4>
-                                <p>1 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Buen producto y buen servicio</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=4" alt="Cliente 4" />
-                                <h4>Cory C</h4>
-                                <p>16 Abril 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Visité la tienda y me dieron...</p>
-                            </div>
+                        <div class="error-message" id="clave-error">
+                            Mínimo 8 caracteres con mayúscula, minúscula y
+                            número
                         </div>
                     </div>
-                </div>
+
+                    <!-- Confirmar Contraseña -->
+                    <div class="input-group">
+                        <i class="fas fa-lock"></i>
+                        <input type="password" name="confirmar" id="confirmar" placeholder="Confirmar contraseña"
+                               minlength="8" required />
+                        <div class="error-message" id="confirmar-error">Las contraseñas no coinciden</div>
+                    </div>
+
+                    <!-- Botón de Actualización -->
+                    <button type="submit" id="update-button" value="save">
+                        <i class="fas fa-save"></i> Actualizar
+                    </button>
+
+                    <!-- Mensaje de éxito -->
+                    <div class="success-message" id="success-message">
+                        <i class="fas fa-check-circle"></i>
+                        <p>
+                            @TempData["mensaje"]
+                        </p>
+                    </div>
+
+                </form>
             </div>
         </main>
 
@@ -390,7 +289,7 @@
             <div class="footer-bottom">
                 <div class="brand">
                     <div class="footer_bottom_logo">
-                        <img src="./img/Logos/llama-store-logo-transparente.PNG" />
+                        <img src="/img/Logos/llama-store-logo-transparente.PNG" />
                     </div>
                     <div class="social-icons">
                         <a class="underline-hover" href="#"><i class="fab fa-facebook-square"></i></a>
@@ -445,7 +344,7 @@
                         <div>
                             <a class="underline-hover" href="#">Llamano entre las 9 am - 8 pm</a><br>
                             <a href="tel:666855558464" style="color:#edab4e">6668 5555 8464</a>
-
+                            </divtd>
                         </div>
                     </div>
 
@@ -455,7 +354,6 @@
         </footer>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
 
 </body>
 
