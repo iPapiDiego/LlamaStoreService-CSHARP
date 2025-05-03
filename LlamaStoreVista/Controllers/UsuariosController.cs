@@ -55,25 +55,29 @@ namespace LlamaStoreVista.Controllers
 
         public IActionResult ActualizarUsuario()
         {
-            return View();
-        }
 
-
-
-        public IActionResult Edit()
-        {
             //SI VAMOS A USAR ESTE CODIGO NO OLVIDAR COLOCAR asyng TASK<IActionResult>
 
-            /*if (string.IsNullOrEmpty(id))
+            /*
+            public async Task<IActionResult> ActualizarUsuario(string id)
+        {
+            if (string.IsNullOrEmpty(id))
                 return RedirectToAction("Index");
 
-            Usuario usuario = new Usuario();
+            Vendedor vendedor = new Vendedor();
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(conexionService);
                 HttpResponseMessage respons = await client.GetAsync("getBuscarVendedor/?id=" + id);
                 string apiResponse = await respons.Content.ReadAsStringAsync();
-                usuario = JsonConvert.DeserializeObject<Usuario>(apiResponse);
+                vendedor = JsonConvert.DeserializeObject<Vendedor>(apiResponse);
+            }
+
+            var paises = await ListaPaises();
+            ViewBag.paises = new SelectList(paises, "idPais", "pais", vendedor?.idPais);
+            return View(await Task.Run(() => vendedor));
+
+        }
             }*/
             return View();
         }
@@ -93,9 +97,6 @@ namespace LlamaStoreVista.Controllers
             TempData["mensaje"] = mensaje;
             return RedirectToAction("ActualizarUsuario");
         }
-
-
-
 
         public IActionResult registro()
         {
