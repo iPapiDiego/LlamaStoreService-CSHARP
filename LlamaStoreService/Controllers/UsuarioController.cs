@@ -18,6 +18,13 @@ namespace LlamaStoreService.Controllers
             return Ok(lista);
         }
 
+        [HttpGet("getBuscarUsuario")]
+        public async Task<ActionResult<CelularLista>> GetBucarUsuario(int id)
+        {
+            var celular = await Task.Run(() => new usuariosDAO().buscarUsuarioPorID(id));
+            return Ok(celular);
+        }
+
         [HttpPost("postAgregaUsuarios")]
         public async Task<ActionResult<string>> PostAgregarUsuario(Usuario usu)
         {

@@ -18,6 +18,13 @@ namespace LlamaStoreService.Controllers
             return Ok(lista);
         }
 
+        [HttpGet("getBuscarCelular")]
+        public async Task<ActionResult<CelularLista>> GetBucarCelular(string id)
+        {
+            var celular = await Task.Run(() => new productoDAO().buscarCelular(id));
+            return Ok(celular);
+        }
+
         [HttpPost("postAgregarCelular")]
         public async Task<ActionResult<string>> postCrear(CelularCrear cel)
         {

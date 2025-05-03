@@ -14,9 +14,6 @@ namespace LlamaStoreVista.Controllers
             return View();
         }
 
-        
-
-
         //LISTA DE VENDEDORES CON NUMERACION
         public async Task<IActionResult> IphonesProductos(int page = 1)
         {

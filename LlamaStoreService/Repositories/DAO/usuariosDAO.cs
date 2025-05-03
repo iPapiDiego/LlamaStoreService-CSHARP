@@ -49,18 +49,10 @@ namespace LlamaStoreService.Repositories.DAO
             return list;
         }
 
-
-
-
-
-
-
         public Usuario buscarUsuarioPorID(int id)
         {
             return listaDeUsuarios().Where(v => v.codigo == id).FirstOrDefault();
         }
-
-
 
         public string agregarUsuarios(Usuario usuario)
         {
