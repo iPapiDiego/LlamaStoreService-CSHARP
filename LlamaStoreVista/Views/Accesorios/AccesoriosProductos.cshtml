@@ -1,7 +1,7 @@
-﻿@model IEnumerable<LlamaStoreVista.Models.Producto>
+﻿@model IEnumerable<LlamaStoreVista.Models.Accesorio>
 
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "AccesoriosProductos";
     Layout = null;
 }
 
@@ -10,15 +10,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Inicio</title>
-    <link rel="icon" href="img/Logos/logo-llamastore.png" />
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Accesorios</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 
     <link rel="stylesheet" href="/css/ContainerGeneral.css">
     <link rel="stylesheet" href="/css/Header.css">
     <link rel="stylesheet" href="/css/Footer.css">
-    <link rel="stylesheet" href="/css/Index.css">
+    <link rel="stylesheet" href="/css/Main.css">
+    <link rel="stylesheet" href="/css/AccesoriosProductos.css">
+   
 </head>
 
 <body>
@@ -28,7 +30,7 @@
         <header>
             <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
                 <div class="container-fluid d-flex align-items-center justify-content-between">
-                    <a class="navbar-brand d-flex align-items-center" href="/Productos/Index">
+                    <a class="navbar-brand d-flex align-items-center" href="/">
                         <img src="~/img/Logos/transparente.png" alt="Logo" class="me-2 logo-img">
                     </a>
                     <div class="d-flex align-items-center gap-3 order-lg-2">
@@ -40,7 +42,7 @@
                             </span>
                         </button>
 
-                        <a href="/Usuarios/login" class="btn btn-outline-primary">
+                        <a href="#" class="btn btn-outline-primary">
                             <i class="fa-solid fa-user"></i>
                             <span class="login-text ms-2">Ingresar</span>
                         </a>
@@ -76,7 +78,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="/Accesorios/AccesoriosProductos">
+                                        <a class="dropdown-item" href="#">
                                             Accesorios
                                             <i class="fa-solid fa-headphones"></i>
                                         </a>
@@ -91,26 +93,20 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="underline-hover" href="~/html/sobre_nosotros.html">
+                                <a class="underline-hover" href="/html/sobre_nosotros.html">
                                     Nosotros
                                     <i class="fa-solid fa-users"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="underline-hover" href="~/html/PreguntasFrecuentes.html">
+                                <a class="underline-hover" href="/html/PreguntasFrecuentes.html">
                                     Preguntas Frecuentes
                                     <i class="fa-solid fa-question"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="underline-hover" href="~/html/contacto.html">
+                                <a class="underline-hover" href="/html/contacto.html">
                                     Contactanos
-                                    <i class="fa-solid fa-address-book"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="underline-hover" href="/Usuarios/ListaUsuarios">
-                                    Admin
                                     <i class="fa-solid fa-address-book"></i>
                                 </a>
                             </li>
@@ -166,179 +162,48 @@
         <!--========================================================ASIDE================================================================-->
 
         <main>
-            <div class="container">
-                <div class="imagen1">
+            <section class="container my-5">
 
-                    <img src="/img/baners/baner_principal.png">
-
+                <div class="banner-accesorios">
+                    <img src="../img/banner_accesorios.webp" alt="Accesorios" class="imagen-banner">
+                    <div class="titulo-superpuesto">Accesorios 🎧</div>
                 </div>
-                <div class="imagen1">
 
-                    <img src="/img/baners/baner_azul.png">
 
+                <div class="banner-azul">
+                    <img src="/img/baners/baner_azul.png" alt="Banner Azul">
                 </div>
-                <div class="imagen1">
 
-                    <img src="/img/baners/baner_secundario.png">
-
-                </div>
-                <div class="titulossssss">
-                    <h2>¿Selfies increíbles 📸 o rendimiento para juegos🏆?</h2>
-                    <h5>Encuentra el iPhone que se adapta más a tu estilo de vida. Vamos>></h5>
-                </div>
-                <div class="imagen2">
-
-                    <section class="container my-5">
-
-
-                        <div class="row justify-content-center g-4">
-                            <!-- Iphone 1 -->
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <div class="card iphone-card text-center h-100">
-                                    <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
-                                    <div class="card-body">
-                                        <h5 class="card-title fw-bold">iPhone 11</h5>
-                                        <p class="card-text text-primary fw-bold fs-5">S/1500.00</p>
-                                        <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Iphone 2 -->
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-
-                                <div class="card iphone-card text-center h-100">
-                                    <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
-                                    <div class="card-body">
-                                        <h5 class="card-title fw-bold">iPhone 11</h5>
-                                        <p class="card-text text-primary fw-bold fs-5">S/1500.00</p>
-                                        <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Iphone 3-->
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-
-                                <div class="card iphone-card text-center h-100">
-                                    <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
-                                    <div class="card-body">
-                                        <h5 class="card-title fw-bold">iPhone 11</h5>
-                                        <p class="card-text text-primary fw-bold fs-5">S/1500.00</p>
-                                        <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Iphone 4 -->
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <div class="card iphone-card text-center h-100">
-                                    <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
-                                    <div class="card-body">
-                                        <h5 class="card-title fw-bold">iPhone 11</h5>
-                                        <p class="card-text text-primary fw-bold fs-5">S/1500.00</p>
-                                        <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                </div>
                 <br>
 
-                <div class="carrusel1">
-                    <h2>Nuestros clientes opinan 💖</h2>
 
-                    <div class="carousel-container">
-                        <div class="carousel-track" id="carousel-track">
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=1" alt="Cliente 1" />
-                                <h4>Nayeli A</h4>
-                                <p>Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>He comprado mi celular...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=2" alt="Cliente 2" />
-                                <h4>Jorge B</h4>
-                                <p>12 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Es mi segunda compra y fue...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=3" alt="Cliente 3" />
-                                <h4>Manuel G</h4>
-                                <p>1 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Buen producto y buen servicio</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=4" alt="Cliente 4" />
-                                <h4>Cory C</h4>
-                                <p>16 Abril 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Visité la tienda y me dieron...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=1" alt="Cliente 1" />
-                                <h4>Nayeli A</h4>
-                                <p>Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>He comprado mi celular...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=2" alt="Cliente 2" />
-                                <h4>Jorge B</h4>
-                                <p>12 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Es mi segunda compra y fue...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=3" alt="Cliente 3" />
-                                <h4>Manuel G</h4>
-                                <p>1 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Buen producto y buen servicio</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=4" alt="Cliente 4" />
-                                <h4>Cory C</h4>
-                                <p>16 Abril 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Visité la tienda y me dieron...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=1" alt="Cliente 1" />
-                                <h4>Nayeli A</h4>
-                                <p>Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>He comprado mi celular...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=2" alt="Cliente 2" />
-                                <h4>Jorge B</h4>
-                                <p>12 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Es mi segunda compra y fue...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=3" alt="Cliente 3" />
-                                <h4>Manuel G</h4>
-                                <p>1 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Buen producto y buen servicio</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=4" alt="Cliente 4" />
-                                <h4>Cory C</h4>
-                                <p>16 Abril 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Visité la tienda y me dieron...</p>
+                <div class="row justify-content-center">
+                    <!-- Iphone 1 -->
+                    @foreach (var item in Model)
+                    {
+                        <div class="col-md-4 col-sm-6 mb-4">
+                            <div class="card text-center shadow">
+                                <img src="@Url.Content($"~/img/productos/iphones/{item.idacce}.png")" class="card-img-top p-4" alt="Cable USB-C a Lightning">
+                                <div class="card-body">
+                                    <h5 class="card-title fw-bold">@Html.DisplayFor(modelItem => item.idmarca) @Html.DisplayFor(modelItem => item.idmodelo)</h5>
+                                    <p class="card-text text-primary fw-bold">@Html.DisplayFor(modelItem => item.precio)</p>
+                                    <a href="#" class="btn btn-success text-white">Lo Quiero</a>
+                                </div>
                             </div>
                         </div>
+                    }
+
+                    <div>
+                        @for (int i = 0; i < (int)ViewBag.pages; i++)
+                        {
+                            <a asp-action="AccesoriosProductos" asp-route-page="@(i+1)"
+                               class=@(i ==(int)ViewBag.page?"btn btn-success":"btn btn-primary")>
+                                @(i + 1)
+                            </a>
+                        }
                     </div>
                 </div>
-            </div>
+            </section>
         </main>
 
         <!--========================================================FOOTER================================================================-->
@@ -384,7 +249,7 @@
             <div class="footer-bottom">
                 <div class="brand">
                     <div class="footer_bottom_logo">
-                        <img src="./img/Logos/llama-store-logo-transparente.PNG" />
+                        <img src="../img/Logos/llama-store-logo-transparente.PNG" />
                     </div>
                     <div class="social-icons">
                         <a class="underline-hover" href="#"><i class="fab fa-facebook-square"></i></a>
@@ -449,9 +314,8 @@
         </footer>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+            crossorigin="anonymous"></script>
 
-    <script src="Js/index.js"></script>
 </body>
-
-</html>

@@ -26,6 +26,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\html\admins\" />
+    <Folder Include="wwwroot\img\Accesorios\" />
   </ItemGroup>
 
 </Project>
