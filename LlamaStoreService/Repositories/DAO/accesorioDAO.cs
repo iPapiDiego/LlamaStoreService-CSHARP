@@ -33,7 +33,7 @@ namespace LlamaStoreService.Repositories.DAO
                             nombre_marca = reader.GetString(2),
                             modelo = reader.GetString(3),
                             precio = reader.GetDecimal(4),
-                            precio_oferta = reader.GetDecimal(5),
+                            precio_oferta = reader.IsDBNull(4) ? 0 : reader.GetDecimal(5),
                             stock = reader.GetInt32(6),
                             descripcion = reader.GetString(7),
                             created_at = reader.GetDateTime(8),
@@ -57,25 +57,22 @@ namespace LlamaStoreService.Repositories.DAO
         }
 
         //ACTUALIZAR O CREAR CELULARES
-        public string agregarCelulares(CrudAccesorio crudAccesorio)
+        public string agregarAccesorio(CrudAccesorio crudAccesorio)
         {
             string mensaje = "";
             using (SqlConnection cn = new SqlConnection(_cadenaDB))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("sp_guardar_celular", cn);
+                    SqlCommand cmd = new SqlCommand("sp_merge_accesorio", cn);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@idcel", celular.idcel);
-                    cmd.Parameters.AddWithValue("@idmarca", celular.idmarca);
-                    cmd.Parameters.AddWithValue("@modelo", celular.modelo);
-                    cmd.Parameters.AddWithValue("@precio", celular.precio);
-                    cmd.Parameters.AddWithValue("@precio_oferta", celular.precio_oferta);
-                    cmd.Parameters.AddWithValue("@idgama", celular.idgama);
-                    cmd.Parameters.AddWithValue("@idsistema", celular.idsistema);
-                    cmd.Parameters.AddWithValue("@especificaciones", celular.especificaciones);
-                    cmd.Parameters.AddWithValue("@stock", celular.stock);
-
+                    cmd.Parameters.AddWithValue("@idtipo", crudAccesorio.idtipo);
+                    cmd.Parameters.AddWithValue("@idmarca", crudAccesorio.idmarca);
+                    cmd.Parameters.AddWithValue("@idmodelo", crudAccesorio.idmodelo);
+                    cmd.Parameters.AddWithValue("@precio", crudAccesorio.precio);
+                    cmd.Parameters.AddWithValue("@precio_oferta", crudAccesorio.precio_oferta);
+                    cmd.Parameters.AddWithValue("@stock", crudAccesorio.stock);
+                    cmd.Parameters.AddWithValue("@descripcion", crudAccesorio.descripcion);
 
                     cn.Open();
                     int totalRegistro = cmd.ExecuteNonQuery();
@@ -89,29 +86,27 @@ namespace LlamaStoreService.Repositories.DAO
             return mensaje;
         }
 
-        public string actualizarCelulares(CrudAccesorio celular)
+        public string actualizarAccesorio(CrudAccesorio crudAccesorio)
         {
             string mensaje = "";
             using (SqlConnection cn = new SqlConnection(_cadenaDB))
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("sp_guardar_celular", cn);
+                    SqlCommand cmd = new SqlCommand("sp_merge_accesorio", cn);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@idcel", celular.idcel);
-                    cmd.Parameters.AddWithValue("@idmarca", celular.idmarca);
-                    cmd.Parameters.AddWithValue("@modelo", celular.modelo);
-                    cmd.Parameters.AddWithValue("@precio", celular.precio);
-                    cmd.Parameters.AddWithValue("@precio_oferta", celular.precio_oferta);
-                    cmd.Parameters.AddWithValue("@idgama", celular.idgama);
-                    cmd.Parameters.AddWithValue("@idsistema", celular.idsistema);
-                    cmd.Parameters.AddWithValue("@especificaciones", celular.especificaciones);
-                    cmd.Parameters.AddWithValue("@stock", celular.stock);
-                    cmd.Parameters.AddWithValue("@idestado", celular.idestado);
+                    cmd.Parameters.AddWithValue("@idacce", crudAccesorio.idacce);
+                    cmd.Parameters.AddWithValue("@idtipo", crudAccesorio.idtipo);
+                    cmd.Parameters.AddWithValue("@idmarca", crudAccesorio.idmarca);
+                    cmd.Parameters.AddWithValue("@idmodelo", crudAccesorio.idmodelo);
+                    cmd.Parameters.AddWithValue("@precio", crudAccesorio.precio);
+                    cmd.Parameters.AddWithValue("@precio_oferta", crudAccesorio.precio_oferta);
+                    cmd.Parameters.AddWithValue("@stock", crudAccesorio.stock);
+                    cmd.Parameters.AddWithValue("@descripcion", crudAccesorio.descripcion);
 
                     cn.Open();
                     int totalRegistro = cmd.ExecuteNonQuery();
-                    mensaje = $"Se actualizo {totalRegistro} celular";
+                    mensaje = $"Se actualizo {totalRegistro} accesorio.";
                 }
                 catch (Exception ex)
                 {
@@ -129,9 +124,9 @@ namespace LlamaStoreService.Repositories.DAO
             {
                 try
                 {
-                    SqlCommand cmd = new SqlCommand("sp_eliminar_celular", cn);
+                    SqlCommand cmd = new SqlCommand("sp_eliminar_accesorio", cn);
                     cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.AddWithValue("@idcel", id);
+                    cmd.Parameters.AddWithValue("@idacce", id);
 
                     cn.Open();
                     int totalRegistros = cmd.ExecuteNonQuery();
