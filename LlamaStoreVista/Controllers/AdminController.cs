@@ -1,4 +1,5 @@
 ﻿using LlamaStoreService.Models.Accesorios;
+using LlamaStoreService.Models.Auditos;
 using LlamaStoreService.Models.Tickets;
 using LlamaStoreService.Models.Users;
 using LlamaStoreVista.Models.Admin;
@@ -16,6 +17,7 @@ namespace LlamaStoreVista.Controllers
         private readonly string conexionProduc = "https://localhost:44331/api/Products/";
         private readonly string conexionAccesor = "https://localhost:44331/api/Accesorio/";
         private readonly string conexionBoleta = "https://localhost:44331/api/Boleta/";
+        private readonly string conexionAuditorias = "https://localhost:44331/api/Auditoria/";
 
         public async Task<IActionResult> VistaAdmin(int pageUsuarios = 1, int pageProductos = 1)
         {
@@ -88,6 +90,23 @@ namespace LlamaStoreVista.Controllers
                     model.TotalPaginasProductos = (int)Math.Ceiling((double)total / fila);
                     model.PaginaActualProductos = pageProductos;
                     model.boletas = listaBoletas.Skip((pageProductos - 1) * fila).Take(fila).ToList();
+                }
+            }
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionAuditorias);
+                var response = await client.GetAsync("getAuditoria");
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string apiresponse = await response.Content.ReadAsStringAsync();
+                    var auditorias = JsonConvert.DeserializeObject<List<Auditoria>>(apiresponse);
+                    int fila = 12;
+                    int total = auditorias.Count();
+                    model.TotalPaginasProductos = (int)Math.Ceiling((double)total / fila);
+                    model.PaginaActualProductos = pageProductos;
+                    model.Auditorias = auditorias.Skip((pageProductos - 1) * fila).Take(fila).ToList();
                 }
             }
 
