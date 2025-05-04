@@ -1,4 +1,4 @@
-﻿using LlamaStoreVista.Models;
+﻿using LlamaStoreService.Models.Accesorios;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 

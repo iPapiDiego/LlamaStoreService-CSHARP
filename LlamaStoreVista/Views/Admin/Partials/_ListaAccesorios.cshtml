@@ -5,53 +5,35 @@
         <tr>
             <th>ID</th>
             <th>Tipo</th>
-            <th>Modelo</th>
             <th>Marca</th>
+            <th>Modelo</th>
             <th>Precio</th>
+            <th>Precio Oferta</th>
+            <th>Creacion</th>
+            <th>Actualizacion</th>
             <th>Stock</th>
-            <th>Estado</th>
             <th>Acciones</th>
         </tr>
     </thead>
     <tbody>
-        <tr>
-            <td>ACC001</td>
-            <td>Auriculares</td>
-            <td>AirPods Pro</td>
-            <td>Apple</td>
-            <td>$249.00</td>
-            <td><span class="stock-high">22</span></td>
-            <td><span class="status active">Activo</span></td>
-            <td>
-                <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
-                <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-            </td>
-        </tr>
-        <tr>
-            <td>ACC002</td>
-            <td>Cargador</td>
-            <td>Fast Charge 25W</td>
-            <td>Samsung</td>
-            <td>$29.99</td>
-            <td><span class="stock-medium">12</span></td>
-            <td><span class="status active">Activo</span></td>
-            <td>
-                <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
-                <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-            </td>
-        </tr>
-        <tr>
-            <td>ACC003</td>
-            <td>Funda</td>
-            <td>Protector S22 Ultra</td>
-            <td>Spigen</td>
-            <td>$39.99</td>
-            <td><span class="stock-low">1</span></td>
-            <td><span class="status active">Activo</span></td>
-            <td>
-                <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
-                <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-            </td>
-        </tr>
+        @foreach (var a in Model.Accesorios)
+        {
+            <tr>
+                <td>@a.idacce</td>
+                <td>@a.tipo</td>
+                <td>@a.nombre_marca</td>
+                <td>@a.modelo</td>
+                <td>@a.precio</td>
+                <td>@a.precio_oferta</td>
+                <td>@a.created_at</td>
+                <td>@a.updated_at</td>
+                <td><span class="stock-high">@a.stock</span></td>
+                
+                <td>
+                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

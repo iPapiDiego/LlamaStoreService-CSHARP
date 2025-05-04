@@ -1,0 +1,25 @@
+﻿@model LlamaStoreVista.Models.Admin.AdminViewModel
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>Fecha</th>
+            <th>Boleta</th>
+            <th>Cliente</th>
+            <th>Productos</th>
+            <th>Total</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var v in Model.boletas)
+        {
+            <tr>
+                <td>@v.fch_bol</td>
+                <td>@v.num_bol</td>
+                <td>@v.nombre</td>
+                <td>@v.id_producto</td>
+                <td>@v.total</td>
+            </tr>
+        }
+    </tbody>
+</table>

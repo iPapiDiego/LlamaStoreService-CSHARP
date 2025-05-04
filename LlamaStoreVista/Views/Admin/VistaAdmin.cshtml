@@ -278,7 +278,7 @@
                 </div>
 
                 <div class="table-container">
-                   
+                    @Html.Partial("Partials/_ListaAccesorios", Model)
                 </div>
 
                 <!-- Accessory Modal -->
@@ -376,61 +376,8 @@
                 </div>
 
                 <div class="table-container">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>Boleta</th>
-                                <th>Fecha</th>
-                                <th>Cliente</th>
-                                <th>Productos</th>
-                                <th>Total</th>
-                                <th>Método Pago</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>BOL-00125</td>
-                                <td>15/06/2023</td>
-                                <td>Juan Pérez</td>
-                                <td>2 productos</td>
-                                <td>$1,250.00</td>
-                                <td>Tarjeta</td>
-                                <td><span class="status completed">Completado</span></td>
-                                <td>
-                                    <button class="action-btn view-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn print-btn"><i class="fas fa-print"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>BOL-00124</td>
-                                <td>14/06/2023</td>
-                                <td>María Gómez</td>
-                                <td>3 productos</td>
-                                <td>$899.00</td>
-                                <td>Transferencia</td>
-                                <td><span class="status completed">Completado</span></td>
-                                <td>
-                                    <button class="action-btn view-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn print-btn"><i class="fas fa-print"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>BOL-00123</td>
-                                <td>13/06/2023</td>
-                                <td>Carlos Ruiz</td>
-                                <td>1 producto</td>
-                                <td>$299.00</td>
-                                <td>Efectivo</td>
-                                <td><span class="status pending">Pendiente</span></td>
-                                <td>
-                                    <button class="action-btn view-btn"><i class="fas fa-eye"></i></button>
-                                    <button class="action-btn print-btn"><i class="fas fa-print"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    @Html.Partial("Partials/_ListaBoletas", Model)
+                    
                 </div>
 
                 <!-- Sale Detail Modal -->
@@ -655,40 +602,8 @@
 
                     <div class="report-table">
                         <h4>Detalle de Ventas</h4>
-                        <table class="data-table">
-                            <thead>
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>Boleta</th>
-                                    <th>Cliente</th>
-                                    <th>Productos</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td>15/06/2023</td>
-                                    <td>BOL-00125</td>
-                                    <td>Juan Pérez</td>
-                                    <td>2</td>
-                                    <td>$1,250.00</td>
-                                </tr>
-                                <tr>
-                                    <td>14/06/2023</td>
-                                    <td>BOL-00124</td>
-                                    <td>María Gómez</td>
-                                    <td>3</td>
-                                    <td>$899.00</td>
-                                </tr>
-                                <tr>
-                                    <td>13/06/2023</td>
-                                    <td>BOL-00123</td>
-                                    <td>Carlos Ruiz</td>
-                                    <td>1</td>
-                                    <td>$299.00</td>
-                                </tr>
-                            </tbody>
-                        </table>
+                        @Html.Partial("Partials/_ListaVentas", Model)
+                        
                     </div>
                 </div>
             </section>

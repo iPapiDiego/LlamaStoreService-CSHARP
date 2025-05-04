@@ -1,4 +1,6 @@
-﻿using LlamaStoreService.Models.Users;
+﻿using LlamaStoreService.Models.Accesorios;
+using LlamaStoreService.Models.Tickets;
+using LlamaStoreService.Models.Users;
 using LlamaStoreVista.Models.Product;
 
 namespace LlamaStoreVista.Models.Admin
@@ -8,6 +10,7 @@ namespace LlamaStoreVista.Models.Admin
         public List<Usuario> Usuarios { get; set; } = new List<Usuario>();
         public List<Producto> Productos { get; set; } = new List<Producto>();
         public List<Accesorio> Accesorios { get; set; } = new List<Accesorio>();
+        public List<ListaBoleta> boletas { get; set; } = new List<ListaBoleta>();
 
         public int PaginaActualUsuarios { get; set; }
         public int TotalPaginasUsuarios { get; set; }
@@ -15,7 +18,11 @@ namespace LlamaStoreVista.Models.Admin
         public int PaginaActualProductos { get; set; }
         public int TotalPaginasProductos { get; set; }
 
+        public int PaginaActualAccesorio { get; set; }
+        public int TotalPaginasAccesorio { get; set; }
+
         public Usuario NuevoUsuario { get; set; } = new Usuario();
         public Producto NuevoProducto { get; set; } = new Producto();
+        public Accesorio NuevoAccesorio { get; set; } = new Accesorio();
     }
 }
