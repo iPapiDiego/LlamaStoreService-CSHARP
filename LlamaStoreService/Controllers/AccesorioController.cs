@@ -11,7 +11,7 @@ namespace LlamaStoreService.Controllers
     public class AccesorioController : ControllerBase
     {
         [HttpGet("getAccesorios")]
-        public async Task<ActionResult<List<Accesorio>>> GetAccesorios()
+        public async Task<ActionResult<List<ListaAccesorio>>> GetAccesorios()
         {
             var lista = await Task.Run(() => new accesorioDAO().listaDeAccesorios());
             return Ok(lista);

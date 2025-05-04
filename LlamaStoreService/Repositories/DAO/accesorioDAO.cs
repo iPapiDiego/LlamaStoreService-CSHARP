@@ -1,6 +1,6 @@
 ﻿using LlamaStoreService.Models.Accesorios;
-using LlamaStoreService.Models.Productos;
 using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace LlamaStoreService.Repositories.DAO
 {
@@ -14,9 +14,9 @@ namespace LlamaStoreService.Repositories.DAO
         }
 
         //LISTA DE ACCESORIOS
-        public IEnumerable<Accesorio> listaDeAccesorios()
+        public IEnumerable<ListaAccesorio> listaDeAccesorios()
         {
-            List<Accesorio> list = new List<Accesorio>();
+            List<ListaAccesorio> list = new List<ListaAccesorio>();
             try
             {
                 using (SqlConnection cn = new SqlConnection(_cadenaDB))
@@ -26,15 +26,18 @@ namespace LlamaStoreService.Repositories.DAO
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
-                        Accesorio ac = new Accesorio()
+                        ListaAccesorio ac = new ListaAccesorio()
                         {
                             idacce = reader.GetInt32(0),
-                            idtipo = reader.GetString(1),
-                            idmarca = reader.GetString(2),
-                            idmodelo = reader.GetString(3),
+                            tipo = reader.GetString(1),
+                            nombre_marca = reader.GetString(2),
+                            modelo = reader.GetString(3),
                             precio = reader.GetDecimal(4),
-                            stock = reader.GetInt32(5),
-                            descripcion = reader.GetString(6)
+                            precio_oferta = reader.GetDecimal(5),
+                            stock = reader.GetInt32(6),
+                            descripcion = reader.GetString(7),
+                            created_at = reader.GetDateTime(8),
+                            updated_at = reader.GetDateTime(9)
                         }; 
                         list.Add(ac);
                     }
@@ -46,6 +49,100 @@ namespace LlamaStoreService.Repositories.DAO
                 Console.WriteLine("Error: " + ex.Message);
             }
             return list;
+        }
+
+        public ListaAccesorio buscarAccesorio(int id)
+        {
+            return listaDeAccesorios().Where(v => v.idacce == id).FirstOrDefault();
+        }
+
+        //ACTUALIZAR O CREAR CELULARES
+        public string agregarCelulares(CrudAccesorio crudAccesorio)
+        {
+            string mensaje = "";
+            using (SqlConnection cn = new SqlConnection(_cadenaDB))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_guardar_celular", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@idcel", celular.idcel);
+                    cmd.Parameters.AddWithValue("@idmarca", celular.idmarca);
+                    cmd.Parameters.AddWithValue("@modelo", celular.modelo);
+                    cmd.Parameters.AddWithValue("@precio", celular.precio);
+                    cmd.Parameters.AddWithValue("@precio_oferta", celular.precio_oferta);
+                    cmd.Parameters.AddWithValue("@idgama", celular.idgama);
+                    cmd.Parameters.AddWithValue("@idsistema", celular.idsistema);
+                    cmd.Parameters.AddWithValue("@especificaciones", celular.especificaciones);
+                    cmd.Parameters.AddWithValue("@stock", celular.stock);
+
+
+                    cn.Open();
+                    int totalRegistro = cmd.ExecuteNonQuery();
+                    mensaje = $"Se agrego {totalRegistro} celular";
+                }
+                catch (Exception ex)
+                {
+                    mensaje = ex.Message;
+                }
+            }
+            return mensaje;
+        }
+
+        public string actualizarCelulares(CrudAccesorio celular)
+        {
+            string mensaje = "";
+            using (SqlConnection cn = new SqlConnection(_cadenaDB))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_guardar_celular", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@idcel", celular.idcel);
+                    cmd.Parameters.AddWithValue("@idmarca", celular.idmarca);
+                    cmd.Parameters.AddWithValue("@modelo", celular.modelo);
+                    cmd.Parameters.AddWithValue("@precio", celular.precio);
+                    cmd.Parameters.AddWithValue("@precio_oferta", celular.precio_oferta);
+                    cmd.Parameters.AddWithValue("@idgama", celular.idgama);
+                    cmd.Parameters.AddWithValue("@idsistema", celular.idsistema);
+                    cmd.Parameters.AddWithValue("@especificaciones", celular.especificaciones);
+                    cmd.Parameters.AddWithValue("@stock", celular.stock);
+                    cmd.Parameters.AddWithValue("@idestado", celular.idestado);
+
+                    cn.Open();
+                    int totalRegistro = cmd.ExecuteNonQuery();
+                    mensaje = $"Se actualizo {totalRegistro} celular";
+                }
+                catch (Exception ex)
+                {
+                    mensaje = ex.Message;
+                }
+            }
+            return mensaje;
+        }
+
+        //ELIMINAR CELULAR
+        public string eliminarAccesorio(string id)
+        {
+            string mensaje = "";
+            using (SqlConnection cn = new SqlConnection(_cadenaDB))
+            {
+                try
+                {
+                    SqlCommand cmd = new SqlCommand("sp_eliminar_celular", cn);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@idcel", id);
+
+                    cn.Open();
+                    int totalRegistros = cmd.ExecuteNonQuery();
+                    mensaje = $"Se elimino {totalRegistros} accesorio.";
+                }
+                catch (Exception ex)
+                {
+                    mensaje = ex.Message;
+                }
+            }
+            return mensaje;
         }
     }
 }
