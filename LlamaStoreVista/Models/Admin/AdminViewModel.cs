@@ -7,6 +7,7 @@ namespace LlamaStoreVista.Models.Admin
     {
         public List<Usuario> Usuarios { get; set; } = new List<Usuario>();
         public List<Producto> Productos { get; set; } = new List<Producto>();
+        public List<Accesorio> Accesorios { get; set; } = new List<Accesorio>();
 
         public int PaginaActualUsuarios { get; set; }
         public int TotalPaginasUsuarios { get; set; }

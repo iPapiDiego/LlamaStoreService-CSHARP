@@ -4,14 +4,16 @@
     <thead>
         <tr>
             <th>ID</th>
-            <th>Modelo</th>
             <th>Marca</th>
-            <th>Precio</th>
-            <th>Stock</th>
-            <th>Gama</th>
+            <th>Modelo</th>
             <th>Sistema</th>
+            <th>Precio</th>
+            <th>Precio Oferta</th>
+            <th>Gama</th>
+            <th>Stock</th>
             <th>Estado</th>
-            <th>Acciones</th>
+            <th>Creacion</th>
+            <th>Actualizacion</th>
         </tr>
     </thead>
     <tbody>
@@ -19,14 +21,16 @@
         {
             <tr>
                 <td>@p.idcel</td>
+                <td>@p.nombre_marca</td>
                 <td>@p.modelo</td>
-                <td>@p.idmarca</td>
+                <td>@p.tipo_sistema</td>
                 <td>@p.precio</td>
+                <td>@p.precio_oferta</td>
+                <td>@p.tipo_gama</td>
                 <td>@p.stock</td>
-                <td>@p.idgama</td>
-                <td>@p.idsistema</td>
-                <td>@p.idestado</td>
-                <td><span class="status active">Activo</span></td>
+                <td><span class="status active">@p.descripcion</span></td>
+                <td>@p.created_at</td>
+                <td>@p.updated_at</td>
                 <td>
                     <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
                     <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
