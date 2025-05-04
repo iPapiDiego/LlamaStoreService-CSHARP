@@ -1,4 +1,4 @@
-﻿namespace LlamaStoreVista.Models
+﻿namespace LlamaStoreVista.Models.Product
 {
     public class Producto
     {

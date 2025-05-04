@@ -1,6 +1,6 @@
 ﻿using LlamaStoreService.Models.Users;
-using LlamaStoreVista.Models;
 using LlamaStoreVista.Models.Admin;
+using LlamaStoreVista.Models.Product;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -10,50 +10,52 @@ namespace LlamaStoreVista.Controllers
 {
     public class AdminController : Controller
     {
-        private readonly string conexionService = "https://localhost:44331/api/Usuario/";
+        private readonly string conexionUser = "https://localhost:44331/api/Usuario/";
+        private readonly string conexionProduc = "https://localhost:44331/api/Products/";
 
-        public IActionResult VistaAdmin()
+        public async Task<IActionResult> VistaAdmin(int pageUsuarios = 1, int pageProductos = 1)
         {
-            return View();
-        }
+            var model = new AdminViewModel();
 
-        //Productos
-        public async Task<IActionResult> ListaProductos(int page = 1)
-        {
-            List<Producto> temporal = new List<Producto>();
-
+            // 1. Obtener usuarios
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(conexionService);
-                HttpResponseMessage response = await client.GetAsync("getCelulares");
+                client.BaseAddress = new Uri(conexionUser);
+                var response = await client.GetAsync("getUsuarios");
 
-                if (response.IsSuccessStatusCode) // 👈 Verifica que el API respondió OK
+                if (response.IsSuccessStatusCode)
                 {
                     string apiresponse = await response.Content.ReadAsStringAsync();
-                    if (!string.IsNullOrEmpty(apiresponse))
-                    {
-                        var deserialized = JsonConvert.DeserializeObject<List<Producto>>(apiresponse);
-                        if (deserialized != null)
-                            temporal = deserialized.ToList();
-                    }
-                }
-                else
-                {
-                    // Opcional: manejar el error
-                    Console.WriteLine($"Error API: {response.StatusCode}");
+                    var usuarios = JsonConvert.DeserializeObject<List<Usuario>>(apiresponse);
+                    int fila = 12;
+                    int total = usuarios.Count();
+                    model.TotalPaginasUsuarios = (int)Math.Ceiling((double)total / fila);
+                    model.PaginaActualUsuarios = pageUsuarios;
+                    model.Usuarios = usuarios.Skip((pageUsuarios - 1) * fila).Take(fila).ToList();
                 }
             }
 
-            // Proceso para la paginación
-            int fila = 12;
-            int count = temporal.Count();
-            int pages = count % fila == 0 ? count / fila : count / fila + 1;
-            page = page - 1;
-            ViewBag.page = page;
-            ViewBag.pages = pages;
+            // 2. Obtener productos
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionProduc);
+                var response = await client.GetAsync("getCelulares");
 
-            return View(await Task.Run(() => temporal.Skip(fila * page).Take(fila)));
+                if (response.IsSuccessStatusCode)
+                {
+                    string apiresponse = await response.Content.ReadAsStringAsync();
+                    var productos = JsonConvert.DeserializeObject<List<Producto>>(apiresponse);
+                    int fila = 12;
+                    int total = productos.Count();
+                    model.TotalPaginasProductos = (int)Math.Ceiling((double)total / fila);
+                    model.PaginaActualProductos = pageProductos;
+                    model.Productos = productos.Skip((pageProductos - 1) * fila).Take(fila).ToList();
+                }
+            }
+
+            return View(model);
         }
+
 
         [HttpPost]
         public async Task<IActionResult> AgregarProducto(Producto producto)
@@ -61,7 +63,7 @@ namespace LlamaStoreVista.Controllers
             string mensaje = "";
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(conexionService);
+                client.BaseAddress = new Uri(conexionProduc);
                 StringContent content = new StringContent(JsonConvert.SerializeObject(producto), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("postAgregarCelular", content);
                 string apiresponse = await response.Content.ReadAsStringAsync();
@@ -79,7 +81,7 @@ namespace LlamaStoreVista.Controllers
             Producto producto = new Producto();
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(conexionService);
+                client.BaseAddress = new Uri(conexionProduc);
                 HttpResponseMessage respons = await client.GetAsync("getBuscarCelular/?id=" + id);
                 string apiResponse = await respons.Content.ReadAsStringAsync();
                 producto = JsonConvert.DeserializeObject<Producto>(apiResponse);
@@ -95,7 +97,7 @@ namespace LlamaStoreVista.Controllers
             string mensaje = "";
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(conexionService);
+                client.BaseAddress = new Uri(conexionProduc);
                 StringContent content = new StringContent(JsonConvert.SerializeObject(producto), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("mergeVendedores", content);
                 string apiresponse = await response.Content.ReadAsStringAsync();
@@ -116,7 +118,7 @@ namespace LlamaStoreVista.Controllers
 
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(conexionService);
+                client.BaseAddress = new Uri(conexionUser);
                 HttpResponseMessage response = await client.GetAsync("getUsuarios");
 
                 if (response.IsSuccessStatusCode) // 👈 Verifica que el API respondió OK
@@ -152,7 +154,7 @@ namespace LlamaStoreVista.Controllers
             string mensaje = "";
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(conexionService);
+                client.BaseAddress = new Uri(conexionUser);
                 StringContent content = new StringContent(JsonConvert.SerializeObject(usuario), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("postAgregaUsuarios", content);
                 string apiresponse = await response.Content.ReadAsStringAsync();
@@ -170,7 +172,7 @@ namespace LlamaStoreVista.Controllers
             Usuario usuario = new Usuario();
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(conexionService);
+                client.BaseAddress = new Uri(conexionUser);
                 HttpResponseMessage respons = await client.GetAsync("getBuscarUsuario/?id=" + id);
                 string apiResponse = await respons.Content.ReadAsStringAsync();
                 usuario = JsonConvert.DeserializeObject<Usuario>(apiResponse);
@@ -184,7 +186,7 @@ namespace LlamaStoreVista.Controllers
             string mensaje = "";
             using (var client = new HttpClient())
             {
-                client.BaseAddress = new Uri(conexionService);
+                client.BaseAddress = new Uri(conexionUser);
                 StringContent content = new StringContent(JsonConvert.SerializeObject(usuario), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("postActuaUsuariosAdmin", content);
                 string apiresponse = await response.Content.ReadAsStringAsync();

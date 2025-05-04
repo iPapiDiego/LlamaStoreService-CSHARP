@@ -3,12 +3,15 @@
     public class CelularLista
     {
         public string idcel { get; set; }
-        public string idmarca { get; set; }
+        public string nombre_marca { get; set; }
         public string modelo { get; set; }
-        public string idgama { get; set; }
+        public string tipo_sistema { get; set; }
         public decimal precio { get; set; }
-        public string idsistema { get; set; }
+        public decimal precio_oferta { get; set; }
+        public string tipo_gama { get; set; }
         public int stock { get; set; }
-        public string especificaciones { get; set; }
+        public string descripcion { get; set; }
+        public DateTime created_at { get; set; }
+        public DateTime updated_at { get; set; }
     }
 }

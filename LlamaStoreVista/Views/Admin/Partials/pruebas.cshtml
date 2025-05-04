@@ -1,0 +1,13 @@
+﻿@model LlamaStoreVista.Models.Admin.AdminViewModel
+
+<h2>Usuarios</h2>
+@foreach (var u in Model.Usuarios)
+{
+    <p>@u.nombre - @u.correo</p>
+}
+
+<form asp-action="RegistroUsuario" method="post">
+    <input asp-for="NuevoUsuario.nombre" />
+    <input asp-for="NuevoUsuario.correo" />
+    <button type="submit">Agregar Usuario</button>
+</form>

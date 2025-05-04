@@ -1,14 +1,20 @@
 ﻿using LlamaStoreService.Models.Users;
+using LlamaStoreVista.Models.Product;
 
 namespace LlamaStoreVista.Models.Admin
 {
     public class AdminViewModel
     {
-        public List<Producto> Productos { get; set; } = new();
-        public Usuario UsuarioNuevo { get; set; } = new();
-        public Producto ProductoNuevo { get; set; } = new();
+        public List<Usuario> Usuarios { get; set; } = new List<Usuario>();
+        public List<Producto> Productos { get; set; } = new List<Producto>();
 
-        public int PaginaActual { get; set; }
-        public int TotalPaginas { get; set; }
+        public int PaginaActualUsuarios { get; set; }
+        public int TotalPaginasUsuarios { get; set; }
+
+        public int PaginaActualProductos { get; set; }
+        public int TotalPaginasProductos { get; set; }
+
+        public Usuario NuevoUsuario { get; set; } = new Usuario();
+        public Producto NuevoProducto { get; set; } = new Producto();
     }
 }

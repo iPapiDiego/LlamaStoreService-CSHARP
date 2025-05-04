@@ -24,20 +24,23 @@ namespace LlamaStoreService.Repositories.DAO
                 using (SqlConnection cn = new SqlConnection(_cadenaDB))
                 {
                     cn.Open();
-                    SqlCommand cmd = new SqlCommand("sp_listar_productos", cn);
+                    SqlCommand cmd = new SqlCommand("sp_listar_productos_totales", cn);
                     SqlDataReader reader = cmd.ExecuteReader();
                     while (reader.Read())
                     {
                         CelularLista c = new CelularLista()
                         {
                             idcel = reader.GetString(0),
-                            idmarca = reader.GetString(1),
+                            nombre_marca = reader.GetString(1),
                             modelo = reader.GetString(2),
-                            idgama = reader.GetString(3),
+                            tipo_sistema = reader.GetString(3),
                             precio = reader.GetDecimal(4),
-                            idsistema = reader.GetString(5),
-                            stock = reader.GetInt32(6),
-                            especificaciones = reader.GetString(7)
+                            precio_oferta = reader.IsDBNull(4) ? 0 : reader.GetDecimal(5),
+                            tipo_gama = reader.GetString(6),
+                            stock = reader.GetInt32(7),
+                            descripcion = reader.GetString(8),
+                            created_at = reader.GetDateTime(9),
+                            updated_at = reader.GetDateTime(10)
                         };
                         list.Add(c);
                     }
@@ -97,10 +100,12 @@ namespace LlamaStoreService.Repositories.DAO
                     cmd.Parameters.AddWithValue("@idmarca", celular.idmarca);
                     cmd.Parameters.AddWithValue("@modelo", celular.modelo);
                     cmd.Parameters.AddWithValue("@precio", celular.precio);
+                    cmd.Parameters.AddWithValue("@precio_oferta", celular.precio_oferta);
                     cmd.Parameters.AddWithValue("@idgama", celular.idgama);
-                    cmd.Parameters.AddWithValue("@stock", celular.stock);
                     cmd.Parameters.AddWithValue("@idsistema", celular.idsistema);
-                    
+                    cmd.Parameters.AddWithValue("@especificaciones", celular.especificaciones);
+                    cmd.Parameters.AddWithValue("@stock", celular.stock);
+
 
                     cn.Open();
                     int totalRegistro = cmd.ExecuteNonQuery();
@@ -127,9 +132,11 @@ namespace LlamaStoreService.Repositories.DAO
                     cmd.Parameters.AddWithValue("@idmarca", celular.idmarca);
                     cmd.Parameters.AddWithValue("@modelo", celular.modelo);
                     cmd.Parameters.AddWithValue("@precio", celular.precio);
+                    cmd.Parameters.AddWithValue("@precio_oferta", celular.precio_oferta);
                     cmd.Parameters.AddWithValue("@idgama", celular.idgama);
-                    cmd.Parameters.AddWithValue("@stock", celular.stock);
                     cmd.Parameters.AddWithValue("@idsistema", celular.idsistema);
+                    cmd.Parameters.AddWithValue("@especificaciones", celular.especificaciones);
+                    cmd.Parameters.AddWithValue("@stock", celular.stock);
                     cmd.Parameters.AddWithValue("@idestado", celular.idestado);
 
                     cn.Open();

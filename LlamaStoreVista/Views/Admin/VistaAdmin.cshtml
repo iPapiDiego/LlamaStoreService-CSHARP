@@ -1,4 +1,4 @@
-﻿@model IEnumerable<LlamaStoreVista.Models.Admin.AdminViewModel>
+﻿@model LlamaStoreVista.Models.Admin.AdminViewModel
 
 @{
     ViewData["Title"] = "VistaAdmin";
@@ -14,8 +14,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/admin/admin.css">
-
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
     <script src="/js/admin.js"></script>
 </head>
@@ -167,65 +165,7 @@
                 </div>
 
                 <div class="table-container">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>Modelo</th>
-                                <th>Marca</th>
-                                <th>Precio</th>
-                                <th>Stock</th>
-                                <th>Gama</th>
-                                <th>Sistema</th>
-                                <th>Estado</th>
-                                <th>Acciones</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>CEL001</td>
-                                <td>iPhone 13 Pro</td>
-                                <td>Apple</td>
-                                <td>$1,099.00</td>
-                                <td><span class="stock-high">15</span></td>
-                                <td>Alta</td>
-                                <td>iOS 15</td>
-                                <td><span class="status active">Activo</span></td>
-                                <td>
-                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>CEL002</td>
-                                <td>Galaxy S22 Ultra</td>
-                                <td>Samsung</td>
-                                <td>$1,199.00</td>
-                                <td><span class="stock-medium">8</span></td>
-                                <td>Alta</td>
-                                <td>Android 12</td>
-                                <td><span class="status active">Activo</span></td>
-                                <td>
-                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>CEL003</td>
-                                <td>Redmi Note 11</td>
-                                <td>Xiaomi</td>
-                                <td>$299.00</td>
-                                <td><span class="stock-low">2</span></td>
-                                <td>Media</td>
-                                <td>Android 11</td>
-                                <td><span class="status active">Activo</span></td>
-                                <td>
-                                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
-                                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                    @Html.Partial("Partials/_ListaProductos", Model)
                 </div>
 
                 <!-- Product Modal -->
@@ -641,97 +581,7 @@
                 </div>
 
                 <div class="table-container">
-                    <table class="data-table">
-                        <thead>
-                            <tr>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.codigo)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.nombre)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.apellido)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.correo)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.fnacim)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.clave)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.idrol)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.estado)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.created_at)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.updated_at)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.last_login)
-                                </th>
-                                <th>
-                                    @Html.DisplayNameFor(model => model.intentos_login)
-                                </th>
-                                <th></th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var item in Model)
-                            {
-                                <tr>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.codigo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.nombre)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.apellido)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.correo)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.fnacim)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.clave)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.idrol)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.estado)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.created_at)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.updated_at)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.last_login)
-                                    </td>
-                                    <td>
-                                        @Html.DisplayFor(modelItem => item.intentos_login)
-                                    </td>
-                                    <td><span class="status active">Activo</span></td>
-                                    <td>
-                                        <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
-                                        <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
+                    @Html.Partial("Partials/_ListaUsuarios", Model)
                 </div>
 
                 <!-- User Modal -->
@@ -739,12 +589,12 @@
                     <div class="modal-content">
                         <span class="close-modal">&times;</span>
                         <h3 id="modal-user-title">Agregar Nuevo Usuario</h3>
-                        <form asp-action="RegistroAdmin" id="user-form">
+                        <form  id="user-form">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="user-name">Nombre</label>
-                                    <input asp-for="" type="text" id="user-name" name="user-name" required>
+                                    <input  type="text" id="user-name" name="user-name" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="user-lastname">Apellido</label>

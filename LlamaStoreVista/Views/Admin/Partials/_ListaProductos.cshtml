@@ -1,0 +1,37 @@
+﻿@model LlamaStoreVista.Models.Admin.AdminViewModel
+
+<table class="data-table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Modelo</th>
+            <th>Marca</th>
+            <th>Precio</th>
+            <th>Stock</th>
+            <th>Gama</th>
+            <th>Sistema</th>
+            <th>Estado</th>
+            <th>Acciones</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var p in Model.Productos)
+        {
+            <tr>
+                <td>@p.idcel</td>
+                <td>@p.modelo</td>
+                <td>@p.idmarca</td>
+                <td>@p.precio</td>
+                <td>@p.stock</td>
+                <td>@p.idgama</td>
+                <td>@p.idsistema</td>
+                <td>@p.idestado</td>
+                <td><span class="status active">Activo</span></td>
+                <td>
+                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
