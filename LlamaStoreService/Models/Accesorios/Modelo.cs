@@ -2,7 +2,7 @@
 {
     public class Modelo
     {
-        public string idmodelo { get; set; }
+        public int idmodelo { get; set; }
         public string modelo { get; set; }
         public string compatible { get; set; }
         

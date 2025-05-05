@@ -1,5 +1,6 @@
 ﻿using LlamaStoreService.Models.Accesorios;
 using LlamaStoreService.Models.Auditos;
+using LlamaStoreService.Models.Products;
 using LlamaStoreService.Models.Tickets;
 using LlamaStoreService.Models.Users;
 using LlamaStoreVista.Models.Admin;
@@ -115,13 +116,13 @@ namespace LlamaStoreVista.Controllers
 
 
         [HttpPost]
-        public async Task<IActionResult> AgregarProducto(Producto producto)
+        public async Task<IActionResult> AgregarProducto(ProductoCrear productoCrear)
         {
             string mensaje = "";
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(conexionProduc);
-                StringContent content = new StringContent(JsonConvert.SerializeObject(producto), Encoding.UTF8, "application/json");
+                StringContent content = new StringContent(JsonConvert.SerializeObject(productoCrear), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("postAgregarCelular", content);
                 string apiresponse = await response.Content.ReadAsStringAsync();
                 mensaje = apiresponse;

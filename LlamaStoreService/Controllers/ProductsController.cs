@@ -46,6 +46,59 @@ namespace LlamaStoreService.Controllers
             return Ok(mensaje);
         }
 
+
+        //LISTAS DE SUBTABLAS
+
+        [HttpGet("getMarcas")]
+        public async Task<ActionResult<List<CelularLista>>> GetMarcas()
+        {
+            var lista = await Task.Run(() => new productoDAO().listaDeMarcas());
+            return Ok(lista);
+        }
+
+        [HttpGet("getGamas")]
+        public async Task<ActionResult<List<CelularLista>>> GetGamas()
+        {
+            var lista = await Task.Run(() => new productoDAO().listaDeGamas());
+            return Ok(lista);
+        }
+
+        [HttpGet("getSistemas")]
+        public async Task<ActionResult<List<CelularLista>>> GetSistemas()
+        {
+            var lista = await Task.Run(() => new productoDAO().listaDeSistemas());
+            return Ok(lista);
+        }
+
+
+        [HttpGet("getEstados")]
+        public async Task<ActionResult<List<CelularLista>>> GetEstados()
+        {
+            var lista = await Task.Run(() => new productoDAO().listaEstados());
+            return Ok(lista);
+        }
+
+        [HttpGet("getRoles")]
+        public async Task<ActionResult<List<CelularLista>>> GetRoles()
+        {
+            var lista = await Task.Run(() => new productoDAO().listaRoles());
+            return Ok(lista);
+        }
+
+        [HttpGet("getTipoAcce")]
+        public async Task<ActionResult<List<CelularLista>>> GetTipoAcce()
+        {
+            var lista = await Task.Run(() => new productoDAO().listaTiposAccesorios());
+            return Ok(lista);
+        }
+
+        [HttpGet("getModeloAcce")]
+        public async Task<ActionResult<List<CelularLista>>> GetModeloAcce()
+        {
+            var lista = await Task.Run(() => new productoDAO().listaModelosAccesorios());
+            return Ok(lista);
+        }
+
     }
 
 

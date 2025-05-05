@@ -2,7 +2,7 @@
 {
     public class Tipo
     {
-        public string idtipo { get; set; }
+        public int idtipo { get; set; }
         public string tipo { get; set; }
         public string categoria { get; set; }
     }

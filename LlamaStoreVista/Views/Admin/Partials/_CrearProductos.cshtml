@@ -1,0 +1,94 @@
+﻿@model LlamaStoreVista.Models.Admin.AdminViewModel
+
+<form asp-action="AgregarProducto" method="post" id="product-form">
+    <div class="form-row">
+        <div class="form-group">
+            <label for="product-id">ID del Producto</label>
+            <input asp-for="NuevoProducto.idcel" type="text" id="product-id" name="product-id" required>
+        </div>
+        <div class="form-group">
+            <label for="product-model">Modelo</label>
+            <input asp-for="NuevoProducto.modelo" type="text" id="product-model" name="product-model" required>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="product-brand">Marca</label>
+            <select asp-for="NuevoProducto.modelo" asp-items="@ViewBag.paises" class="form-select"></select>
+            <select id="product-brand" name="product-brand" required>
+                <option value="">Seleccionar marca</option>
+                <option value="1">Apple</option>
+                <option value="2">Samsung</option>
+                <option value="3">Xiaomi</option>
+                <option value="4">Huawei</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="product-gama">Gama</label>
+            <select id="product-gama" name="product-gama" required>
+                <option value="">Seleccionar gama</option>
+                <option value="1">Alta</option>
+                <option value="2">Media</option>
+                <option value="3">Baja</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="product-price">Precio</label>
+            <input type="number" id="product-price" name="product-price" step="0.01" required>
+        </div>
+        <div class="form-group">
+            <label for="product-offer">Precio Oferta</label>
+            <input type="number" id="product-offer" name="product-offer" step="0.01">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="product-stock">Stock</label>
+            <input type="number" id="product-stock" name="product-stock" required>
+        </div>
+        <div class="form-group">
+            <label for="product-min-stock">Stock Mínimo</label>
+            <input type="number" id="product-min-stock" name="product-min-stock" value="5">
+        </div>
+    </div>
+
+    <div class="form-row">
+        <div class="form-group">
+            <label for="product-system">Sistema Operativo</label>
+            <select id="product-system" name="product-system">
+                <option value="">Seleccionar sistema</option>
+                <option value="1">iOS</option>
+                <option value="2">Android</option>
+                <option value="3">HarmonyOS</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label for="product-status">Estado</label>
+            <select id="product-status" name="product-status">
+                <option value="1">Activo</option>
+                <option value="2">Inactivo</option>
+                <option value="3">Agotado</option>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-group full-width">
+        <label for="product-specs">Especificaciones</label>
+        <textarea id="product-specs" name="product-specs" rows="4"></textarea>
+    </div>
+
+    <div class="form-group full-width">
+        <label for="product-image">Imagen URL</label>
+        <input type="text" id="product-image" name="product-image">
+    </div>
+
+    <div class="form-actions">
+        <button type="button" class="btn btn-secondary" id="cancel-product">Cancelar</button>
+        <button type="submit" class="btn btn-primary">Guardar Producto</button>
+    </div>
+</form>

@@ -1,5 +1,8 @@
-﻿using LlamaStoreService.Models.Productos;
+﻿using LlamaStoreService.Models.Accesorios;
+using LlamaStoreService.Models.Estatus;
+using LlamaStoreService.Models.Productos;
 using LlamaStoreService.Models.Products;
+using LlamaStoreService.Models.Usuarios;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using System.Data;
@@ -149,6 +152,211 @@ namespace LlamaStoreService.Repositories.DAO
                 }
             }
             return mensaje;
+        }
+
+        //LISTAS DE SUBTABLAS
+
+        public IEnumerable<Gama> listaDeGamas()
+        {
+            List<Gama> list = new List<Gama>();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(_cadenaDB))
+                {
+                    cn.Open();
+                    SqlCommand cmd = new SqlCommand("sp_listar_gamas", cn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Gama G = new Gama()
+                        {
+                            idgama = reader.GetInt32(0),
+                            tipogama = reader.GetString(1),
+                        };
+                        list.Add(G);
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            return list;
+        }
+
+        public IEnumerable<Marca> listaDeMarcas()
+        {
+            List<Marca> list = new List<Marca>();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(_cadenaDB))
+                {
+                    cn.Open();
+                    SqlCommand cmd = new SqlCommand("sp_listar_marcas", cn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Marca G = new Marca()
+                        {
+                            idmarca = reader.GetInt32(0),
+                            nombre_marca = reader.GetString(1),
+                        };
+                        list.Add(G);
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            return list;
+        }
+
+        public IEnumerable<Sistema> listaDeSistemas()
+        {
+            List<Sistema> list = new List<Sistema>();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(_cadenaDB))
+                {
+                    cn.Open();
+                    SqlCommand cmd = new SqlCommand("sp_listar_sistemas", cn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Sistema G = new Sistema()
+                        {
+                            idsistema = reader.GetInt32(0),
+                            tipodesistema = reader.GetString(1),
+                        };
+                        list.Add(G);
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            return list;
+        }
+
+        public IEnumerable<Estado> listaEstados()
+        {
+            List<Estado> list = new List<Estado>();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(_cadenaDB))
+                {
+                    cn.Open();
+                    SqlCommand cmd = new SqlCommand("sp_listar_estados", cn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Estado e = new Estado()
+                        {
+                            idestado = reader.GetInt32(0),
+                            descripcion = reader.GetString(1),
+                        };
+                        list.Add(e);
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            return list;
+        }
+
+        public IEnumerable<Roll> listaRoles()
+        {
+            List<Roll> list = new List<Roll>();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(_cadenaDB))
+                {
+                    cn.Open();
+                    SqlCommand cmd = new SqlCommand("sp_listar_roles", cn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Roll e = new Roll()
+                        {
+                            idroll = reader.GetInt32(0),
+                            roll = reader.GetString(1),
+                        };
+                        list.Add(e);
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            return list;
+        }
+
+        public IEnumerable<Tipo> listaTiposAccesorios()
+        {
+            List<Tipo> list = new List<Tipo>();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(_cadenaDB))
+                {
+                    cn.Open();
+                    SqlCommand cmd = new SqlCommand("sp_listar_tipoAcce", cn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Tipo e = new Tipo()
+                        {
+                            idtipo = reader.GetInt32(0),
+                            tipo = reader.GetString(1),
+                        };
+                        list.Add(e);
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            return list;
+        }
+
+        public IEnumerable<Modelo> listaModelosAccesorios()
+        {
+            List<Modelo> list = new List<Modelo>();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(_cadenaDB))
+                {
+                    cn.Open();
+                    SqlCommand cmd = new SqlCommand("sp_listar_modeloAcce", cn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Modelo e = new Modelo()
+                        {
+                            idmodelo = reader.GetInt32(0),
+                            modelo = reader.GetString(1),
+                        };
+                        list.Add(e);
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            return list;
         }
     }
 }
