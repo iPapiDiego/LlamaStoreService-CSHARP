@@ -14,7 +14,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/css/admin/admin.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
+
     <script src="/js/admin.js"></script>
 </head>
 
@@ -49,7 +49,14 @@
         <!-- Main Content -->
         <main class="main-content">
             <header class="admin-header">
-                <h1 id="section-title">Dashboard</h1>
+                <h1 id="section-title">
+                    Dashboard
+                    <div>
+                        <p>
+                            @TempData["mensaje"]
+                        </p>
+                    </div>
+                </h1>
                 <div class="header-actions">
                     <div class="search-box">
                         <input type="text" placeholder="Buscar...">
@@ -65,6 +72,7 @@
             <!-- Dashboard Section -->
             <section class="content-section active" id="dashboard-section">
                 <div class="stats-container">
+
                     <div class="stat-card">
                         <div class="stat-icon bg-blue">
                             <i class="fas fa-shopping-cart"></i>
@@ -124,7 +132,7 @@
 
                         @Html.Partial("Partials/_ListaActividad", Model)
 
-                        
+
                     </div>
                 </div>
             </section>
@@ -138,17 +146,15 @@
                     </button>
                 </div>
 
-                <div class="table-container">
-                    @Html.Partial("Partials/_ListaProductos", Model)
+                <div class="table-container" id="listassssss">
+                    @await Html.PartialAsync("Partials/_ListaProductos", Model)
                 </div>
 
                 <!-- Product Modal -->
                 <div class="modal" id="product-modal">
                     <div class="modal-content">
-                        <span class="close-modal">&times;</span>
-                        <h3 id="modal-product-title">Agregar Nuevo Producto</h3>
-                       
-                        @Html.Partial("Partials/_CrearProducto", Model)
+
+                        @Html.Partial("Partials/_CrearProductos", Model)
 
                     </div>
                 </div>
@@ -263,7 +269,7 @@
 
                 <div class="table-container">
                     @Html.Partial("Partials/_ListaBoletas", Model)
-                    
+
                 </div>
 
                 <!-- Sale Detail Modal -->
@@ -368,12 +374,12 @@
                     <div class="modal-content">
                         <span class="close-modal">&times;</span>
                         <h3 id="modal-user-title">Agregar Nuevo Usuario</h3>
-                        <form  id="user-form">
+                        <form id="user-form">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <div class="form-row">
                                 <div class="form-group">
                                     <label for="user-name">Nombre</label>
-                                    <input  type="text" id="user-name" name="user-name" required>
+                                    <input type="text" id="user-name" name="user-name" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="user-lastname">Apellido</label>
@@ -489,7 +495,7 @@
                     <div class="report-table">
                         <h4>Detalle de Ventas</h4>
                         @Html.Partial("Partials/_ListaVentas", Model)
-                        
+
                     </div>
                 </div>
             </section>
@@ -498,6 +504,11 @@
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.1/dist/chart.min.js"></script>
     <script src="js/admin.js"></script>
+
+
+
+
+
 </body>
 
 </html>

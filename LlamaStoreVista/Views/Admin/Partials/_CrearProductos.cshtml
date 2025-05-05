@@ -1,94 +1,101 @@
 ﻿@model LlamaStoreVista.Models.Admin.AdminViewModel
 
-<form asp-action="AgregarProducto" method="post" id="product-form">
+<span class="close-modal">&times;</span>
+<h3 id="modal-product-title">Agregar Nuevo Producto</h3>
+
+<form asp-action="AgregarProducto" method="post">
+
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
     <div class="form-row">
         <div class="form-group">
             <label for="product-id">ID del Producto</label>
-            <input asp-for="NuevoProducto.idcel" type="text" id="product-id" name="product-id" required>
+            <input asp-for="NuevoProducto.idcel" type="text" required>
+            <span asp-validation-for="NuevoProducto.idcel" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label for="product-model">Modelo</label>
-            <input asp-for="NuevoProducto.modelo" type="text" id="product-model" name="product-model" required>
+            <input asp-for="NuevoProducto.modelo" type="text" required>
+            <span asp-validation-for="NuevoProducto.modelo" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-row">
         <div class="form-group">
             <label for="product-brand">Marca</label>
-            <select asp-for="NuevoProducto.modelo" asp-items="@ViewBag.paises" class="form-select"></select>
-            <select id="product-brand" name="product-brand" required>
-                <option value="">Seleccionar marca</option>
-                <option value="1">Apple</option>
-                <option value="2">Samsung</option>
-                <option value="3">Xiaomi</option>
-                <option value="4">Huawei</option>
+            <select asp-for="NuevoProducto.idmarca" asp-items="Model.ListaMarcas">
+                <option value="">Seleccionar sistema</option>
             </select>
+            <span asp-validation-for="NuevoProducto.idmarca" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label for="product-gama">Gama</label>
-            <select id="product-gama" name="product-gama" required>
-                <option value="">Seleccionar gama</option>
-                <option value="1">Alta</option>
-                <option value="2">Media</option>
-                <option value="3">Baja</option>
+            <select asp-for="NuevoProducto.idgama" asp-items="Model.ListaGamas">
+                <option value="">Seleccionar sistema</option>
             </select>
+            <span asp-validation-for="NuevoProducto.idgama" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-row">
         <div class="form-group">
             <label for="product-price">Precio</label>
-            <input type="number" id="product-price" name="product-price" step="0.01" required>
+            <input asp-for="NuevoProducto.precio" type="number" step="0.01" required>
+            <span asp-validation-for="NuevoProducto.precio" class="text-danger"></span>
         </div>
         <div class="form-group">
-            <label for="product-offer">Precio Oferta</label>
-            <input type="number" id="product-offer" name="product-offer" step="0.01">
+            <label for="product-price">Precio Oferta</label>
+            <input asp-for="NuevoProducto.precio_oferta" type="number" step="0.01" required>
+            <span asp-validation-for="NuevoProducto.precio_oferta" class="text-danger"></span>
         </div>
+
     </div>
 
     <div class="form-row">
         <div class="form-group">
             <label for="product-stock">Stock</label>
-            <input type="number" id="product-stock" name="product-stock" required>
+            <input asp-for="NuevoProducto.stock" type="number" required>
+            <span asp-validation-for="NuevoProducto.stock" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label for="product-min-stock">Stock Mínimo</label>
-            <input type="number" id="product-min-stock" name="product-min-stock" value="5">
+            <input asp-for="NuevoProducto.stock_minimo" type="number" value="5">
+            <span asp-validation-for="NuevoProducto.stock_minimo" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-row">
         <div class="form-group">
             <label for="product-system">Sistema Operativo</label>
-            <select id="product-system" name="product-system">
+            <select asp-for="NuevoProducto.idsistema" asp-items="Model.ListaSistemas">
                 <option value="">Seleccionar sistema</option>
-                <option value="1">iOS</option>
-                <option value="2">Android</option>
-                <option value="3">HarmonyOS</option>
             </select>
+            <span asp-validation-for="NuevoProducto.idsistema" class="text-danger"></span>
         </div>
         <div class="form-group">
             <label for="product-status">Estado</label>
-            <select id="product-status" name="product-status">
-                <option value="1">Activo</option>
-                <option value="2">Inactivo</option>
-                <option value="3">Agotado</option>
+            <select asp-for="NuevoProducto.idestado" asp-items="Model.ListaEstados">
+                <option value="">Seleccionar sistema</option>
             </select>
+            <span asp-validation-for="NuevoProducto.idestado" class="text-danger"></span>
         </div>
     </div>
 
     <div class="form-group full-width">
         <label for="product-specs">Especificaciones</label>
-        <textarea id="product-specs" name="product-specs" rows="4"></textarea>
-    </div>
-
-    <div class="form-group full-width">
-        <label for="product-image">Imagen URL</label>
-        <input type="text" id="product-image" name="product-image">
+        <textarea asp-for="NuevoProducto.especificaciones" rows="4"></textarea>
+        <span asp-validation-for="NuevoProducto.especificaciones" class="text-danger"></span>
     </div>
 
     <div class="form-actions">
         <button type="button" class="btn btn-secondary" id="cancel-product">Cancelar</button>
         <button type="submit" class="btn btn-primary">Guardar Producto</button>
     </div>
+
 </form>
+<div>
+    <p>
+        @TempData["mensaje"]
+    </p>
+</div>
+

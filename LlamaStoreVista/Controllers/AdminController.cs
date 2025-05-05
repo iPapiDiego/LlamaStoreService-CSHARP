@@ -1,5 +1,7 @@
 ﻿using LlamaStoreService.Models.Accesorios;
 using LlamaStoreService.Models.Auditos;
+using LlamaStoreService.Models.Estatus;
+using LlamaStoreService.Models.Productos;
 using LlamaStoreService.Models.Products;
 using LlamaStoreService.Models.Tickets;
 using LlamaStoreService.Models.Users;
@@ -34,11 +36,8 @@ namespace LlamaStoreVista.Controllers
                 {
                     string apiresponse = await response.Content.ReadAsStringAsync();
                     var usuarios = JsonConvert.DeserializeObject<List<Usuario>>(apiresponse);
-                    int fila = 12;
-                    int total = usuarios.Count();
-                    model.TotalPaginasUsuarios = (int)Math.Ceiling((double)total / fila);
-                    model.PaginaActualUsuarios = pageUsuarios;
-                    model.Usuarios = usuarios.Skip((pageUsuarios - 1) * fila).Take(fila).ToList();
+                    
+                    model.Usuarios = usuarios;
                 }
             }
 
@@ -52,11 +51,8 @@ namespace LlamaStoreVista.Controllers
                 {
                     string apiresponse = await response.Content.ReadAsStringAsync();
                     var productos = JsonConvert.DeserializeObject<List<Producto>>(apiresponse);
-                    int fila = 12;
-                    int total = productos.Count();
-                    model.TotalPaginasProductos = (int)Math.Ceiling((double)total / fila);
-                    model.PaginaActualProductos = pageProductos;
-                    model.Productos = productos.Skip((pageProductos - 1) * fila).Take(fila).ToList();
+                    
+                    model.Productos = productos;
                 }
             }
 
@@ -69,11 +65,8 @@ namespace LlamaStoreVista.Controllers
                 {
                     string apiresponse = await response.Content.ReadAsStringAsync();
                     var accesorios = JsonConvert.DeserializeObject<List<Accesorio>>(apiresponse);
-                    int fila = 12;
-                    int total = accesorios.Count();
-                    model.TotalPaginasProductos = (int)Math.Ceiling((double)total / fila);
-                    model.PaginaActualProductos = pageProductos;
-                    model.Accesorios = accesorios.Skip((pageProductos - 1) * fila).Take(fila).ToList();
+                    
+                    model.Accesorios = accesorios;
                 }
             }
 
@@ -86,11 +79,8 @@ namespace LlamaStoreVista.Controllers
                 {
                     string apiresponse = await response.Content.ReadAsStringAsync();
                     var listaBoletas = JsonConvert.DeserializeObject<List<ListaBoleta>>(apiresponse);
-                    int fila = 12;
-                    int total = listaBoletas.Count();
-                    model.TotalPaginasProductos = (int)Math.Ceiling((double)total / fila);
-                    model.PaginaActualProductos = pageProductos;
-                    model.boletas = listaBoletas.Skip((pageProductos - 1) * fila).Take(fila).ToList();
+                    
+                    model.boletas = listaBoletas;
                 }
             }
 
@@ -103,30 +93,132 @@ namespace LlamaStoreVista.Controllers
                 {
                     string apiresponse = await response.Content.ReadAsStringAsync();
                     var auditorias = JsonConvert.DeserializeObject<List<Auditoria>>(apiresponse);
-                    int fila = 12;
-                    int total = auditorias.Count();
-                    model.TotalPaginasProductos = (int)Math.Ceiling((double)total / fila);
-                    model.PaginaActualProductos = pageProductos;
-                    model.Auditorias = auditorias.Skip((pageProductos - 1) * fila).Take(fila).ToList();
+                   
+                    model.Auditorias = auditorias;
                 }
             }
+
+            var sistemas = await ListaSistema(); // Debe devolver List<Sistema>
+            var marcas = await ListaMarca();    // List<Marca>
+            var gamas = await ListaGama();      // List<Gama>
+            var estados = await ListaEstado();  // List<Estado>
+
+            // Llenar las listas
+            model.ListaSistemas = sistemas.Select(s => new SelectListItem
+            {
+                Value = s.idsistema.ToString(),
+                Text = s.tipodesistema
+            }).ToList();
+
+            model.ListaMarcas = marcas.Select(m => new SelectListItem
+            {
+                Value = m.idmarca.ToString(),
+                Text = m.nombre_marca
+            }).ToList();
+
+            model.ListaGamas = gamas.Select(g => new SelectListItem
+            {
+                Value = g.idgama.ToString(),
+                Text = g.tipogama
+            }).ToList();
+
+            model.ListaEstados = estados.Select(e => new SelectListItem
+            {
+                Value = e.idestado.ToString(),
+                Text = e.descripcion
+            }).ToList();
 
             return View(model);
         }
 
 
-        [HttpPost]
-        public async Task<IActionResult> AgregarProducto(ProductoCrear productoCrear)
+
+        public async Task<List<Sistema>> ListaSistema()
         {
-            string mensaje = "";
+            List<Sistema> sistemas = new List<Sistema>();
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(conexionProduc);
-                StringContent content = new StringContent(JsonConvert.SerializeObject(productoCrear), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync("postAgregarCelular", content);
-                string apiresponse = await response.Content.ReadAsStringAsync();
-                mensaje = apiresponse;
+                HttpResponseMessage response = await client.GetAsync("getSistemas");
+                if (response.IsSuccessStatusCode)
+                {
+                    string apiresponse = await response.Content.ReadAsStringAsync();
+                    sistemas = JsonConvert.DeserializeObject<List<Sistema>>(apiresponse);
+                }
             }
+            return sistemas;
+        }
+
+        public async Task<List<Gama>> ListaGama()
+        {
+            List<Gama> gamas = new List<Gama>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionProduc);
+                HttpResponseMessage response = await client.GetAsync("getGamas");
+                if (response.IsSuccessStatusCode)
+                {
+                    string apiresponse = await response.Content.ReadAsStringAsync();
+                    gamas = JsonConvert.DeserializeObject<List<Gama>>(apiresponse);
+                }
+            }
+            return gamas;
+        }
+
+        public async Task<List<Marca>> ListaMarca()
+        {
+            List<Marca> marcas = new List<Marca>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionProduc);
+                HttpResponseMessage response = await client.GetAsync("GetMarcas");
+                if (response.IsSuccessStatusCode)
+                {
+                    string apiresponse = await response.Content.ReadAsStringAsync();
+                    marcas = JsonConvert.DeserializeObject<List<Marca>>(apiresponse);
+                }
+            }
+            return marcas;
+        }
+
+        public async Task<List<Estado>> ListaEstado()
+        {
+            List<Estado> estados = new List<Estado>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionProduc);
+                HttpResponseMessage response = await client.GetAsync("getEstados");
+                if (response.IsSuccessStatusCode)
+                {
+                    string apiresponse = await response.Content.ReadAsStringAsync();
+                    estados = JsonConvert.DeserializeObject<List<Estado>>(apiresponse);
+                }
+            }
+            return estados;
+        }
+
+        //CREAR UN PRODUCTO
+
+
+
+        [HttpPost]
+        public async Task<IActionResult> AgregarProducto(AdminViewModel model)
+        {
+            string mensaje = "";
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionProduc);
+                var content = new StringContent(
+                    JsonConvert.SerializeObject(model.NuevoProducto),
+                    Encoding.UTF8,
+                    "application/json"
+                );
+
+                var response = await client.PostAsync("postAgregarCelular", content);
+                mensaje = await response.Content.ReadAsStringAsync();
+            }
+
             TempData["mensaje"] = mensaje;
             return RedirectToAction("VistaAdmin");
         }
