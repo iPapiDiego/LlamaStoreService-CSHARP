@@ -32,7 +32,7 @@
                 <td>@p.created_at</td>
                 <td>@p.updated_at</td>
                 <td>
-                    <button class="action-btn edit-btn"><i class="fas fa-edit"></i></button>
+                    <button class="action-btn edit-btn"><i class="fas fa-edit" @Html.ActionLink("", "ActualizarProducto", new { id = p.idcel })></i></button>
                     <button class="action-btn delete-btn"><i class="fas fa-trash"></i></button>
                 </td>
             </tr>

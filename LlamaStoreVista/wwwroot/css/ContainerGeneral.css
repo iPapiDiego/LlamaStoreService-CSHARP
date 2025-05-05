@@ -23,7 +23,7 @@ body {
 }
 
 .container1 header {
-    background: red;
+    background: rgb(255, 255, 255);
     grid-area: header;
 }
 
@@ -33,7 +33,7 @@ body {
 }
 
 .container1 footer {
-    background: goldenrod;
+    background: rgb(255, 255, 255);
     grid-area: footer;
 }
 

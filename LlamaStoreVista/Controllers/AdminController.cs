@@ -236,13 +236,11 @@ namespace LlamaStoreVista.Controllers
                 string apiResponse = await respons.Content.ReadAsStringAsync();
                 producto = JsonConvert.DeserializeObject<Producto>(apiResponse);
             }
-
             return View(await Task.Run(() => producto));
-
         }
 
         [HttpPost]
-        public async Task<IActionResult> ActualizarProducto(Producto producto)
+        public async Task<IActionResult> ActualizarProducto(ProductoCrear producto)
         {
             string mensaje = "";
             using (var client = new HttpClient())
