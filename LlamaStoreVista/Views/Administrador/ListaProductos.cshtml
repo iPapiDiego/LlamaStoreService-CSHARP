@@ -16,6 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
           rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/css/admin/Dashboard.css">
 </head>
 
@@ -68,7 +69,15 @@
             <div class="col-md-9 col-lg-10 ms-sm-auto px-md-4 main-content">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
                     <h1 class="h2">Gestión de Productos</h1>
-                    <a href="/VistaAdmin4/Productos/CrearProducto.html" class="btn btn-primary">
+                    @if (TempData["mensaje"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @TempData["mensaje"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <a href="/Administrador/AgregarProducto" class="btn btn-primary">
                         <i class="fas fa-plus"></i> Agregar Producto
                     </a>
                 </div>
@@ -169,6 +178,7 @@
                                                 @Html.DisplayFor(modelItem => item.stock)
                                             </td>
                                             <td><span class="badge bg-success">@Html.DisplayFor(modelItem => item.descripcion)</span></td>
+
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.created_at)
                                             </td>
@@ -176,12 +186,16 @@
                                                 @Html.DisplayFor(modelItem => item.updated_at)
                                             </td>
                                             <td>
-                                                <a href="ActualizarProducto.html" class="btn btn-sm btn-outline-primary">
-                                                    <i class="fas fa-edit"></i>
+                                                <a href="@Url.Action("ActualizarProducto", new { id = item.idcel })"
+                                                   class="btn btn-sm btn-outline-primary" title="Editar">
+                                                    <i class="bi bi-pencil"></i>
                                                 </a>
-                                                <button class="btn btn-sm btn-outline-danger">
-                                                    <i class="fas fa-trash"></i>
-                                                </button>
+
+                                                <a href="@Url.Action("Delete", new { id = item.idcel })"
+                                                   class="btn btn-sm btn-outline-danger" title="Eliminar">
+                                                    <i class="bi bi-trash"></i>
+                                                </a>
+
                                             </td>
                                         </tr>
                                     }
