@@ -128,7 +128,7 @@
                     <div class="card-body">
                         <div class="row mb-4">
                             <div class="col-md-8">
-                                <canvas id="salesChart" height="300"></canvas>
+                                <canvas id="salesChart" height="87"></canvas>
                             </div>
                             <div class="col-md-4">
                                 <div class="card">
@@ -157,10 +157,11 @@
                             </div>
                         </div>
 
-                        <div class="table-responsive">
+                        <div class="table-responsive" style="overflow-x: auto;">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
+                                        <th>N Boleta</th>
                                         <th>Fecha</th>
                                         <th>Codigo</th>
                                         <th>Nombre</th>
@@ -174,6 +175,9 @@
                                     @foreach (var item in Model)
                                     {
                                         <tr>
+                                            <td>
+                                                @Html.DisplayFor(modelItem => item.num_bol)
+                                            </td>
                                             <td>
                                                 @Html.DisplayFor(modelItem => item.fch_bol)
                                             </td>
@@ -195,8 +199,18 @@
                                                 @Html.DisplayFor(modelItem => item.precio_final)
                                             </td>
                                             <td>
-                                                <a href="detalle-venta.html?id=BOL-1001"
-                                                   class="btn btn-sm btn-outline-primary">
+                                                <a href="javascript:void(0);"
+                                                   class="btn btn-sm btn-outline-primary"
+                                                   data-bs-toggle="modal"
+                                                   data-bs-target="#detalleModal"
+                                                   onclick="mostrarDetalles(
+       '@item.num_bol',
+       '@item.fch_bol',
+       '@item.cod_cliente',
+       '@item.total',
+       '@item.cantidad',
+       '@item.precio_unitario',
+       '@item.precio_final')">
                                                     <i class="fas fa-eye"></i> Detalles
                                                 </a>
                                             </td>
@@ -213,6 +227,20 @@
                                 </tfoot>
                             </table>
                         </div>
+                        <!-- Paginación -->
+                        <nav aria-label="Page navigation">
+                            <ul class="pagination justify-content-center mt-3">
+                                <div class="d-flex flex-wrap gap-2 my-3">
+                                    @for (int i = 0; i < (int)ViewBag.pages; i++)
+                                    {
+                                        <a asp-action="ListaVentas" asp-route-page="@(i + 1)"
+                                           class="btn @(i == (int)ViewBag.page ? "btn-success" : "btn-outline-primary") fw-semibold">
+                                            @(i + 1)
+                                        </a>
+                                    }
+                                </div>
+                            </ul>
+                        </nav>
                     </div>
                 </div>
             </div>
@@ -223,7 +251,74 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="~/js/Dashboard.js"></script>
+    <script>
+        function mostrarDetalles(numBol, fecha, nombre, cantidad, precioUnit, descuento, precioTotal) {
+            document.getElementById("modalNumBoleta").innerText = numBol;
+            document.getElementById("modalFecha").innerText = fecha;
+            document.getElementById("modalNombre").innerText = nombre;
+            document.getElementById("modalCantidad").innerText = cantidad;
+            document.getElementById("modalPrecioUnitario").innerText = precioUnit;
+            document.getElementById("modalDescuento").innerText = descuento;
+            document.getElementById("modalPrecioTotal").innerText = precioTotal;
+        }
+    </script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+
+    <!--EXPORTA PDF DETALLES-->
+    <script>
+        function exportarPDF() {
+          const contenido = document.querySelector("#detalleModal .modal-body");
+          const opciones = {
+            margin:       0.5,
+            filename:     'detalle_venta.pdf',
+            image:        { type: 'jpeg', quality: 0.98 },
+            html2canvas:  { scale: 2 },
+            jsPDF:        { unit: 'in', format: 'letter', orientation: 'portrait' }
+          };
+          html2pdf().set(opciones).from(contenido).save();
+        }
+    </script>
 </body>
+<!-- Modal de Detalles -->
+<div class="modal fade" id="detalleModal" tabindex="-1" aria-labelledby="detalleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content shadow-lg rounded-4">
+            <div class="modal-header bg-primary text-white">
+                <h5 class="modal-title" id="detalleModalLabel">🧾 Detalles de la Venta</h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+            </div>
+            <div class="modal-body px-4 py-3">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <div class="card border-light shadow-sm">
+                            <div class="card-body">
+                                <p><strong>N° Boleta:</strong> <span id="modalNumBoleta"></span></p>
+                                <p><strong>Fecha:</strong> <span id="modalFecha"></span></p>
+                                <p><strong>Cliente:</strong> <span id="modalNombre"></span></p>
+                                
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="card border-light shadow-sm">
+                            <div class="card-body">
+                                <p><strong>Total:</strong> <span id="modalCantidad"></span></p>
+                                <p><strong>Cantidad:</strong> S/ <span id="modalPrecioUnitario"></span></p>
+                                <p><strong>Precio Unitario:</strong> S/ <span id="modalDescuento"></span></p>
+                                <p><strong>Precio Final:</strong> <strong class="text-success">S/ <span id="modalPrecioTotal"></span></strong></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-danger" onclick="exportarPDF()">Exportar a PDF</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 

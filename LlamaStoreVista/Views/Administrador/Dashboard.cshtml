@@ -1,6 +1,16 @@
 ﻿@model IEnumerable<LlamaStoreService.Models.Auditos.Auditoria>
 
 @{
+    int currentPage = (int)ViewBag.page;
+    int totalPages = (int)ViewBag.pages;
+    int maxVisible = 5;
+
+    int startPage = 1;
+    int endPage = Math.Min(maxVisible, totalPages);
+}
+
+
+@{
     ViewData["Title"] = "Dashboard";
     Layout = null;
 }
@@ -299,18 +309,18 @@
                                     <a href="ventas.html" class="btn btn-sm btn-outline-primary">Ver todas</a>
                                 </div>
                                 <div class="card-body">
-                                    <div class="table-responsive">
+                                    <div class="table-responsive" style="overflow-x: auto;">
                                         <table class="table table-hover">
                                             <thead>
                                                 <tr>
-                                                    <th>N</th>
+                                                    <th>Numero</th>
                                                     <th>Tabla</th>
                                                     <th>Fecha</th>
                                                     <th>Accion</th>
                                                     <th>Valor Nuevo</th>
                                                     <th>Usuario</th>
-                                                    <th>Fecha</th>
                                                     <th>Acciones</th>
+                                                    
                                                 </tr>
                                             </thead>
                                             <tbody>
@@ -337,7 +347,7 @@
                                                         <td>
                                                             @Html.DisplayFor(modelItem => item.usuario)
                                                         </td>
-                                                        
+
                                                         <td>
                                                             <button class="btn btn-sm btn-outline-primary">Ver</button>
                                                         </td>
@@ -351,19 +361,39 @@
                         </div>
                     </div>
                     <!-- Paginación -->
-                    <nav aria-label="Page navigation">
+                    <nav aria-label="Paginación">
                         <ul class="pagination justify-content-center mt-3">
-                            <div class="d-flex flex-wrap gap-2 my-3">
-                                @for (int i = 0; i < (int)ViewBag.pages; i++)
-                                {
-                                    <a asp-action="Dashboard" asp-route-page="@(i + 1)"
-                                       class="btn @(i == (int)ViewBag.page ? "btn-success" : "btn-outline-primary") fw-semibold">
-                                        @(i + 1)
-                                    </a>
-                                }
-                            </div>
+                            @if (currentPage > 1)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-action="Dashboard" asp-route-page="@(currentPage - 1)">Anterior</a>
+                                </li>
+                            }
+
+                            @for (int i = startPage; i <= endPage; i++)
+                            {
+                                <li class="page-item @(i == currentPage ? "active" : "")">
+                                    <a class="page-link" asp-action="Dashboard" asp-route-page="@i">@i</a>
+                                </li>
+                            }
+
+                            @if (totalPages > maxVisible)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-action="Dashboard" asp-route-page="@(maxVisible + 1)">Mostrar más</a>
+                                </li>
+                            }
+
+                            @if (currentPage < totalPages)
+                            {
+                                <li class="page-item">
+                                    <a class="page-link" asp-action="Dashboard" asp-route-page="@(currentPage + 1)">Siguiente</a>
+                                </li>
+                            }
                         </ul>
                     </nav>
+
+
                 </div>
             </div>
         </div>

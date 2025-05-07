@@ -41,7 +41,7 @@ namespace LlamaStoreVista.Controllers
             int count = temporal.Count();
             int pages = count % fila == 0 ? count / fila : count / fila + 1;
             page = page - 1;
-            ViewBag.page = page;
+            ViewBag.page = + 1;
             ViewBag.pages = pages;
 
             return View(await Task.Run(() => temporal.Skip(fila * page).Take(fila)));
@@ -590,5 +590,7 @@ namespace LlamaStoreVista.Controllers
             TempData["mensaje"] = mensaje;
             return RedirectToAction("ListaUsuarios");
         }
+
+
     }
 }
