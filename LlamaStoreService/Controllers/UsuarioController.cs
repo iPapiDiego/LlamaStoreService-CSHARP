@@ -18,8 +18,15 @@ namespace LlamaStoreService.Controllers
             return Ok(lista);
         }
 
+        [HttpGet("getUsuariosCompleto")]
+        public async Task<ActionResult<List<CrudUsuario>>> GetUsuariosCompleto()
+        {
+            var lista = await Task.Run(() => new usuariosDAO().listaDeUsuariosCompleto());
+            return Ok(lista);
+        }
+
         [HttpGet("getBuscarUsuario")]
-        public async Task<ActionResult<CelularLista>> GetBucarUsuario(int id)
+        public async Task<ActionResult<CrudUsuario>> GetBucarUsuario(int id)
         {
             var celular = await Task.Run(() => new usuariosDAO().buscarUsuarioPorID(id));
             return Ok(celular);
@@ -40,10 +47,17 @@ namespace LlamaStoreService.Controllers
         }
 
         [HttpPost("postActuaUsuariosAdmin")]
-        public async Task<ActionResult<string>> PostActuaAgregarAdmin(Usuario usu)
+        public async Task<ActionResult<string>> PostActuaAgregarAdmin(CrudUsuario cruUsu)
         {
-            var mensaje = await Task.Run(() => new usuariosDAO().actualizarUsuariosCliente(usu));
+            var mensaje = await Task.Run(() => new usuariosDAO().actualizarUsuariosAdmin(cruUsu));
             return Ok(mensaje);
+        }
+
+        [HttpGet("getRoles")]
+        public async Task<ActionResult<List<Usuario>>> GetRoles()
+        {
+            var lista = await Task.Run(() => new usuariosDAO().listaRoles());
+            return Ok(lista);
         }
 
     }

@@ -5,6 +5,7 @@ using LlamaStoreService.Models.Productos;
 using LlamaStoreService.Models.Products;
 using LlamaStoreService.Models.Tickets;
 using LlamaStoreService.Models.Users;
+using LlamaStoreService.Models.Usuarios;
 using LlamaStoreVista.Models.Product;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -79,29 +80,6 @@ namespace LlamaStoreVista.Controllers
                 HttpResponseMessage response = await client.GetAsync("getAccesorios");
                 string apiresponse = await response.Content.ReadAsStringAsync();
                 temporal = JsonConvert.DeserializeObject<List<Accesorio>>(apiresponse).ToList();
-            }
-
-            //PROCESO PARA LA PAGINACION
-            int fila = 5;
-            int count = temporal.Count();
-            int pages = count % fila == 0 ? count / fila : count / fila + 1;
-            page = page - 1;
-            ViewBag.page = page;
-            ViewBag.pages = pages;
-
-            return View(await Task.Run(() => temporal.Skip(fila * page).Take(fila)));
-        }
-
-        public async Task<IActionResult> ListaUsuarios(int page = 1)
-        {
-            List<Usuario> temporal = new List<Usuario>();
-            using (var client = new HttpClient())
-            {
-                client.BaseAddress = new Uri(conexionUser);
-                //LLAMAR SIEMPRE AL "getVendedores" DE LOS SERVICIOS
-                HttpResponseMessage response = await client.GetAsync("getUsuarios");
-                string apiresponse = await response.Content.ReadAsStringAsync();
-                temporal = JsonConvert.DeserializeObject<List<Usuario>>(apiresponse).ToList();
             }
 
             //PROCESO PARA LA PAGINACION
@@ -511,5 +489,106 @@ namespace LlamaStoreVista.Controllers
             return RedirectToAction("ListaAccesorios");
         }
 
+        //===================================================USUARIOS======================================================
+        //===================================================USUARIOS======================================================
+        //===================================================USUARIOS======================================================
+        //===================================================USUARIOS======================================================
+        //===================================================USUARIOS======================================================
+
+        public async Task<IActionResult> ListaUsuarios(int page = 1)
+        {
+            List<CrudUsuario> temporal = new List<CrudUsuario>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionUser);
+                //LLAMAR SIEMPRE AL "getVendedores" DE LOS SERVICIOS
+                HttpResponseMessage response = await client.GetAsync("getUsuariosCompleto");
+                string apiresponse = await response.Content.ReadAsStringAsync();
+                temporal = JsonConvert.DeserializeObject<List<CrudUsuario>>(apiresponse).ToList();
+            }
+
+            //PROCESO PARA LA PAGINACION
+            int fila = 5;
+            int count = temporal.Count();
+            int pages = count % fila == 0 ? count / fila : count / fila + 1;
+            page = page - 1;
+            ViewBag.page = page;
+            ViewBag.pages = pages;
+
+            return View(await Task.Run(() => temporal.Skip(fila * page).Take(fila)));
+        }
+
+        public async Task<List<Roll>> ListaRolles()
+        {
+            List<Roll> temporal = new List<Roll>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionUser);
+                HttpResponseMessage response = await client.GetAsync("getRoles");
+                string apiresponse = await response.Content.ReadAsStringAsync();
+                temporal = JsonConvert.DeserializeObject<List<Roll>>(apiresponse).ToList();
+            }
+            return temporal;
+        }
+
+        public async Task<IActionResult> AgregarUsuario()
+        {
+            return View();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AgregarUsuario(Usuario usuario)
+        {
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionUser);
+                var content = new StringContent(JsonConvert.SerializeObject(usuario), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("postAgregaUsuarios", content);
+                string apiresponse = await response.Content.ReadAsStringAsync();
+                TempData["mensaje"] = apiresponse;
+            }
+            return RedirectToAction("ListaUsuarios");
+        }
+
+        public async Task<IActionResult> ActualizarUsuario(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return RedirectToAction("ListaUsuarios");
+
+            CrudUsuario crudUsuario = new CrudUsuario();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionUser);
+                HttpResponseMessage respons = await client.GetAsync("getBuscarUsuario/?id=" + id);
+                string apiResponse = await respons.Content.ReadAsStringAsync();
+                crudUsuario = JsonConvert.DeserializeObject<CrudUsuario>(apiResponse);
+            }
+
+            var rolls = await ListaRolles();
+            ViewBag.rolls = new SelectList(rolls, "idroll", "roll");
+
+            var estados = await ListaEstados();
+            ViewBag.estados = new SelectList(estados, "idestado", "descripcion");
+
+            return View(await Task.Run(() => crudUsuario));
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ActualizarUsuario(CrudUsuario crudUsuario)
+        {
+            string mensaje = "";
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionUser);
+                StringContent content = new StringContent(JsonConvert.SerializeObject(crudUsuario), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync("postActuaUsuariosAdmin", content);
+                string apiresponse = await response.Content.ReadAsStringAsync();
+                mensaje = apiresponse;
+            }
+            TempData["mensaje"] = mensaje;
+            return RedirectToAction("ListaUsuarios");
+        }
     }
 }

@@ -1,19 +1,19 @@
-﻿@model LlamaStoreService.Models.Accesorios.CrudAccesorio
+﻿@model LlamaStoreService.Models.Users.CrudUsuario
 
 @{
-    ViewData["Title"] = "AgregarAccesorio";
+    ViewData["Title"] = "ActualizarUsuario";
     Layout = null;
 }
-
 <!DOCTYPE html>
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin - Accesorio</title>
+    <title>Admin - Usuario</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
     <link rel="stylesheet" href="/css/admin/Dashboard.css">
 </head>
 
@@ -64,81 +64,80 @@
 
             <div class="col-md-9 col-lg-10 ms-sm-auto px-md-4 main-content">
                 <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-                    <h1 class="h2">Nuevo Accesorio</h1>
-                    <a href="/Administrador/ListaAccesorios" class="btn btn-outline-secondary">
+                    <h1 class="h2">Actualizar Usuario</h1>
+                    <a href="/Administrador/ListaUsuarios" class="btn btn-outline-secondary">
                         <i class="fas fa-arrow-left"></i> Volver
                     </a>
                 </div>
 
                 <div class="form-container">
-                    <form asp-action="AgregarAccesorio">
+                    <form asp-action="ActualizarUsuario">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="row mb-4">
                             <div class="col-md-6">
                                 <h4>Información Básica</h4>
-                                <p class="text-muted">Datos principales del producto</p>
+                                <p class="text-muted">Datos principales deL Usuario</p>
                             </div>
                             <div class="col-md-6 text-end">
                                 <button type="submit" class="btn btn-primary">
-                                    <i class="fas fa-save"></i> Guardar Accesorio
+                                    <i class="fas fa-save"></i> Actualizar Usuario
                                 </button>
                             </div>
                         </div>
 
                         <div class="row g-3">
-                            
+
+
+                            <div class="col-md-3">
+                                <label for="productModel" class="form-label">Codigo</label>
+                                <input asp-for="codigo" type="text" class="form-control" id="productModel" readonly>
+                                <span asp-validation-for="codigo" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-3">
+                                <label for="productModel" class="form-label">Nombre</label>
+                                <input asp-for="nombre" type="text" class="form-control" id="productModel" required>
+                                <span asp-validation-for="nombre" class="text-danger"></span>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="productModel" class="form-label">Apellido</label>
+                                <input asp-for="apellido" type="text" class="form-control" id="productModel" required>
+                                <span asp-validation-for="apellido" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label asp-for="correo" class="form-label">Correo</label>
+                                <input asp-for="correo" type="email" class="form-control" required>
+                                <span asp-validation-for="correo" class="text-danger"></span>
+                            </div>
+
+
+                            <div class="col-md-4">
+                                <label for="fnacim" class="form-label">Fecha de nacimiento</label>
+                                <input asp-for="fnacim" type="date" class="form-control" id="fnacim" name="fnacim" required max="2000-12-31">
+                                <span asp-validation-for="fnacim" class="text-danger"></span>
+                                <div class="text-danger d-none" id="fecha-error">Debes ser mayor de 18 años</div>
+                            </div>
+
+
+                            <div class="col-md-3">
+                                <label for="productModel" class="form-label">Clave</label>
+                                <input asp-for="clave" type="text" class="form-control" id="productModel" required>
+                                <span asp-validation-for="clave" class="text-danger"></span>
+                            </div>
+
+                            <div class="col-md-4">
+                                <label for="productSystem" class="form-label">Roll</label>
+                                <select asp-for="idrol" asp-items="@ViewBag.rolls" class="form-select" id="productBrand" required>
+                                </select>
+                                <span asp-validation-for="idrol" class="text-danger"></span>
+                            </div>
+
                             <div class="col-md-4">
                                 <label for="productSystem" class="form-label">Tipo</label>
-                                <select asp-for="idtipo" asp-items="@ViewBag.tipos" class="form-select" id="productBrand" required>
-                                    <option value="" selected disabled>Seleccionar Tipo</option>
+                                <select asp-for="estado" asp-items="@ViewBag.estados" class="form-select" id="productBrand" required>
                                 </select>
-                                <span asp-validation-for="idtipo" class="text-danger"></span>
-                            </div>
-
-                            <div class="col-md-4">
-                                <label for="productSystem" class="form-label">Tipo</label>
-                                <select asp-for="idmarca" asp-items="@ViewBag.marcas" class="form-select" id="productBrand" required>
-                                    <option value="" selected disabled>Seleccionar Tipo</option>
-                                </select>
-                                <span asp-validation-for="idmarca" class="text-danger"></span>
-                            </div>
-
-                            <div class="col-md-4">
-                                <label for="productRange" class="form-label">Modelo</label>
-                                <select asp-for="idmodelo" asp-items="@ViewBag.modelos" class="form-select" id="productBrand" required>
-                                    <option value="" selected disabled>Seleccionar Gama</option>
-                                </select>
-                                <span asp-validation-for="idmodelo" class="text-danger"></span>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label for="productModel" class="form-label">Precio</label>
-                                <input asp-for="precio" type="text" class="form-control" id="productModel" required>
-                                <span asp-validation-for="precio" class="text-danger"></span>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label for="productModel" class="form-label">Precio Oferta</label>
-                                <input asp-for="precio_oferta" type="text" class="form-control" id="productModel" required>
-                                <span asp-validation-for="precio_oferta" class="text-danger"></span>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label for="productModel" class="form-label">Stock</label>
-                                <input asp-for="stock" type="text" class="form-control" id="productModel" required>
-                                <span asp-validation-for="stock" class="text-danger"></span>
-                            </div>
-
-                            <div class="col-md-3">
-                                <label for="productModel" class="form-label">Descripcion</label>
-                                <input asp-for="descripcion" type="text" class="form-control" id="productModel" required>
-                                <span asp-validation-for="descripcion" class="text-danger"></span>
-                            </div>
-
-                            <div class="col-12">
-                                <label for="productImage" class="form-label">Imagen del Producto</label>
-                                <input asp-for="imagen" class="form-control" type="file" id="productImage">
-                                <small class="text-muted">Formatos aceptados: JPG, PNG (Máx. 2MB)</small>
+                                <span asp-validation-for="estado" class="text-danger"></span>
                             </div>
                         </div>
                     </form>
@@ -153,4 +152,3 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="~/js/Dashboard.js"></script>
 </body>
-
