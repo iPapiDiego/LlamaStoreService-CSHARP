@@ -139,5 +139,63 @@ namespace LlamaStoreService.Repositories.DAO
             }
             return mensaje;
         }
+
+        public IEnumerable<Modelo> listaModelos()
+        {
+            List<Modelo> list = new List<Modelo>();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(_cadenaDB))
+                {
+                    cn.Open();
+                    SqlCommand cmd = new SqlCommand("sp_listar_modeloAcce", cn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Modelo ac = new Modelo()
+                        {
+                            idmodelo = reader.GetInt32(0),
+                            modelo = reader.GetString(1)
+                        };
+                        list.Add(ac);
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            return list;
+        }
+
+        public IEnumerable<Tipo> listaTipos()
+        {
+            List<Tipo> list = new List<Tipo>();
+            try
+            {
+                using (SqlConnection cn = new SqlConnection(_cadenaDB))
+                {
+                    cn.Open();
+                    SqlCommand cmd = new SqlCommand("sp_listar_tipoAcce", cn);
+                    SqlDataReader reader = cmd.ExecuteReader();
+                    while (reader.Read())
+                    {
+                        Tipo ac = new Tipo()
+                        {
+                            idtipo = reader.GetInt32(0),
+                            tipo = reader.GetString(1)
+                        };
+                        list.Add(ac);
+                    }
+                    reader.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex.Message);
+            }
+            return list;
+        }
     }
 }

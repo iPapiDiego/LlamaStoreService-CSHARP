@@ -15,5 +15,6 @@
         public int idestado { get; set; }
         public DateTime created_at { get; set; }
         public DateTime updated_at { get; set; }
+        public string imagen { get; set; }
     }
 }

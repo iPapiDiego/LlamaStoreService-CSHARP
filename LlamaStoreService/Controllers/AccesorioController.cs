@@ -43,5 +43,19 @@ namespace LlamaStoreService.Controllers
             var mensaje = await Task.Run(() => new accesorioDAO().eliminarAccesorio(id));
             return Ok(mensaje);
         }
+
+        [HttpGet("getTiposAcce")]
+        public async Task<ActionResult<List<Tipo>>> GetTiposAcce()
+        {
+            var lista = await Task.Run(() => new accesorioDAO().listaTipos());
+            return Ok(lista);
+        }
+
+        [HttpGet("getModeloAcce")]
+        public async Task<ActionResult<List<Modelo>>> GetModeloAcce()
+        {
+            var lista = await Task.Run(() => new accesorioDAO().listaModelos());
+            return Ok(lista);
+        }
     }
 }

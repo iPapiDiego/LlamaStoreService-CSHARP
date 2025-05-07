@@ -7,6 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\img\Accesorios\**" />
+    <Content Remove="wwwroot\img\Accesorios\**" />
+    <EmbeddedResource Remove="wwwroot\img\Accesorios\**" />
+    <None Remove="wwwroot\img\Accesorios\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
@@ -21,12 +28,11 @@
     <None Include="wwwroot\img\Logos\llamaStoreLogoLargo.PNG" />
     <None Include="wwwroot\img\Logos\llamaStoreLogoLargoTransparente.PNG" />
     <None Include="wwwroot\img\Logos\logo-llamastore.png" />
-    <None Include="wwwroot\img\productos\producto1.png" />
   </ItemGroup>
 
   <ItemGroup>
     <Folder Include="wwwroot\html\admins\" />
-    <Folder Include="wwwroot\img\Accesorios\" />
+    <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
 </Project>

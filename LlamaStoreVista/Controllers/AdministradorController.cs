@@ -232,19 +232,53 @@ namespace LlamaStoreVista.Controllers
             return View(await Task.Run(() => new ProductoCrear()));
         }
 
+      
         [HttpPost]
-        public async Task<IActionResult> AgregarProducto(ProductoCrear productoCrear)
+        public async Task<IActionResult> AgregarProducto(ProductoCrear productoCrear, IFormFile ImagenFile)
         {
-            string mensaje = "";
+            if (ImagenFile != null && ImagenFile.Length > 0)
+            {
+                var extension = Path.GetExtension(ImagenFile.FileName).ToLower();
+                var permitido = new[] { ".jpg", ".jpeg", ".png" };
+
+                if (!permitido.Contains(extension))
+                {
+                    TempData["mensaje"] = "Formato no permitido. Solo JPG y PNG.";
+                    return RedirectToAction("ListaProductos");
+                }
+
+                if (ImagenFile.Length > 2 * 1024 * 1024)
+                {
+                    TempData["mensaje"] = "La imagen excede el tamaño máximo de 2MB.";
+                    return RedirectToAction("ListaProductos");
+                }
+
+                // Generar nombre único
+                var nombreArchivo = Guid.NewGuid().ToString() + extension;
+
+                // Ruta absoluta para guardar
+                var rutaGuardar = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", nombreArchivo);
+
+                // Guardar archivo físicamente
+                using (var stream = new FileStream(rutaGuardar, FileMode.Create))
+                {
+                    await ImagenFile.CopyToAsync(stream);
+                }
+
+                // Guardar la ruta relativa en el modelo que se enviará a la API
+                productoCrear.imagen = "/images/" + nombreArchivo;
+            }
+
+            // Enviar los datos a la API
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(conexionProduc);
-                StringContent content = new StringContent(JsonConvert.SerializeObject(productoCrear), Encoding.UTF8, "application/json");
-                HttpResponseMessage response = await client.PostAsync("postAgregarCelular", content);
+                var content = new StringContent(JsonConvert.SerializeObject(productoCrear), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("postAgregarCelular", content);
                 string apiresponse = await response.Content.ReadAsStringAsync();
-                mensaje = apiresponse;
+                TempData["mensaje"] = apiresponse;
             }
-            TempData["mensaje"] = mensaje;
+
             return RedirectToAction("ListaProductos");
         }
 
@@ -294,5 +328,188 @@ namespace LlamaStoreVista.Controllers
             TempData["mensaje"] = mensaje;
             return RedirectToAction("ListaProductos");
         }
+
+        // Acción que recibe el ID y elimina desde la API
+        public async Task<IActionResult> Delete(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return RedirectToAction("ListaProductos");
+
+            string mensaje = "";
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionProduc);
+                HttpResponseMessage response = await client.DeleteAsync("deleteCelular/?id=" + id);
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                mensaje = apiResponse;
+            }
+
+            TempData["mensaje"] = mensaje;
+            return RedirectToAction("ListaProductos");
+        }
+
+        //===================================================ACCESORIO======================================================
+        //===================================================ACCESORIO======================================================
+        //===================================================ACCESORIO======================================================
+        //===================================================ACCESORIO======================================================
+        //===================================================ACCESORIO======================================================
+        //===================================================ACCESORIO======================================================
+        //===================================================ACCESORIO======================================================
+
+        public async Task<List<Tipo>> ListaTipoAcce()
+        {
+            List<Tipo> temporal = new List<Tipo>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionAccesor);
+                HttpResponseMessage response = await client.GetAsync("getTiposAcce");
+                string apiresponse = await response.Content.ReadAsStringAsync();
+                temporal = JsonConvert.DeserializeObject<List<Tipo>>(apiresponse).ToList();
+            }
+            return temporal;
+        }
+
+        public async Task<List<Modelo>> ListaModeloAcce()
+        {
+            List<Modelo> temporal = new List<Modelo>();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionAccesor);
+                HttpResponseMessage response = await client.GetAsync("getModeloAcce");
+                string apiresponse = await response.Content.ReadAsStringAsync();
+                temporal = JsonConvert.DeserializeObject<List<Modelo>>(apiresponse).ToList();
+            }
+            return temporal;
+        }
+
+        
+
+        public async Task<IActionResult> AgregarAccesorio()
+        {
+            var tipos = await ListaTipoAcce();
+            ViewBag.tipos = new SelectList(tipos, "idtipo", "tipo");
+
+            var modelos = await ListaModeloAcce();
+            ViewBag.modelos = new SelectList(modelos, "idmodelo", "modelo");
+
+            var marcas = await ListaMarcas();
+            ViewBag.marcas = new SelectList(marcas, "idmarca", "nombre_marca");
+
+            return View(await Task.Run(() => new CrudAccesorio()));
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> AgregarAccesorio(CrudAccesorio crudAccesorio, IFormFile ImagenFile)
+        {
+            if (ImagenFile != null && ImagenFile.Length > 0)
+            {
+                var extension = Path.GetExtension(ImagenFile.FileName).ToLower();
+                var permitido = new[] { ".jpg", ".jpeg", ".png" };
+
+                if (!permitido.Contains(extension))
+                {
+                    TempData["mensaje"] = "Formato no permitido. Solo JPG y PNG.";
+                    return RedirectToAction("ListaProductos");
+                }
+
+                if (ImagenFile.Length > 2 * 1024 * 1024)
+                {
+                    TempData["mensaje"] = "La imagen excede el tamaño máximo de 2MB.";
+                    return RedirectToAction("ListaProductos");
+                }
+
+                // Generar nombre único
+                var nombreArchivo = Guid.NewGuid().ToString() + extension;
+
+                // Ruta absoluta para guardar
+                var rutaGuardar = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", nombreArchivo);
+
+                // Guardar archivo físicamente
+                using (var stream = new FileStream(rutaGuardar, FileMode.Create))
+                {
+                    await ImagenFile.CopyToAsync(stream);
+                }
+
+                // Guardar la ruta relativa en el modelo que se enviará a la API
+                crudAccesorio.imagen = "/images/" + nombreArchivo;
+            }
+
+            // Enviar los datos a la API
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionAccesor);
+                var content = new StringContent(JsonConvert.SerializeObject(crudAccesorio), Encoding.UTF8, "application/json");
+                var response = await client.PostAsync("postAgregarAccesorio", content);
+                string apiresponse = await response.Content.ReadAsStringAsync();
+                TempData["mensaje"] = apiresponse;
+            }
+
+            return RedirectToAction("ListaAccesorios");
+        }
+
+        //EDITAR PRODUCTO
+        public async Task<IActionResult> ActualizarAccesorio(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return RedirectToAction("ListaAccesorios");
+
+            ProductoCrear productoCrear = new ProductoCrear();
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionAccesor);
+                HttpResponseMessage respons = await client.GetAsync("getBuscarAccesrio/?id=" + id);
+                string apiResponse = await respons.Content.ReadAsStringAsync();
+                productoCrear = JsonConvert.DeserializeObject<ProductoCrear>(apiResponse);
+            }
+
+            var tipos = await ListaTipoAcce();
+            ViewBag.tipos = new SelectList(tipos, "idtipo", "tipo");
+
+            var modelos = await ListaModeloAcce();
+            ViewBag.modelos = new SelectList(modelos, "idmodelo", "modelo");
+
+            var marcas = await ListaMarcas();
+            ViewBag.marcas = new SelectList(marcas, "idmarca", "nombre_marca");
+
+            return View(await Task.Run(() => productoCrear));
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> ActualizarAccesorio(ProductoCrear productoCrear)
+        {
+            string mensaje = "";
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionAccesor);
+                StringContent content = new StringContent(JsonConvert.SerializeObject(productoCrear), Encoding.UTF8, "application/json");
+                HttpResponseMessage response = await client.PostAsync("postActualizarAccesorio", content);
+                string apiresponse = await response.Content.ReadAsStringAsync();
+                mensaje = apiresponse;
+            }
+            TempData["mensaje"] = mensaje;
+            return RedirectToAction("ListaAccesorios");
+        }
+
+        // Acción que recibe el ID y elimina desde la API
+        public async Task<IActionResult> DeleteAccesorio(string id)
+        {
+            if (string.IsNullOrEmpty(id))
+                return RedirectToAction("ListaAccesorios");
+
+            string mensaje = "";
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionAccesor);
+                HttpResponseMessage response = await client.DeleteAsync("deleteAccesorio/?id=" + id);
+                string apiResponse = await response.Content.ReadAsStringAsync();
+                mensaje = apiResponse;
+            }
+
+            TempData["mensaje"] = mensaje;
+            return RedirectToAction("ListaAccesorios");
+        }
+
     }
 }
