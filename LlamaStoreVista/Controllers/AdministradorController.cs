@@ -454,13 +454,13 @@ namespace LlamaStoreVista.Controllers
             if (string.IsNullOrEmpty(id))
                 return RedirectToAction("ListaAccesorios");
 
-            ProductoCrear productoCrear = new ProductoCrear();
+            CrudAccesorio productoCrear = new CrudAccesorio();
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(conexionAccesor);
                 HttpResponseMessage respons = await client.GetAsync("getBuscarAccesrio/?id=" + id);
                 string apiResponse = await respons.Content.ReadAsStringAsync();
-                productoCrear = JsonConvert.DeserializeObject<ProductoCrear>(apiResponse);
+                productoCrear = JsonConvert.DeserializeObject<CrudAccesorio>(apiResponse);
             }
 
             var tipos = await ListaTipoAcce();
@@ -477,13 +477,13 @@ namespace LlamaStoreVista.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> ActualizarAccesorio(ProductoCrear productoCrear)
+        public async Task<IActionResult> ActualizarAccesorio(CrudAccesorio crudAccesorio)
         {
             string mensaje = "";
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(conexionAccesor);
-                StringContent content = new StringContent(JsonConvert.SerializeObject(productoCrear), Encoding.UTF8, "application/json");
+                StringContent content = new StringContent(JsonConvert.SerializeObject(crudAccesorio), Encoding.UTF8, "application/json");
                 HttpResponseMessage response = await client.PostAsync("postActualizarAccesorio", content);
                 string apiresponse = await response.Content.ReadAsStringAsync();
                 mensaje = apiresponse;
