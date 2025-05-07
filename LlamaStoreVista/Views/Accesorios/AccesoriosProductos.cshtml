@@ -1,11 +1,10 @@
-﻿@using LlamaStoreVista.Models.Product 
- @model IEnumerable<Producto> 
- 
+﻿@model IEnumerable<LlamaStoreService.Models.Accesorios.Accesorio>
 
 @{
-    ViewData["Title"] = "IphonesProductos";
+    ViewData["Title"] = "AccesoriosProductos";
     Layout = null;
 }
+
 
 <html lang="es">
 
@@ -166,8 +165,8 @@
             <section class="container my-5">
 
                 <div class="banner-iphones">
-                    <img src="/img/baners/bannerIphone.jpg" alt="Banner_Iphone" class="imagen-banner">
-                    <div class="titulo-superpuesto">Iphones</div>
+                    <img src="/img/banner_accesorios.webp" alt="Banner_Iphone" class="imagen-banner">
+                    <div class="titulo-superpuesto">Accesorios</div>
                 </div>
 
 
@@ -184,7 +183,7 @@
                     {
                         <div class="col-lg-3 col-md-4 col-sm-6">
                             <div class="card iphone-card text-center h-100">
-                                <img src="@Url.Content($"~/img/productos/iphones/{item.idcel}.png")" class="iphone-img p-4" alt="iPhone 11">
+                                <img src="@Url.Content($"~/img/accesori/{item.idacce}.png")" class="iphone-img p-4" alt="iPhone 11">
                                 <div class="card-body">
                                     <h5 class="card-title fw-bold">@Html.DisplayFor(modelItem => item.nombre_marca) @Html.DisplayFor(modelItem => item.modelo)</h5>
                                     <p class="card-text text-primary fw-bold fs-5">@Html.DisplayFor(modelItem => item.precio)</p>
@@ -327,3 +326,4 @@
 </body>
 
 </html>
+
