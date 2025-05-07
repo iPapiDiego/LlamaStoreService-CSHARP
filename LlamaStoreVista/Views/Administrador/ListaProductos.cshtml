@@ -206,16 +206,81 @@
 
                         <!-- Paginación -->
                         <nav aria-label="Page navigation">
-                            <ul class="pagination justify-content-center mt-3">
-                                <div class="d-flex flex-wrap gap-2 my-3">
-                                    @for (int i = 0; i < (int)ViewBag.pages; i++)
+                            <ul class="pagination justify-content-center mt-3 flex-wrap">
+                                @{
+                                    int currentPage = (int)ViewBag.page; // Ahora es 1-based
+                                    int totalPages = (int)ViewBag.pages;
+                                    int maxVisiblePages = 5;
+
+                                    // Botón "Anterior"
+                                    if (currentPage > 1)
                                     {
-                                        <a asp-action="ListaProductos" asp-route-page="@(i + 1)"
-                                           class="btn @(i == (int)ViewBag.page ? "btn-success" : "btn-outline-primary") fw-semibold">
-                                            @(i + 1)
-                                        </a>
+                                        <li class="page-item">
+                                            <a asp-action="ListaProductos" asp-route-page="1" class="page-link" aria-label="First">
+                                                <span aria-hidden="true">&laquo;&laquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a asp-action="ListaProductos" asp-route-page="@(currentPage - 1)" class="page-link" aria-label="Previous">
+                                                <span aria-hidden="true">&laquo;</span>
+                                            </a>
+                                        </li>
                                     }
-                                </div>
+
+                                    // Cálculo de páginas visibles
+                                    int startPage = Math.Max(1, currentPage - maxVisiblePages / 2);
+                                    int endPage = Math.Min(totalPages, startPage + maxVisiblePages - 1);
+
+                                    if (endPage - startPage + 1 < maxVisiblePages)
+                                    {
+                                        startPage = Math.Max(1, endPage - maxVisiblePages + 1);
+                                    }
+
+                                    // Puntos suspensivos iniciales
+                                    if (startPage > 1)
+                                    {
+                                        <li class="page-item disabled">
+                                            <span class="page-link">...</span>
+                                        </li>
+                                    }
+
+                                    // Botones de páginas
+                                    for (int i = startPage; i <= endPage; i++)
+                                    {
+                                        <li class="page-item @(i == currentPage ? "active" : "")">
+                                            <a asp-action="ListaProductos" asp-route-page="@i" class="page-link">
+                                                @i
+                                                @if (i == currentPage)
+                                                {
+                                                    <span class="visually-hidden">(current)</span>
+                                                }
+                                            </a>
+                                        </li>
+                                    }
+
+                                    // Puntos suspensivos finales
+                                    if (endPage < totalPages)
+                                    {
+                                        <li class="page-item disabled">
+                                            <span class="page-link">...</span>
+                                        </li>
+                                    }
+
+                                    // Botón "Siguiente"
+                                    if (currentPage < totalPages)
+                                    {
+                                        <li class="page-item">
+                                            <a asp-action="ListaProductos" asp-route-page="@(currentPage + 1)" class="page-link" aria-label="Next">
+                                                <span aria-hidden="true">&raquo;</span>
+                                            </a>
+                                        </li>
+                                        <li class="page-item">
+                                            <a asp-action="ListaProductos" asp-route-page="@totalPages" class="page-link" aria-label="Last">
+                                                <span aria-hidden="true">&raquo;&raquo;</span>
+                                            </a>
+                                        </li>
+                                    }
+                                }
                             </ul>
                         </nav>
                     </div>

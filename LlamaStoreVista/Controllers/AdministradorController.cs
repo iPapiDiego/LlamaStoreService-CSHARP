@@ -22,7 +22,7 @@ namespace LlamaStoreVista.Controllers
         private readonly string conexionBoleta = "https://localhost:44331/api/Boleta/";
         private readonly string conexionAuditorias = "https://localhost:44331/api/Auditoria/";
 
-        
+
 
         public async Task<IActionResult> Dashboard(int page = 1)
         {
@@ -30,7 +30,6 @@ namespace LlamaStoreVista.Controllers
             using (var client = new HttpClient())
             {
                 client.BaseAddress = new Uri(conexionAuditorias);
-                //LLAMAR SIEMPRE AL "getVendedores" DE LOS SERVICIOS
                 HttpResponseMessage response = await client.GetAsync("getAuditoria");
                 string apiresponse = await response.Content.ReadAsStringAsync();
                 temporal = JsonConvert.DeserializeObject<List<Auditoria>>(apiresponse).ToList();
@@ -40,11 +39,12 @@ namespace LlamaStoreVista.Controllers
             int fila = 5;
             int count = temporal.Count();
             int pages = count % fila == 0 ? count / fila : count / fila + 1;
-            page = page - 1;
-            ViewBag.page = + 1;
+
+            // No restes 1 a la página, mantenla como viene
+            ViewBag.page = page; // Ahora page es 1-based
             ViewBag.pages = pages;
 
-            return View(await Task.Run(() => temporal.Skip(fila * page).Take(fila)));
+            return View(await Task.Run(() => temporal.Skip(fila * (page - 1)).Take(fila)));
         }
 
         public async Task<IActionResult> ListaProductos(int page = 1)
@@ -63,11 +63,11 @@ namespace LlamaStoreVista.Controllers
             int fila = 5;
             int count = temporal.Count();
             int pages = count % fila == 0 ? count / fila : count / fila + 1;
-            page = page - 1;
+            
             ViewBag.page = page;
             ViewBag.pages = pages;
 
-            return View(await Task.Run(() => temporal.Skip(fila * page).Take(fila)));
+            return View(await Task.Run(() => temporal.Skip(fila * (page - 1)).Take(fila)));
         }
 
         public async Task<IActionResult> ListaAccesorios(int page = 1)
@@ -86,11 +86,11 @@ namespace LlamaStoreVista.Controllers
             int fila = 5;
             int count = temporal.Count();
             int pages = count % fila == 0 ? count / fila : count / fila + 1;
-            page = page - 1;
+            
             ViewBag.page = page;
             ViewBag.pages = pages;
 
-            return View(await Task.Run(() => temporal.Skip(fila * page).Take(fila)));
+            return View(await Task.Run(() => temporal.Skip(fila * (page - 1)).Take(fila)));
         }
 
         public async Task<IActionResult> ListaVentas(int page = 1)
@@ -109,11 +109,11 @@ namespace LlamaStoreVista.Controllers
             int fila = 5;
             int count = temporal.Count();
             int pages = count % fila == 0 ? count / fila : count / fila + 1;
-            page = page - 1;
+            
             ViewBag.page = page;
             ViewBag.pages = pages;
 
-            return View(await Task.Run(() => temporal.Skip(fila * page).Take(fila)));
+            return View(await Task.Run(() => temporal.Skip(fila * (page - 1)).Take(fila)));
         }
 
         public async Task<IActionResult> ListaReportes(int page = 1)
@@ -132,11 +132,11 @@ namespace LlamaStoreVista.Controllers
             int fila = 5;
             int count = temporal.Count();
             int pages = count % fila == 0 ? count / fila : count / fila + 1;
-            page = page - 1;
+            
             ViewBag.page = page;
             ViewBag.pages = pages;
 
-            return View(await Task.Run(() => temporal.Skip(fila * page).Take(fila)));
+            return View(await Task.Run(() => temporal.Skip(fila * (page - 1)).Take(fila)));
         }
 
         //=========================================================================
@@ -511,11 +511,11 @@ namespace LlamaStoreVista.Controllers
             int fila = 5;
             int count = temporal.Count();
             int pages = count % fila == 0 ? count / fila : count / fila + 1;
-            page = page - 1;
+            
             ViewBag.page = page;
             ViewBag.pages = pages;
 
-            return View(await Task.Run(() => temporal.Skip(fila * page).Take(fila)));
+            return View(await Task.Run(() => temporal.Skip(fila * (page - 1)).Take(fila)));
         }
 
         public async Task<List<Roll>> ListaRolles()
