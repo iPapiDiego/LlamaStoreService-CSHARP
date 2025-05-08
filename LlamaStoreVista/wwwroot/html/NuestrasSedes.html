@@ -1,13 +1,4 @@
-﻿@using LlamaStoreVista.Models.Product
- @model IEnumerable<Producto>
-
-
-@{
-    ViewData["Title"] = "IphonesProductos";
-    Layout = null;
-}
-
-<html lang="es">
+﻿<html lang="es">
 
 <head>
     <meta charset="UTF-8">
@@ -21,7 +12,7 @@
     <link rel="stylesheet" href="/css/Header.css">
     <link rel="stylesheet" href="/css/Footer.css">
     <link rel="stylesheet" href="/css/Main.css">
-    <link rel="stylesheet" href="/css/Iphone.css">
+
 </head>
 
 <body>
@@ -45,22 +36,22 @@
 
                         @if (User.Identity.IsAuthenticated)
                         {
-                            <!-- Botón de Logout - Estilo similar al Login -->
-                            <form asp-controller="Auth" asp-action="Logout" method="post" id="logoutForm" class="d-inline">
-                                @Html.AntiForgeryToken()
-                                <a href="#" class="btn btn-outline-primary" onclick="document.getElementById('logoutForm').submit();">
-                                    <i class="fas fa-sign-out-alt"></i>
-                                    <span class="ms-2">Logout</span>
-                                </a>
-                            </form>
+                        <!-- Botón de Logout - Estilo similar al Login -->
+                        <form asp-controller="Auth" asp-action="Logout" method="post" id="logoutForm" class="d-inline">
+                            @Html.AntiForgeryToken()
+                            <a href="#" class="btn btn-outline-primary" onclick="document.getElementById('logoutForm').submit();">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span class="ms-2">Logout</span>
+                            </a>
+                        </form>
                         }
                         else
                         {
-                            <!-- Botón de Login (existente) -->
-                            <a href="/Auth/Login" class="btn btn-outline-primary">
-                                <i class="fa-solid fa-user"></i>
-                                <span class="ms-2">Ingresar</span>
-                            </a>
+                        <!-- Botón de Login (existente) -->
+                        <a href="/Auth/Login" class="btn btn-outline-primary">
+                            <i class="fa-solid fa-user"></i>
+                            <span class="ms-2">Ingresar</span>
+                        </a>
                         }
 
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
@@ -121,28 +112,28 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="underline-hover" href="~/html/contacto.html">
+                                <a class="underline-hover" href="~/html/Contactanos.html">
                                     Contactanos
                                     <i class="fa-solid fa-address-book"></i>
                                 </a>
                             </li>
                             @if (User.IsInRole("Admin"))
                             {
-                                <li class="nav-item">
-                                    <a class="underline-hover" href="/Administrador/Dashboard">
-                                        Admin
-                                        <i class="fa-solid fa-address-book"></i>
-                                    </a>
-                                </li>
+                            <li class="nav-item">
+                                <a class="underline-hover" href="/Administrador/Dashboard">
+                                    Admin
+                                    <i class="fa-solid fa-address-book"></i>
+                                </a>
+                            </li>
                             }
                             @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Cliente"))
                             {
-                                <li class="nav-item">
-                                    <a class="underline-hover" asp-controller="Usuarios" asp-action="ActualizarUsuario">
-                                        Actualizar
-                                        <i class="fa-solid fa-address-book"></i>
-                                    </a>
-                                </li>
+                            <li class="nav-item">
+                                <a class="underline-hover" asp-controller="Usuarios" asp-action="ActualizarUsuario">
+                                    Actualizar
+                                    <i class="fa-solid fa-address-book"></i>
+                                </a>
+                            </li>
                             }
                         </ul>
                     </div>
@@ -196,53 +187,7 @@
         <!--========================================================ASIDE================================================================-->
 
         <main>
-            <section class="container my-5">
 
-                <div class="banner-iphones">
-                    <img src="/img/baners/bannerIphone.jpg" alt="Banner_Iphone" class="imagen-banner">
-                    <div class="titulo-superpuesto">Iphones</div>
-                </div>
-
-
-                <div class="banner-azul">
-                    <img src="/img/baners/baner_azul.png" alt="Banner Azul">
-                </div>
-
-                <br>
-
-
-                <div class="row justify-content-center g-4">
-                    <!-- Iphone 1 -->
-                    @foreach (var item in Model)
-                    {
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <div class="card iphone-card text-center h-100">
-                                <img src="@Url.Content($"~/img/productos/{item.idcel}.png")" class="iphone-img p-4" alt="iPhone 11">
-                                <div class="card-body">
-                                    <h5 class="card-title fw-bold">@Html.DisplayFor(modelItem => item.nombre_marca) @Html.DisplayFor(modelItem => item.modelo)</h5>
-                                    <p class="card-text text-primary fw-bold fs-5">@Html.DisplayFor(modelItem => item.precio)</p>
-                                    <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
-                                </div>
-                            </div>
-                        </div>
-                    }
-
-                    <!-- Paginación -->
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-center mt-3">
-                            <div class="d-flex flex-wrap gap-2 my-3">
-                                @for (int i = 0; i < (int)ViewBag.pages; i++)
-                                {
-                                    <a asp-action="IphonesProductos" asp-route-page="@(i + 1)"
-                                       class="btn @(i == (int)ViewBag.page ? "btn-success" : "btn-outline-primary") fw-semibold">
-                                        @(i + 1)
-                                    </a>
-                                }
-                            </div>
-                        </ul>
-                    </nav>
-                </div>
-            </section>
         </main>
 
         <!--========================================================FOOTER================================================================-->

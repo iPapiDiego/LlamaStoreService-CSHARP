@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="form-container">
-                    <form asp-action="AgregarProducto">
+                    <form asp-action="AgregarProducto" method="post" enctype="multipart/form-data">
                         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                         <div class="row mb-4">
                             <div class="col-md-6">
@@ -152,9 +152,11 @@
                                 <span asp-validation-for="especificaciones" class="text-danger"></span>
                             </div>
                             <div class="col-12">
-                                <label for="productImage" class="form-label">Imagen del Producto</label>
-                                <input asp-for="imagen" class="form-control" type="file" id="productImage">
+                                <label asp-for="ImagenFile" class="form-label">Imagen del Producto</label>
+                                <input asp-for="ImagenFile" class="form-control" type="file" id="productImage"
+                                       accept=".jpg,.jpeg,.png" onchange="validateFile(this)">
                                 <small class="text-muted">Formatos aceptados: JPG, PNG (Máx. 2MB)</small>
+                                <span asp-validation-for="ImagenFile" class="text-danger"></span>
                             </div>
                         </div>
                     </form>
@@ -168,6 +170,7 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="~/js/Dashboard.js"></script>
+    
 </body>
 
 

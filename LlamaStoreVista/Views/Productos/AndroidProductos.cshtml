@@ -41,10 +41,25 @@
                             </span>
                         </button>
 
-                        <a href="/Usuarios/login" class="btn btn-outline-primary">
-                            <i class="fa-solid fa-user"></i>
-                            <span class="login-text ms-2">Ingresar</span>
-                        </a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <!-- Botón de Logout - Estilo similar al Login -->
+                            <form asp-controller="Auth" asp-action="Logout" method="post" id="logoutForm" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <a href="#" class="btn btn-outline-primary" onclick="document.getElementById('logoutForm').submit();">
+                                    <i class="fas fa-sign-out-alt"></i>
+                                    <span class="ms-2">Logout</span>
+                                </a>
+                            </form>
+                        }
+                        else
+                        {
+                            <!-- Botón de Login (existente) -->
+                            <a href="/Auth/Login" class="btn btn-outline-primary">
+                                <i class="fa-solid fa-user"></i>
+                                <span class="ms-2">Ingresar</span>
+                            </a>
+                        }
 
                         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                                 data-bs-target="#navbarContent" aria-controls="navbarContent" aria-expanded="false"
@@ -71,7 +86,7 @@
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="/Productos/AndroidProductos">
                                             Android
                                             <i class="fa-brands fa-android"></i>
                                         </a>
@@ -109,19 +124,24 @@
                                     <i class="fa-solid fa-address-book"></i>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="underline-hover" href="/Administrador/Dashboard">
-                                    Admin
-                                    <i class="fa-solid fa-address-book"></i>
-                                </a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="underline-hover" href="/Usuarios/ActualizarUsuario">
-                                    Actualizar
-                                    <i class="fa-solid fa-address-book"></i>
-                                </a>
-                            </li>
-
+                            @if (User.IsInRole("Admin"))
+                            {
+                                <li class="nav-item">
+                                    <a class="underline-hover" href="/Administrador/Dashboard">
+                                        Admin
+                                        <i class="fa-solid fa-address-book"></i>
+                                    </a>
+                                </li>
+                            }
+                            @if (User.Identity?.IsAuthenticated == true && User.IsInRole("Cliente"))
+                            {
+                                <li class="nav-item">
+                                    <a class="underline-hover" asp-controller="Usuarios" asp-action="ActualizarUsuario">
+                                        Actualizar
+                                        <i class="fa-solid fa-address-book"></i>
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </div>
 
@@ -195,7 +215,7 @@
                     {
                         <div class="col-lg-3 col-md-4 col-sm-6">
                             <div class="card iphone-card text-center h-100">
-                                <img src="@Url.Content($"~/img/productos/android/{item.idcel}.png")" class="iphone-img p-4" alt="@item.modelo">
+                                <img src="@Url.Content($"~/img/productos/{item.idcel}.png")" class="iphone-img p-4" alt="@item.modelo">
                                 <div class="card-body">
                                     <h5 class="card-title fw-bold">@Html.DisplayFor(modelItem => item.nombre_marca) @Html.DisplayFor(modelItem => item.modelo)</h5>
                                     <p class="card-text text-primary fw-bold fs-5">@Html.DisplayFor(modelItem => item.precio)</p>

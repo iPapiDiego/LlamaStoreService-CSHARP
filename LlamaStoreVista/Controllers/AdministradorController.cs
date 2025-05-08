@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
 using System.Text;
+using System.IO;
+using System.Linq;
 
 namespace LlamaStoreVista.Controllers
 {
@@ -63,7 +65,7 @@ namespace LlamaStoreVista.Controllers
             int fila = 5;
             int count = temporal.Count();
             int pages = count % fila == 0 ? count / fila : count / fila + 1;
-            
+
             ViewBag.page = page;
             ViewBag.pages = pages;
 
@@ -86,7 +88,7 @@ namespace LlamaStoreVista.Controllers
             int fila = 5;
             int count = temporal.Count();
             int pages = count % fila == 0 ? count / fila : count / fila + 1;
-            
+
             ViewBag.page = page;
             ViewBag.pages = pages;
 
@@ -109,7 +111,7 @@ namespace LlamaStoreVista.Controllers
             int fila = 5;
             int count = temporal.Count();
             int pages = count % fila == 0 ? count / fila : count / fila + 1;
-            
+
             ViewBag.page = page;
             ViewBag.pages = pages;
 
@@ -132,7 +134,7 @@ namespace LlamaStoreVista.Controllers
             int fila = 5;
             int count = temporal.Count();
             int pages = count % fila == 0 ? count / fila : count / fila + 1;
-            
+
             ViewBag.page = page;
             ViewBag.pages = pages;
 
@@ -210,54 +212,99 @@ namespace LlamaStoreVista.Controllers
             return View(await Task.Run(() => new ProductoCrear()));
         }
 
-      
+
         [HttpPost]
-        public async Task<IActionResult> AgregarProducto(ProductoCrear productoCrear, IFormFile ImagenFile)
+        public async Task<IActionResult> AgregarProducto(ProductoCrear productoCrear)
         {
-            if (ImagenFile != null && ImagenFile.Length > 0)
+            try
             {
-                var extension = Path.GetExtension(ImagenFile.FileName).ToLower();
-                var permitido = new[] { ".jpg", ".jpeg", ".png" };
-
-                if (!permitido.Contains(extension))
+                if (productoCrear.ImagenFile == null || productoCrear.ImagenFile.Length == 0)
                 {
-                    TempData["mensaje"] = "Formato no permitido. Solo JPG y PNG.";
-                    return RedirectToAction("ListaProductos");
+                    TempData["mensaje"] = "Debe seleccionar una imagen válida";
+                    return View(productoCrear);
                 }
 
-                if (ImagenFile.Length > 2 * 1024 * 1024)
+                // 1. Obtener nombre original completo
+                var originalFileName = productoCrear.ImagenFile.FileName;
+                var extension = Path.GetExtension(originalFileName);
+
+                // 2. Validar extensión
+                if (string.IsNullOrEmpty(extension) || !new[] { ".jpg", ".jpeg", ".png" }.Contains(extension.ToLower()))
                 {
-                    TempData["mensaje"] = "La imagen excede el tamaño máximo de 2MB.";
-                    return RedirectToAction("ListaProductos");
+                    TempData["mensaje"] = "Solo se permiten imágenes JPG, JPEG o PNG";
+                    return View(productoCrear);
                 }
 
-                // Generar nombre único
-                var nombreArchivo = Guid.NewGuid().ToString() + extension;
+                // 3. Limpiar nombre de archivo (remover caracteres inválidos)
+                var safeFileName = MakeValidFileName(originalFileName);
 
-                // Ruta absoluta para guardar
-                var rutaGuardar = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", nombreArchivo);
+                // 4. Ruta de almacenamiento
+                var imagesPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "productos");
+                Directory.CreateDirectory(imagesPath); // Asegurar que existe
 
-                // Guardar archivo físicamente
-                using (var stream = new FileStream(rutaGuardar, FileMode.Create))
+                var fullPath = Path.Combine(imagesPath, safeFileName);
+
+                // 5. Verificar si ya existe y agregar sufijo numérico
+                int counter = 1;
+                while (System.IO.File.Exists(fullPath))
                 {
-                    await ImagenFile.CopyToAsync(stream);
+                    var fileNameWithoutExt = Path.GetFileNameWithoutExtension(safeFileName);
+                    extension = Path.GetExtension(safeFileName);
+                    safeFileName = $"{fileNameWithoutExt}_{counter++}{extension}";
+                    fullPath = Path.Combine(imagesPath, safeFileName);
                 }
 
-                // Guardar la ruta relativa en el modelo que se enviará a la API
-                productoCrear.imagen = "/images/" + nombreArchivo;
+                // 6. Guardar archivo
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await productoCrear.ImagenFile.CopyToAsync(stream);
+                }
+
+                // 7. Asignar ruta relativa
+                productoCrear.imagen = $"/img/productos/{safeFileName}";
+
+                // ... (resto de tu código para guardar en la API)
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(conexionProduc);
+                    var content = new StringContent(JsonConvert.SerializeObject(productoCrear),
+                        Encoding.UTF8, "application/json");
+
+                    var response = await client.PostAsync("postAgregarCelular", content);
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        // Limpiar archivo si falla la API
+                        if (System.IO.File.Exists(fullPath))
+                        {
+                            System.IO.File.Delete(fullPath);
+                        }
+                        TempData["mensaje"] = "Error al guardar en la API";
+                        return RedirectToAction("ListaProductos");
+                    }
+                }
+
+
+                TempData["mensaje"] = "Imagen guardada con su nombre original";
+                return RedirectToAction("ListaProductos");
             }
-
-            // Enviar los datos a la API
-            using (var client = new HttpClient())
+            catch (Exception ex)
             {
-                client.BaseAddress = new Uri(conexionProduc);
-                var content = new StringContent(JsonConvert.SerializeObject(productoCrear), Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("postAgregarCelular", content);
-                string apiresponse = await response.Content.ReadAsStringAsync();
-                TempData["mensaje"] = apiresponse;
+                TempData["mensaje"] = $"Error: {ex.Message}";
+                return View(productoCrear);
             }
+        }
 
-            return RedirectToAction("ListaProductos");
+        // Función para limpiar nombres de archivo
+        private string MakeValidFileName(string name)
+        {
+            var invalidChars = System.IO.Path.GetInvalidFileNameChars();
+            var cleanName = new string(name
+                .Where(ch => !invalidChars.Contains(ch))
+                .ToArray())
+                .Replace(" ", "_"); // Reemplazar espacios por guiones bajos
+
+            return string.IsNullOrEmpty(cleanName) ? "imagen" + Path.GetExtension(name) : cleanName;
         }
 
         //EDITAR PRODUCTO
@@ -360,7 +407,7 @@ namespace LlamaStoreVista.Controllers
             return temporal;
         }
 
-        
+
 
         public async Task<IActionResult> AgregarAccesorio()
         {
@@ -511,7 +558,7 @@ namespace LlamaStoreVista.Controllers
             int fila = 5;
             int count = temporal.Count();
             int pages = count % fila == 0 ? count / fila : count / fila + 1;
-            
+
             ViewBag.page = page;
             ViewBag.pages = pages;
 

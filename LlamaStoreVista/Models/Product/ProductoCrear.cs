@@ -1,4 +1,6 @@
-﻿namespace LlamaStoreService.Models.Products
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LlamaStoreService.Models.Products
 {
     public class ProductoCrear
     {
@@ -16,5 +18,9 @@
         public DateTime created_at { get; set; }
         public DateTime updated_at { get; set; }
         public string imagen { get; set; }
+
+        [DataType(DataType.Upload)]
+        
+        public IFormFile ImagenFile { get; set; }
     }
 }
