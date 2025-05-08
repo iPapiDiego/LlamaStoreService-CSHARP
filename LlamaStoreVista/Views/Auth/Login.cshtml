@@ -1,7 +1,8 @@
-﻿@model IEnumerable<LlamaStoreService.Models.Users.Usuario>
+﻿@model LlamaStoreService.Models.Auths.LoginRequest
+
 
 @{
-    ViewData["Title"] = "login";
+    ViewData["Title"] = "Login";
     Layout = null;
 }
 
@@ -13,7 +14,7 @@
     <title>Iniciar Sesión</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
     <link rel="stylesheet" href="/css/userStyles/login.css">
-    <script href="/js/login.js"></script>
+
 </head>
 
 <body>
@@ -30,20 +31,20 @@
 
     <!-- Contenedor de login -->
     <div class="login-container">
-        <form class="login-form">
+        <form asp-action="Login" method="post" class="login-form">
             <h2>Bienvenido</h2>
 
             <!-- Campo de email -->
             <div class="input-group">
                 <i class="fas fa-envelope"></i>
-                <input type="email" placeholder="Correo electrónico" required
+                <input asp-for="Correo" type="email" placeholder="Correo electrónico" required
                        pattern="[a-z0-9._%+-]+[a-z0-9.-]+\.[a-z]{2,}$" />
             </div>
 
             <!-- Campo de contraseña -->
             <div class="input-group">
                 <i class="fas fa-lock"></i>
-                <input type="password" placeholder="Contraseña" required minlength="6" />
+                <input asp-for="Clave" type="password" placeholder="Contraseña" required minlength="6" />
             </div>
 
             <!-- Opciones adicionales -->
@@ -76,6 +77,7 @@
                 <p>
                     @TempData["mensaje"]
                 </p>
+                
             </div>
 
         </form>
@@ -85,3 +87,6 @@
 </body>
 
 </html>
+
+
+

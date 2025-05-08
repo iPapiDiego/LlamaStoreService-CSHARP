@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Authentication.Cookies;
+using static LlamaStoreVista.Controllers.AuthController;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,8 +8,24 @@ builder.Services.AddControllersWithViews();
 
 
 
+// Agrega esto en Program.cs
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+    {
+        options.LoginPath = "/Auth/Login";
+        options.AccessDeniedPath = "/Auth/AccessDenied";
+        options.ExpireTimeSpan = TimeSpan.FromHours(3);
+    });
+
+builder.Services.AddHttpClient("ApiClient", client =>
+{
+    client.BaseAddress = new Uri(builder.Configuration["ApiBaseUrl"]);
+});
 
 
+// En Program.cs
+builder.Services.AddHttpContextAccessor();
+builder.Services.AddScoped<ApiService>();
 
 
 var app = builder.Build();

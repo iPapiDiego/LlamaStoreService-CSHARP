@@ -1,0 +1,16 @@
+﻿
+
+
+@if (User.IsInRole("Admin"))
+{
+    <li class="nav-item">
+        <a class="nav-link" asp-controller="Admin" asp-action="Dashboard">Panel Admin</a>
+    </li>
+}
+
+@if (User.IsInRole("Cliente"))
+{
+    <li class="nav-item">
+        <a class="nav-link" asp-controller="Cliente" asp-action="Perfil">Mi Perfil</a>
+    </li>
+}
