@@ -285,7 +285,7 @@ namespace LlamaStoreVista.Controllers
                 }
 
 
-                TempData["mensaje"] = "Imagen guardada con su nombre original";
+                TempData["mensaje"] = "Producto Registrado";
                 return RedirectToAction("ListaProductos");
             }
             catch (Exception ex)
@@ -423,55 +423,89 @@ namespace LlamaStoreVista.Controllers
             return View(await Task.Run(() => new CrudAccesorio()));
         }
 
-
         [HttpPost]
-        public async Task<IActionResult> AgregarAccesorio(CrudAccesorio crudAccesorio, IFormFile ImagenFile)
+        public async Task<IActionResult> AgregarAccesorio(CrudAccesorio crudAccesorio)
         {
-            if (ImagenFile != null && ImagenFile.Length > 0)
+            try
             {
-                var extension = Path.GetExtension(ImagenFile.FileName).ToLower();
-                var permitido = new[] { ".jpg", ".jpeg", ".png" };
-
-                if (!permitido.Contains(extension))
+                if (crudAccesorio.ImagenFile == null || crudAccesorio.ImagenFile.Length == 0)
                 {
-                    TempData["mensaje"] = "Formato no permitido. Solo JPG y PNG.";
-                    return RedirectToAction("ListaProductos");
+                    TempData["mensaje"] = "Debe seleccionar una imagen válida";
+                    return View(crudAccesorio);
                 }
 
-                if (ImagenFile.Length > 2 * 1024 * 1024)
+                // 1. Obtener nombre original completo
+                var originalFileName = crudAccesorio.ImagenFile.FileName;
+                var extension = Path.GetExtension(originalFileName);
+
+                // 2. Validar extensión
+                if (string.IsNullOrEmpty(extension) || !new[] { ".jpg", ".jpeg", ".png" }.Contains(extension.ToLower()))
                 {
-                    TempData["mensaje"] = "La imagen excede el tamaño máximo de 2MB.";
-                    return RedirectToAction("ListaProductos");
+                    TempData["mensaje"] = "Solo se permiten imágenes JPG, JPEG o PNG";
+                    return View(crudAccesorio);
                 }
 
-                // Generar nombre único
-                var nombreArchivo = Guid.NewGuid().ToString() + extension;
+                // 3. Limpiar nombre de archivo (remover caracteres inválidos)
+                var safeFileName = MakeValidFileName(originalFileName);
 
-                // Ruta absoluta para guardar
-                var rutaGuardar = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/images", nombreArchivo);
+                // 4. Ruta de almacenamiento
+                var imagesPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "img", "accesorios");
+                Directory.CreateDirectory(imagesPath); // Asegurar que existe
 
-                // Guardar archivo físicamente
-                using (var stream = new FileStream(rutaGuardar, FileMode.Create))
+                var fullPath = Path.Combine(imagesPath, safeFileName);
+
+                // 5. Verificar si ya existe y agregar sufijo numérico
+                int counter = 1;
+                while (System.IO.File.Exists(fullPath))
                 {
-                    await ImagenFile.CopyToAsync(stream);
+                    var fileNameWithoutExt = Path.GetFileNameWithoutExtension(safeFileName);
+                    extension = Path.GetExtension(safeFileName);
+                    safeFileName = $"{fileNameWithoutExt}_{counter++}{extension}";
+                    fullPath = Path.Combine(imagesPath, safeFileName);
                 }
 
-                // Guardar la ruta relativa en el modelo que se enviará a la API
-                crudAccesorio.imagen = "/images/" + nombreArchivo;
+                // 6. Guardar archivo
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await crudAccesorio.ImagenFile.CopyToAsync(stream);
+                }
+
+                // 7. Asignar ruta relativa
+                crudAccesorio.imagen = $"/img/accesorios/{safeFileName}";
+
+                // ... (resto de tu código para guardar en la API)
+                using (var client = new HttpClient())
+                {
+                    client.BaseAddress = new Uri(conexionAccesor);
+                    var content = new StringContent(JsonConvert.SerializeObject(crudAccesorio),
+                        Encoding.UTF8, "application/json");
+
+                    var response = await client.PostAsync("postAgregarAccesorio", content);
+
+                    if (!response.IsSuccessStatusCode)
+                    {
+                        // Limpiar archivo si falla la API
+                        if (System.IO.File.Exists(fullPath))
+                        {
+                            System.IO.File.Delete(fullPath);
+                        }
+                        TempData["mensaje"] = "Error al guardar en la API";
+                        return RedirectToAction("ListaAccesorios");
+                    }
+                }
+
+
+                TempData["mensaje"] = "Accesorio Registrado";
+                return RedirectToAction("ListaAccesorios");
             }
-
-            // Enviar los datos a la API
-            using (var client = new HttpClient())
+            catch (Exception ex)
             {
-                client.BaseAddress = new Uri(conexionAccesor);
-                var content = new StringContent(JsonConvert.SerializeObject(crudAccesorio), Encoding.UTF8, "application/json");
-                var response = await client.PostAsync("postAgregarAccesorio", content);
-                string apiresponse = await response.Content.ReadAsStringAsync();
-                TempData["mensaje"] = apiresponse;
+                TempData["mensaje"] = $"Error: {ex.Message}";
+                return View(crudAccesorio);
             }
-
-            return RedirectToAction("ListaAccesorios");
         }
+
+       
 
         //EDITAR PRODUCTO
         public async Task<IActionResult> ActualizarAccesorio(string id)

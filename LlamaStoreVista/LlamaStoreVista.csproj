@@ -7,13 +7,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="wwwroot\img\Accesorios\**" />
-    <Content Remove="wwwroot\img\Accesorios\**" />
-    <EmbeddedResource Remove="wwwroot\img\Accesorios\**" />
-    <None Remove="wwwroot\img\Accesorios\**" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Authentication.Cookies" Version="2.3.0" />
     <PackageReference Include="Microsoft.Extensions.Http" Version="9.0.4" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="8.0.7" />
@@ -34,7 +27,7 @@
 
   <ItemGroup>
     <Folder Include="wwwroot\html\admins\" />
-    <Folder Include="wwwroot\images\" />
+    <Folder Include="wwwroot\img\accesorios\" />
   </ItemGroup>
 
 </Project>

@@ -1,4 +1,6 @@
-﻿namespace LlamaStoreService.Models.Accesorios
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace LlamaStoreService.Models.Accesorios
 {
     public class CrudAccesorio
     {
@@ -11,5 +13,9 @@
         public int stock { get; set; }
         public string descripcion { get; set; }
         public string imagen { get; set; }
+
+        [DataType(DataType.Upload)]
+
+        public IFormFile ImagenFile { get; set; }
     }
 }
