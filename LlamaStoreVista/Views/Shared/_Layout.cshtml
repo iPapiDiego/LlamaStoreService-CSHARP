@@ -1,24 +1,28 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿<html lang="es">
+
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>LlamaStoreVista</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio</title>
     <link rel="icon" href="img/Logos/logo-llamastore.png" />
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-    <link href="~/css/Header.css" rel="stylesheet" />
-    <link href="~/css/Footer.css" rel="stylesheet" />
-    <link href="~/css/ContainerGeneral.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/ContainerGeneral.css">
+    <link rel="stylesheet" href="/css/Header.css">
+    <link rel="stylesheet" href="/css/Footer.css">
+    <link rel="stylesheet" href="/css/Index.css">
 
 </head>
+
 <body>
+
     <div class="container1">
+
         <header>
             <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm">
                 <div class="container-fluid d-flex align-items-center justify-content-between">
-                    <a class="navbar-brand d-flex align-items-center" href="#">
-                        <img src="img/Logos/llama-store-logo-transparente.PNG" alt="Logo" class="me-2 logo-img">
+                    <a class="navbar-brand d-flex align-items-center" href="/Productos/Index">
+                        <img src="~/img/Logos/transparente.png" alt="Logo" class="me-2 logo-img">
                     </a>
                     <div class="d-flex align-items-center gap-3 order-lg-2">
                         <button class="btn position-relative" type="button" data-bs-toggle="offcanvas"
@@ -29,7 +33,7 @@
                             </span>
                         </button>
 
-                        <a href="#" class="btn btn-outline-primary">
+                        <a href="/Usuarios/login" class="btn btn-outline-primary">
                             <i class="fa-solid fa-user"></i>
                             <span class="login-text ms-2">Ingresar</span>
                         </a>
@@ -53,19 +57,19 @@
                                 </a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="/Productos/IphonesProductos">
                                             iPhones
                                             <i class="fa-brands fa-apple"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="/Productos/AndroidProductos">
                                             Android
                                             <i class="fa-brands fa-android"></i>
                                         </a>
                                     </li>
                                     <li>
-                                        <a class="dropdown-item" href="#">
+                                        <a class="dropdown-item" href="/Accesorios/AccesoriosProductos">
                                             Accesorios
                                             <i class="fa-solid fa-headphones"></i>
                                         </a>
@@ -80,23 +84,36 @@
                             </li>
 
                             <li class="nav-item">
-                                <a class="underline-hover" href="#">
+                                <a class="underline-hover" href="~/html/sobre_nosotros.html">
                                     Nosotros
                                     <i class="fa-solid fa-users"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="underline-hover" href="Html/PreguntasFrecuentes.html">
+                                <a class="underline-hover" href="~/html/PreguntasFrecuentes.html">
                                     Preguntas Frecuentes
                                     <i class="fa-solid fa-question"></i>
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="underline-hover" href="#">
+                                <a class="underline-hover" href="~/html/contacto.html">
                                     Contactanos
                                     <i class="fa-solid fa-address-book"></i>
                                 </a>
                             </li>
+                            <li class="nav-item">
+                                <a class="underline-hover" href="/Administrador/Dashboard">
+                                    Admin
+                                    <i class="fa-solid fa-address-book"></i>
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="underline-hover" href="/Usuarios/ActualizarUsuario">
+                                    Actualizar
+                                    <i class="fa-solid fa-address-book"></i>
+                                </a>
+                            </li>
+
                         </ul>
                     </div>
 
@@ -142,11 +159,9 @@
             </div>
         </header>
 
-
         <main>
             @RenderBody()
         </main>
-
 
         <footer>
             <div class="footer-top">
@@ -240,15 +255,16 @@
                         <div>
                             <a class="underline-hover" href="#">Llamano entre las 9 am - 8 pm</a><br>
                             <a href="tel:666855558464" style="color:#edab4e">6668 5555 8464</a>
-                            </divtd>
+
                         </div>
                     </div>
 
                 </div>
             </div>
+
         </footer>
     </div>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
-
 </body>
+
 </html>
