@@ -24,24 +24,29 @@ namespace LlamaStoreVista.Controllers
                 client.BaseAddress = new Uri(conexionService);
                 HttpResponseMessage response = await client.GetAsync("getCelulares");
 
-                if (response.IsSuccessStatusCode) // 👈 Verifica que el API respondió OK
+                if (response.IsSuccessStatusCode)
                 {
                     string apiresponse = await response.Content.ReadAsStringAsync();
                     if (!string.IsNullOrEmpty(apiresponse))
                     {
                         var deserialized = JsonConvert.DeserializeObject<List<Producto>>(apiresponse);
                         if (deserialized != null)
-                            temporal = deserialized.ToList();
+                        {
+                            // 🔍 FILTRO: Solo iPhone (iOS)
+                            temporal = deserialized
+                                .Where(p => p.tipo_sistema != null &&
+                                            p.tipo_sistema.ToLower().Contains("ios"))
+                                .ToList();
+                        }
                     }
                 }
                 else
                 {
-                    // Opcional: manejar el error
                     Console.WriteLine($"Error API: {response.StatusCode}");
                 }
             }
 
-            // Proceso para la paginación
+            // Paginación
             int fila = 12;
             int count = temporal.Count();
             int pages = count % fila == 0 ? count / fila : count / fila + 1;
@@ -52,7 +57,8 @@ namespace LlamaStoreVista.Controllers
             return View(await Task.Run(() => temporal.Skip(fila * page).Take(fila)));
         }
 
-        
+
+
 
         public async Task<IActionResult> AndroidProductos(int page = 1)
         {
@@ -63,24 +69,28 @@ namespace LlamaStoreVista.Controllers
                 client.BaseAddress = new Uri(conexionService);
                 HttpResponseMessage response = await client.GetAsync("getCelulares");
 
-                if (response.IsSuccessStatusCode) // 👈 Verifica que el API respondió OK
+                if (response.IsSuccessStatusCode)
                 {
                     string apiresponse = await response.Content.ReadAsStringAsync();
                     if (!string.IsNullOrEmpty(apiresponse))
                     {
                         var deserialized = JsonConvert.DeserializeObject<List<Producto>>(apiresponse);
                         if (deserialized != null)
-                            temporal = deserialized.ToList();
+                        {
+                            // 🔍 FILTRO: Solo Android
+                            temporal = deserialized
+                                .Where(p => p.tipo_sistema != null && p.tipo_sistema.ToLower().Contains("android"))
+                                .ToList();
+                        }
                     }
                 }
                 else
                 {
-                    // Opcional: manejar el error
                     Console.WriteLine($"Error API: {response.StatusCode}");
                 }
             }
 
-            // Proceso para la paginación
+            // Paginación
             int fila = 12;
             int count = temporal.Count();
             int pages = count % fila == 0 ? count / fila : count / fila + 1;
@@ -90,5 +100,6 @@ namespace LlamaStoreVista.Controllers
 
             return View(await Task.Run(() => temporal.Skip(fila * page).Take(fila)));
         }
+
     }
 }
