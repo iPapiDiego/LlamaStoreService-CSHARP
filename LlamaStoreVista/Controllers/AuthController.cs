@@ -52,7 +52,7 @@ namespace LlamaStoreVista.Controllers
                     var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
                     var authProperties = new AuthenticationProperties
                     {
-                        IsPersistent = true,
+                        IsPersistent = false,
                         ExpiresUtc = DateTimeOffset.UtcNow.AddHours(3)
                     };
 
@@ -96,10 +96,22 @@ namespace LlamaStoreVista.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost] // Mejor usar POST para logout por seguridad
+        [ValidateAntiForgeryToken] // Protección contra CSRF
         public async Task<IActionResult> Logout()
         {
+            // 1. Eliminar la cookie de autenticación
             await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            // 2. Limpiar la sesión (opcional pero recomendado)
+            //HttpContext.Session.Clear();
+
+            // 3. Limpiar caché del navegador
+            Response.Headers["Cache-Control"] = "no-cache, no-store";
+            Response.Headers["Expires"] = "-1";
+            Response.Headers["Pragma"] = "no-cache";
+
+            // 4. Redirigir a la página principal
             return RedirectToAction("Index", "Productos");
         }
 
@@ -191,6 +203,8 @@ namespace LlamaStoreVista.Controllers
             }
 
             // Similar para PostAsync, PutAsync, etc.
+
+
         }
     }
 }
