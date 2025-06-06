@@ -30,8 +30,8 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-
 //AGREGAR
+
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAccess", policy =>
@@ -39,6 +39,7 @@ builder.Services.AddCors(options =>
         policy.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
     });
 });
+
 
 var app = builder.Build();
 
@@ -49,6 +50,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("AllowAccess");
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
@@ -56,3 +59,5 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+
