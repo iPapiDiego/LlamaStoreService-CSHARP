@@ -7,6 +7,8 @@ namespace LlamaStoreService.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+
+    //hola como estan
     public class AccesorioController : ControllerBase
     {
         [HttpGet("getAccesorios")]
