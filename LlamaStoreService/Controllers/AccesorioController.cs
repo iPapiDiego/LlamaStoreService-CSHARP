@@ -11,6 +11,7 @@ namespace LlamaStoreService.Controllers
     //hola como estan
     public class AccesorioController : ControllerBase
     {
+        //BÑANCA
         [HttpGet("getAccesorios")]
         public async Task<ActionResult<List<ListaAccesorio>>> GetAccesorios()
         {
