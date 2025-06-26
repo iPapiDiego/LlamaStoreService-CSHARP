@@ -1,5 +1,10 @@
-﻿@using LlamaStoreVista.Models.Product
-@model IEnumerable<Producto>
+﻿@model IEnumerable<LlamaStoreVista.Models.Product.Producto>
+@using LlamaStoreVista.Models.Carrito
+@{
+    var usuarioId = Context.Session.GetInt32("usiarioId") ?? 0;
+}
+
+
 
 @{
     ViewData["Title"] = "Index";
@@ -46,7 +51,7 @@
                             <!-- Botón de Logout - Estilo similar al Login -->
                             <form asp-controller="Auth" asp-action="Logout" method="post" id="logoutForm" class="d-inline">
                                 @Html.AntiForgeryToken()
-                                <a href="#" class="btn btn-outline-primary" onclick="document.getElementById('logoutForm').submit();">
+                                <a href="/Productos/Index" class="btn btn-outline-primary" onclick="document.getElementById('logoutForm').submit();">
                                     <i class="fas fa-sign-out-alt"></i>
                                     <span class="ms-2">Logout</span>
                                 </a>
@@ -124,12 +129,6 @@
                                     <i class="fa-solid fa-address-book"></i>
                                 </a>
                             </li>
-                            <li class="nav-item">
-                                <a class="underline-hover" href="/Carrito/carrito" ">
-                                    carrito
-                                    <i class="fa-solid fa-address-book"></i>
-                                </a>
-                            </li>
                             @if (User.IsInRole("Admin"))
                             {
                                 <li class="nav-item">
@@ -155,39 +154,26 @@
             </nav>
 
 
+
             <!-- Offcanvas Carrito -->
             <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasCart" aria-labelledby="offcanvasCartLabel">
-                <div class="offcanvas-header">
-                    <h5 class="offcanvas-title" id="offcanvasCartLabel">Mi Carrito</h5>
+                <div class="offcanvas-header border-bottom">
+                    <h5 class="offcanvas-title fw-bold" id="offcanvasCartLabel">🛒 Mi Carrito</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
                 </div>
-                <div class="offcanvas-body">
-                    <div class="list-group">
-
-                        <!-- Producto 1 -->
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6>Producto 1</h6>
-                                <small>Cantidad: 1</small>
-                            </div>
-                            <span>S/ 150</span>
-                        </div>
-
-                        <!-- Producto 2 -->
-                        <div class="list-group-item d-flex justify-content-between align-items-center">
-                            <div>
-                                <h6>Producto 2</h6>
-                                <small>Cantidad: 2</small>
-                            </div>
-                            <span>S/ 300</span>
-                        </div>
-
+                <div class="offcanvas-body d-flex flex-column">
+                    <!-- Lista de productos -->
+                    <div class="list-group list-group-flush flex-grow-1 overflow-auto" id="carrito-items">
+                        <div class="text-muted text-center mt-3">Tu carrito está vacío.</div>
                     </div>
 
-                    <!-- Total -->
-                    <div class="mt-4 border-top pt-3">
-                        <h5>Total: <strong>S/ 450</strong></h5>
-                        <a href="#" class="btn btn-success w-100 mt-2">Ir a Pagar</a>
+                    <!-- Total y acciones -->
+                    <div class="border-top pt-3 mt-4">
+                        <div class="d-flex justify-content-between align-items-center mb-2">
+                            <span class="fw-semibold fs-5">Total:</span>
+                            <span class="fw-bold fs-5 text-success" id="carrito-total">S/ 0.00</span>
+                        </div>
+                        <a href="/Carrito/IndexCarrito" class="btn btn-success w-100 mt-2">Ir a Pagar</a>
                     </div>
                 </div>
             </div>
@@ -198,6 +184,8 @@
         <!--========================================================ASIDE================================================================-->
         <!--========================================================ASIDE================================================================-->
         <!--========================================================ASIDE================================================================-->
+
+
 
         <main>
             <div class="container">
@@ -222,269 +210,355 @@
                 </div>
                 <div class="imagen2">
 
-                    <section class="container my-5">
 
 
-                        <div class="row justify-content-center g-4">
-                            <!-- Iphone 1 -->
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <div class="card iphone-card text-center h-100">
-                                    <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
-                                    <div class="card-body">
-                                        <h5 class="card-title fw-bold">iPhone 11</h5>
-                                        <p class="card-text text-primary fw-bold fs-5">S/1500.00</p>
-                                        <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
+
+                @if (Model != null && Model.Any())
+                {
+                        <div class="row g-4">
+                        @foreach (var item in Model.Take(4))
+                        {
+                                <div class="col-lg-3 col-md-4 col-sm-6 col-12">
+                                    <div class="card iphone-card text-center h-100">
+                                        <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11" />
+                                        <div class="card-body">
+                                            <h5 class="card-title fw-bold">@item.nombre_marca @item.modelo</h5>
+                                            <p class="card-text text-primary fw-bold fs-5">@item.precio.ToString("C")</p>
+                                            <a href="javascript:void(0);" class="btn iphone-btn w-75"
+                                               onclick="agregarAlCarrito('@item.modelo', '@item.idcel', @item.precio)">Lo Quiero</a>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-
-                            <!-- Iphone 2 -->
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-
-                                <div class="card iphone-card text-center h-100">
-                                    <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
-                                    <div class="card-body">
-                                        <h5 class="card-title fw-bold">iPhone 11</h5>
-                                        <p class="card-text text-primary fw-bold fs-5">S/1500.00</p>
-                                        <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Iphone 3-->
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-
-                                <div class="card iphone-card text-center h-100">
-                                    <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
-                                    <div class="card-body">
-                                        <h5 class="card-title fw-bold">iPhone 11</h5>
-                                        <p class="card-text text-primary fw-bold fs-5">S/1500.00</p>
-                                        <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <!-- Iphone 4 -->
-                            <div class="col-lg-3 col-md-4 col-sm-6">
-                                <div class="card iphone-card text-center h-100">
-                                    <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11">
-                                    <div class="card-body">
-                                        <h5 class="card-title fw-bold">iPhone 11</h5>
-                                        <p class="card-text text-primary fw-bold fs-5">S/1500.00</p>
-                                        <a href="#" class="btn iphone-btn w-75">Lo Quiero</a>
-                                    </div>
-                                </div>
-                            </div>
+                        }
                         </div>
-                    </section>
+                }
+                else
+                {
+                        <div class="alert alert-warning text-center">
+                            No hay productos disponibles por el momento.
+                        </div>
+                }
+
+
+
+
                 </div>
-                <br>
 
-                <div class="carrusel1">
-                    <h2>Nuestros clientes opinan 💖</h2>
 
-                    <div class="carousel-container">
-                        <div class="carousel-track" id="carousel-track">
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=1" alt="Cliente 1" />
-                                <h4>Nayeli A</h4>
-                                <p>Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>He comprado mi celular...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=2" alt="Cliente 2" />
-                                <h4>Jorge B</h4>
-                                <p>12 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Es mi segunda compra y fue...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=3" alt="Cliente 3" />
-                                <h4>Manuel G</h4>
-                                <p>1 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Buen producto y buen servicio</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=4" alt="Cliente 4" />
-                                <h4>Cory C</h4>
-                                <p>16 Abril 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Visité la tienda y me dieron...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=1" alt="Cliente 1" />
-                                <h4>Nayeli A</h4>
-                                <p>Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>He comprado mi celular...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=2" alt="Cliente 2" />
-                                <h4>Jorge B</h4>
-                                <p>12 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Es mi segunda compra y fue...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=3" alt="Cliente 3" />
-                                <h4>Manuel G</h4>
-                                <p>1 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Buen producto y buen servicio</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=4" alt="Cliente 4" />
-                                <h4>Cory C</h4>
-                                <p>16 Abril 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Visité la tienda y me dieron...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=1" alt="Cliente 1" />
-                                <h4>Nayeli A</h4>
-                                <p>Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>He comprado mi celular...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=2" alt="Cliente 2" />
-                                <h4>Jorge B</h4>
-                                <p>12 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Es mi segunda compra y fue...</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=3" alt="Cliente 3" />
-                                <h4>Manuel G</h4>
-                                <p>1 Mayo 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Buen producto y buen servicio</p>
-                            </div>
-                            <div class="card1">
-                                <img src="https://i.pravatar.cc/60?img=4" alt="Cliente 4" />
-                                <h4>Cory C</h4>
-                                <p>16 Abril 2024</p>
-                                <div class="stars">★★★★★</div>
-                                <p>Visité la tienda y me dieron...</p>
-                            </div>
+            </div>
+            <br>
+
+            <div class="carrusel1">
+                <h2>Nuestros clientes opinan 💖</h2>
+
+                <div class="carousel-container">
+                    <div class="carousel-track" id="carousel-track">
+                        <div class="card1">
+                            <img src="https://i.pravatar.cc/60?img=1" alt="Cliente 1" />
+                            <h4>Nayeli A</h4>
+                            <p>Mayo 2024</p>
+                            <div class="stars">★★★★★</div>
+                            <p>He comprado mi celular...</p>
+                        </div>
+                        <div class="card1">
+                            <img src="https://i.pravatar.cc/60?img=2" alt="Cliente 2" />
+                            <h4>Jorge B</h4>
+                            <p>12 Mayo 2024</p>
+                            <div class="stars">★★★★★</div>
+                            <p>Es mi segunda compra y fue...</p>
+                        </div>
+                        <div class="card1">
+                            <img src="https://i.pravatar.cc/60?img=3" alt="Cliente 3" />
+                            <h4>Manuel G</h4>
+                            <p>1 Mayo 2024</p>
+                            <div class="stars">★★★★★</div>
+                            <p>Buen producto y buen servicio</p>
+                        </div>
+                        <div class="card1">
+                            <img src="https://i.pravatar.cc/60?img=4" alt="Cliente 4" />
+                            <h4>Cory C</h4>
+                            <p>16 Abril 2024</p>
+                            <div class="stars">★★★★★</div>
+                            <p>Visité la tienda y me dieron...</p>
+                        </div>
+                        <div class="card1">
+                            <img src="https://i.pravatar.cc/60?img=1" alt="Cliente 1" />
+                            <h4>Nayeli A</h4>
+                            <p>Mayo 2024</p>
+                            <div class="stars">★★★★★</div>
+                            <p>He comprado mi celular...</p>
+                        </div>
+                        <div class="card1">
+                            <img src="https://i.pravatar.cc/60?img=2" alt="Cliente 2" />
+                            <h4>Jorge B</h4>
+                            <p>12 Mayo 2024</p>
+                            <div class="stars">★★★★★</div>
+                            <p>Es mi segunda compra y fue...</p>
+                        </div>
+                        <div class="card1">
+                            <img src="https://i.pravatar.cc/60?img=3" alt="Cliente 3" />
+                            <h4>Manuel G</h4>
+                            <p>1 Mayo 2024</p>
+                            <div class="stars">★★★★★</div>
+                            <p>Buen producto y buen servicio</p>
+                        </div>
+                        <div class="card1">
+                            <img src="https://i.pravatar.cc/60?img=4" alt="Cliente 4" />
+                            <h4>Cory C</h4>
+                            <p>16 Abril 2024</p>
+                            <div class="stars">★★★★★</div>
+                            <p>Visité la tienda y me dieron...</p>
+                        </div>
+                        <div class="card1">
+                            <img src="https://i.pravatar.cc/60?img=1" alt="Cliente 1" />
+                            <h4>Nayeli A</h4>
+                            <p>Mayo 2024</p>
+                            <div class="stars">★★★★★</div>
+                            <p>He comprado mi celular...</p>
+                        </div>
+                        <div class="card1">
+                            <img src="https://i.pravatar.cc/60?img=2" alt="Cliente 2" />
+                            <h4>Jorge B</h4>
+                            <p>12 Mayo 2024</p>
+                            <div class="stars">★★★★★</div>
+                            <p>Es mi segunda compra y fue...</p>
+                        </div>
+                        <div class="card1">
+                            <img src="https://i.pravatar.cc/60?img=3" alt="Cliente 3" />
+                            <h4>Manuel G</h4>
+                            <p>1 Mayo 2024</p>
+                            <div class="stars">★★★★★</div>
+                            <p>Buen producto y buen servicio</p>
+                        </div>
+                        <div class="card1">
+                            <img src="https://i.pravatar.cc/60?img=4" alt="Cliente 4" />
+                            <h4>Cory C</h4>
+                            <p>16 Abril 2024</p>
+                            <div class="stars">★★★★★</div>
+                            <p>Visité la tienda y me dieron...</p>
                         </div>
                     </div>
                 </div>
             </div>
-        </main>
+    </div>
+    </main>
 
-        <!--========================================================FOOTER================================================================-->
-        <!--========================================================FOOTER================================================================-->
-        <!--========================================================FOOTER================================================================-->
-        <!--========================================================FOOTER================================================================-->
 
-        <footer>
+    <!--========================================================FOOTER================================================================-->
+    <!--========================================================FOOTER================================================================-->
+    <!--========================================================FOOTER================================================================-->
+    <!--========================================================FOOTER================================================================-->
 
-            <div class="footer-top">
-                <div class="feature">
-                    <h1><i class="fas fa-handshake"></i></h1>
-                    <div class="">
-                        <h4>Servicio Perfecto</h4>
-                        <b>Nuestro amigable equipo a la mano los 7 días de la semana.</b>
-                    </div>
-                </div>
-                <div class="feature">
-                    <h1><i class="fa-solid fa-sack-dollar"></i></h1>
-                    <div class="">
-                        <h4>Valor asombroso</h4>
-                        <b>Las marcas que prefieres al precio que deseas.</b>
-                    </div>
-                </div>
-                <div class="feature">
-                    <h1><i class="fas fa-truck"></i></h1>
-                    <div class="">
-                        <h4>Envío rápido y gratuito</h4>
-                        <b>El pedido se envía en un instante y se envía en 1-3 días.</b>
-                    </div>
-                </div>
-                <div class="feature">
-                    <h1><i class="fas fa-box"></i></h1>
-                    <div class="">
-                        <h4>Selección Inmejorable</h4>
-                        <b>Todo lo que quieras para tu carro, todo en un solo lugar.</b>
-                    </div>
+    <footer>
+
+        <div class="footer-top">
+            <div class="feature">
+                <h1><i class="fas fa-handshake"></i></h1>
+                <div class="">
+                    <h4>Servicio Perfecto</h4>
+                    <b>Nuestro amigable equipo a la mano los 7 días de la semana.</b>
                 </div>
             </div>
-
-            <!------------------------------------------------------------------------------------->
-
-            <div class="footer-bottom">
-                <div class="brand">
-                    <div class="footer_bottom_logo">
-                        <img src="/img/Logos/transparente.png" />
-                    </div>
-                    <div class="social-icons">
-                        <a class="underline-hover" href="#"><i class="fab fa-facebook-square"></i></a>
-                        <a class="underline-hover" href="#"><i class="fab fa-instagram"></i></a>
-                        <a class="underline-hover" href="#"><i class="fab fa-linkedin"></i></a>
-                        <a class="underline-hover" href="#"><i class="fab fa-x"></i></a>
-                        <a class="underline-hover" href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div class="links">
-                    <div>
-                        <h3>Cuenta</h3>
-                        <ul>
-                            <li><a class="underline-hover" href="#">Órdenes</a></li>
-                            <li><a class="underline-hover" href="#">Wishlist</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3>Catálogo</h3>
-                        <ul>
-                            <li><a class="underline-hover" href="catalogo.php">Comprar por partes</a></li>
-                            <li><a class="underline-hover" href="catalogo.php">Comprar por marcas</a></li>
-                            <li><a class="underline-hover" href="#">Promociones</a></li>
-                        </ul>
-                    </div>
-                    <div>
-                        <h3>Ayuda</h3>
-                        <ul>
-                            <li><a class="underline-hover" href="sobreNosotros.php">Sobre Nosotros</a></li>
-                            <li><a class="underline-hover" href="preguntasfrecuentes.php">Preguntas Frecuentes</a></li>
-                            <li><a class="underline-hover" href="contactanos.php">Contáctanos</a></li>
-                            <li><a class="underline-hover" href="#">Nuestras Tiendas</a></li>
-                            <li><a class="underline-hover" href="tyc.php">Términos y Condiciones</a></li>
-                            <li><a class="underline-hover" href="#">Libro de Reclamaciones Virtual</a></li>
-                        </ul>
-                    </div>
-                </div>
-                <div class="contact">
-
-                    <div class="contac_titulo">
-                        <h3>¡Contáctanos!</h3>
-                    </div>
-                    <div class="contact_info_1">
-                        <i class="fas fa-map-marker-alt"></i>
-                        <div>
-                            <a class="underline-hover" href="#">calle. Emily Car 115 - Surquillo</a><br>
-                            <b>Lima, Perú</b>
-                        </div>
-                    </div>
-                    <div class="contact_info_2">
-                        <i class="fas fa-phone"></i>
-                        <div>
-                            <a class="underline-hover" href="#">Llamano entre las 9 am - 8 pm</a><br>
-                            <a href="tel:666855558464" style="color:#edab4e">6668 5555 8464</a>
-
-                        </div>
-                    </div>
-
+            <div class="feature">
+                <h1><i class="fa-solid fa-sack-dollar"></i></h1>
+                <div class="">
+                    <h4>Valor asombroso</h4>
+                    <b>Las marcas que prefieres al precio que deseas.</b>
                 </div>
             </div>
+            <div class="feature">
+                <h1><i class="fas fa-truck"></i></h1>
+                <div class="">
+                    <h4>Envío rápido y gratuito</h4>
+                    <b>El pedido se envía en un instante y se envía en 1-3 días.</b>
+                </div>
+            </div>
+            <div class="feature">
+                <h1><i class="fas fa-box"></i></h1>
+                <div class="">
+                    <h4>Selección Inmejorable</h4>
+                    <b>Todo lo que quieras para tu carro, todo en un solo lugar.</b>
+                </div>
+            </div>
+        </div>
 
-        </footer>
+        <!------------------------------------------------------------------------------------->
+
+        <div class="footer-bottom">
+            <div class="brand">
+                <div class="footer_bottom_logo">
+                    <img src="/img/Logos/transparente.png" />
+                </div>
+                <div class="social-icons">
+                    <a class="underline-hover" href="#"><i class="fab fa-facebook-square"></i></a>
+                    <a class="underline-hover" href="#"><i class="fab fa-instagram"></i></a>
+                    <a class="underline-hover" href="#"><i class="fab fa-linkedin"></i></a>
+                    <a class="underline-hover" href="#"><i class="fab fa-x"></i></a>
+                    <a class="underline-hover" href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="links">
+                <div>
+                    <h3>Cuenta</h3>
+                    <ul>
+                        <li><a class="underline-hover" href="#">Órdenes</a></li>
+                        <li><a class="underline-hover" href="#">Wishlist</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Catálogo</h3>
+                    <ul>
+                        <li><a class="underline-hover" href="catalogo.php">Comprar por partes</a></li>
+                        <li><a class="underline-hover" href="catalogo.php">Comprar por marcas</a></li>
+                        <li><a class="underline-hover" href="#">Promociones</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h3>Ayuda</h3>
+                    <ul>
+                        <li><a class="underline-hover" href="sobreNosotros.php">Sobre Nosotros</a></li>
+                        <li><a class="underline-hover" href="preguntasfrecuentes.php">Preguntas Frecuentes</a></li>
+                        <li><a class="underline-hover" href="contactanos.php">Contáctanos</a></li>
+                        <li><a class="underline-hover" href="#">Nuestras Tiendas</a></li>
+                        <li><a class="underline-hover" href="tyc.php">Términos y Condiciones</a></li>
+                        <li><a class="underline-hover" href="#">Libro de Reclamaciones Virtual</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="contact">
+
+                <div class="contac_titulo">
+                    <h3>¡Contáctanos!</h3>
+                </div>
+                <div class="contact_info_1">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <a class="underline-hover" href="#">calle. Emily Car 115 - Surquillo</a><br>
+                        <b>Lima, Perú</b>
+                    </div>
+                </div>
+                <div class="contact_info_2">
+                    <i class="fas fa-phone"></i>
+                    <div>
+                        <a class="underline-hover" href="#">Llamano entre las 9 am - 8 pm</a><br>
+                        <a href="tel:666855558464" style="color:#edab4e">6668 5555 8464</a>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+    </footer>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
+            crossorigin="anonymous"></script>
     <script src="/js/index.js"></script>
+
+
+    <script>
+        function obtenerCodigoUsuario() {
+            return parseInt('@User.FindFirst("codigo")?.Value ?? "0"');
+        }
+
+        function agregarAlCarrito(modelo, idcel, precio) {
+            const codigo = obtenerCodigoUsuario();
+            if (!codigo || codigo === 0) {
+                alert("Debes iniciar sesión para agregar al carrito.");
+                return;
+            }
+
+            fetch('/AgregarCart/AddToCart', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    codigo: codigo,
+                    idcel: idcel,
+                    modelo: modelo,
+                    cantidad: 1,
+                    precio_oferta: precio
+                })
+            })
+            .then(response => {
+                if (!response.ok) throw new Error("Error al agregar al carrito.");
+                actualizarOffcanvas();
+            })
+            .catch(error => {
+                console.error("Error en fetch:", error);
+            });
+        }
+
+        function actualizarOffcanvas() {
+            const codigo = obtenerCodigoUsuario();
+            if (!codigo || codigo === 0) return;
+
+            fetch(`/AgregarCart/GetCart?codigoUsuario=${codigo}`)
+                .then(response => response.json())
+                .then(data => {
+                    const contenedor = document.getElementById("carrito-items");
+                    const totalElemento = document.getElementById("carrito-total");
+                    contenedor.innerHTML = "";
+
+                    let total = 0;
+
+                    if (!data || data.length === 0) {
+                        contenedor.innerHTML = '<div class="text-muted text-center mt-3">Tu carrito está vacío.</div>';
+                    } else {
+                        data.forEach(item => {
+                            const itemHTML = `
+                                <div class="list-group-item d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <strong>${item.modelo}</strong><br>
+                                        <small>Cantidad: ${item.cantidad}</small>
+                                    </div>
+                                    <div class="d-flex flex-column align-items-end">
+                                        <span class="text-success fw-semibold">S/ ${(item.precio_oferta * item.cantidad).toFixed(2)}</span>
+                                        <button class="btn btn-sm btn-outline-danger mt-1" title="Eliminar"
+                                                onclick="eliminarDelCarrito(${item.idCarrito})">
+                                            <i class="fa fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>`;
+                            contenedor.innerHTML += itemHTML;
+                            total += item.precio_oferta * item.cantidad;
+                        });
+                    }
+
+                    totalElemento.textContent = `S/ ${total.toFixed(2)}`;
+                })
+                .catch(err => {
+                    console.error("Error al cargar carrito:", err);
+                });
+        }
+
+        // ✅ Escucha cuando se abre el carrito
+        const offcanvas = document.getElementById('offcanvasCart');
+        offcanvas.addEventListener('show.bs.offcanvas', actualizarOffcanvas);
+
+        // ✅ Función unificada para eliminar producto
+        async function eliminarDelCarrito(idCarrito) {
+            if (!confirm("¿Estás seguro de eliminar este producto del carrito?")) return;
+
+            const response = await fetch(`/Carrito/EliminarCarrito?idCarrito=${idCarrito}`, {
+                method: 'GET'
+            });
+
+            if (response.ok) {
+                // Actualiza carrito según el contexto
+                if (window.location.pathname.includes("IndexCarrito")) {
+                    location.reload(); // recarga toda la página si estás en la vista de carrito completa
+                } else {
+                    actualizarOffcanvas(); // solo actualiza el offcanvas
+                }
+            } else {
+                alert("No se pudo eliminar el producto.");
+            }
+        }
+    </script>
 
 </body>
 

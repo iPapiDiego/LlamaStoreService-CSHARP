@@ -1,26 +1,27 @@
-﻿@model IEnumerable<LlamaStoreService.Models.Accesorios.Accesorio>
+﻿@model IEnumerable<LlamaStoreVista.Models.Carrito.Carrito>
+
 
 @{
-    ViewData["Title"] = "AccesoriosProductos";
+    var usuarioId = User.FindFirst("codigo")?.Value ?? "0";
     Layout = null;
-}
+    var total = Model.Sum(item => item.precio_oferta * item.cantidad);
 
+}
 
 <html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>iPhones</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet"
-          integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
+    <title>Inicio</title>
+    <link rel="icon" href="img/Logos/logo-llamastore.png" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
-
     <link rel="stylesheet" href="/css/ContainerGeneral.css">
     <link rel="stylesheet" href="/css/Header.css">
     <link rel="stylesheet" href="/css/Footer.css">
-    <link rel="stylesheet" href="/css/Main.css">
-    <link rel="stylesheet" href="/css/Iphone.css">
+    <link rel="stylesheet" href="/css/Index.css">
+
 </head>
 
 <body>
@@ -47,7 +48,7 @@
                             <!-- Botón de Logout - Estilo similar al Login -->
                             <form asp-controller="Auth" asp-action="Logout" method="post" id="logoutForm" class="d-inline">
                                 @Html.AntiForgeryToken()
-                                <a href="#" class="btn btn-outline-primary" onclick="document.getElementById('logoutForm').submit();">
+                                <a href="/Productos/Index" class="btn btn-outline-primary" onclick="document.getElementById('logoutForm').submit();">
                                     <i class="fas fa-sign-out-alt"></i>
                                     <span class="ms-2">Logout</span>
                                 </a>
@@ -120,7 +121,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a class="underline-hover" href="~/html/contacto.html">
+                                <a class="underline-hover" href="~/html/Contactanos.html">
                                     Contactanos
                                     <i class="fa-solid fa-address-book"></i>
                                 </a>
@@ -157,18 +158,16 @@
                     <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Cerrar"></button>
                 </div>
                 <div class="offcanvas-body d-flex flex-column">
-                    <!-- Lista de productos -->
                     <div class="list-group list-group-flush flex-grow-1 overflow-auto" id="carrito-items">
                         <div class="text-muted text-center mt-3">Tu carrito está vacío.</div>
                     </div>
 
-                    <!-- Total y acciones -->
                     <div class="border-top pt-3 mt-4">
                         <div class="d-flex justify-content-between align-items-center mb-2">
                             <span class="fw-semibold fs-5">Total:</span>
                             <span class="fw-bold fs-5 text-success" id="carrito-total">S/ 0.00</span>
                         </div>
-                        <a href="/Carrito/IndexCarrito" class="btn btn-success w-100 mt-2">Ir a Pagar</a>
+                        <a href="/CarritoController/IndexCarrito" class="btn btn-success w-100 mt-2">Ir a Pagar</a>
                     </div>
                 </div>
             </div>
@@ -180,62 +179,75 @@
         <!--========================================================ASIDE================================================================-->
         <!--========================================================ASIDE================================================================-->
 
-        <main>
-            <section class="container my-5">
 
-                <div class="banner-iphones">
-                    <img src="/img/banner_accesorios.webp" alt="Banner_Iphone" class="imagen-banner">
-                    <div class="titulo-superpuesto">Accesorios</div>
+
+        <div class="container-fluid d-flex justify-content-center py-5 bg-light">
+            <div class="card shadow rounded-4 w-100" style="max-width: 800px;">
+                <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center rounded-top-4">
+                    <h4 class="mb-0"><i class="fa-solid fa-cart-shopping me-2"></i>Tu Carrito</h4>
                 </div>
 
-
-                <div class="banner-azul">
-                    <img src="/img/baners/baner_azul.png" alt="Banner Azul">
-                </div>
-
-                <br>
-
-
-                <div class="row justify-content-center g-4">
-                    <!-- Iphone 1 -->
-                    @foreach (var item in Model)
+                <div class="card-body bg-white rounded-bottom-4">
+                    @if (Model != null && Model.Any())
                     {
-                        <div class="col-lg-3 col-md-4 col-sm-6">
-                            <div class="card iphone-card text-center h-100">
-                                <img src="@Url.Content($"~/img/accesorios/{item.idacce}.png")" class="iphone-img p-4" alt="iPhone 11">
-                                <div class="card-body">
-                                    <h5 class="card-title fw-bold">@Html.DisplayFor(modelItem => item.nombre_marca) @Html.DisplayFor(modelItem => item.modelo)</h5>
-                                    <p class="card-text text-primary fw-bold fs-5">@Html.DisplayFor(modelItem => item.precio)</p>
-                                    <button type="button"
-                                            class="btn btn-primary btn-add-to-cart"
-                                            data-id="@item.idacce"
-                                            data-tipo="@item.tipo"
-                                            data-nombre="@item.descripcion"
-                                            data-precio="@item.precio_oferta">
-                                        Lo quiero
-                                    </button>
-                                </div>
-                            </div>
+                        <div class="table-responsive">
+                            <table class="table table-hover align-middle">
+                                <thead class="table-light">
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Usuario</th>
+                                        <th>Producto</th>
+                                        <th>Modelo</th>
+                                        <th>Cantidad</th>
+                                        <th>Precio (S/)</th>
+                                        <th>Acción</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach (var item in Model)
+                                    {
+                                        <tr>
+                                            <td>@item.idCarrito</td>
+                                            <td>@item.codigo</td>
+                                            <td>@item.idcel</td>
+                                            <td>@item.modelo</td>
+                                            <td>@item.cantidad</td>
+                                            <td class="text-success fw-semibold">S/ @item.precio_oferta</td>
+                                            <td>
+                                                <a href="/Carrito/EliminarCarrito?idCarrito=@item.idCarrito"
+                                                   class="btn btn-danger btn-sm"
+                                                   onclick="return confirm('¿Deseas eliminar este producto del carrito?')">
+                                                    <i class="fa fa-trash"></i>
+                                                </a>
+                                            </td>
+                                        </tr>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="text-end fw-bold fs-5 mt-3">
+                            Total: <span class="text-success">S/ @total</span>
+                        </div>
+
+                        <div class="text-end mt-3">
+                            <button onclick="mostrarGracias()" class="btn btn-success px-4">
+                                <i class="fa-solid fa-credit-card me-2"></i>Proceder al Pago
+                            </button>
                         </div>
                     }
-
-                    <!-- Paginación -->
-                    <nav aria-label="Page navigation">
-                        <ul class="pagination justify-content-center mt-3">
-                            <div class="d-flex flex-wrap gap-2 my-3">
-                                @for (int i = 0; i < (int)ViewBag.pages; i++)
-                                {
-                                    <a asp-action="AccesoriosProductos" asp-route-page="@(i + 1)"
-                                       class="btn @(i == (int)ViewBag.page ? "btn-success" : "btn-outline-primary") fw-semibold">
-                                        @(i + 1)
-                                    </a>
-                                }
-                            </div>
-                        </ul>
-                    </nav>
+                    else
+                    {
+                        <div class="alert alert-warning text-center mb-0">
+                            <i class="fa-solid fa-circle-info me-2"></i>Tu carrito está vacío.
+                        </div>
+                    }
                 </div>
-            </section>
-        </main>
+            </div>
+
+
+        </div>
+
 
         <!--========================================================FOOTER================================================================-->
         <!--========================================================FOOTER================================================================-->
@@ -280,7 +292,7 @@
             <div class="footer-bottom">
                 <div class="brand">
                     <div class="footer_bottom_logo">
-                        <img src="../img/Logos/llama-store-logo-transparente.PNG" />
+                        <img src="/img/Logos/transparente.png" />
                     </div>
                     <div class="social-icons">
                         <a class="underline-hover" href="#"><i class="fab fa-facebook-square"></i></a>
@@ -335,7 +347,7 @@
                         <div>
                             <a class="underline-hover" href="#">Llamano entre las 9 am - 8 pm</a><br>
                             <a href="tel:666855558464" style="color:#edab4e">6668 5555 8464</a>
-                            </divtd>
+
                         </div>
                     </div>
 
@@ -344,90 +356,120 @@
 
         </footer>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/index.js"></script>
+
     <script>
-        function obtenerCodigoUsuario() {
-          return parseInt('@User.FindFirst("codigo")?.Value ?? "0"');
-        }
+        const codigoUsuario = "@User.FindFirst("codigo")?.Value ?? "0"";
 
-        async function actualizarOffcanvas() {
-          const codigo = obtenerCodigoUsuario();
-          if (!codigo) return;
+        async function refreshCart() {
+          const res = await fetch(`/CarritoController/GetCart?codigoUsuario=${codigoUsuario}`);
+          const items = await res.json();
+          document.getElementById("badgeCount").textContent = items.length;
 
-          const resp = await fetch(`/AgregarCart/GetCart?codigoUsuario=${codigo}`);
-          const data = await resp.json();
-
-          const cont = document.getElementById("carrito-items");
-          const tot = document.getElementById("carrito-total");
           let total = 0;
-          cont.innerHTML = "";
+          const html = items.length
+            ? items.map(i => {
+                total += i.precio_oferta * i.cantidad;
+                return `<div class="list-group-item d-flex justify-content-between">
+                          <span>${i.nombreProducto || i.idcel}</span>
+                          <span>Cant: ${i.cantidad}</span>
+                        </div>`;
+              }).join('')
+            : "<p class='text-center'>Carrito vacío</p>";
 
-          if (!data.length) {
-            cont.innerHTML = '<div class="text-muted text-center mt-3">Tu carrito está vacío.</div>';
-          } else {
-            data.forEach(item => {
-              const subtotal = item.precio_oferta * item.cantidad;
-              total += subtotal;
-              cont.innerHTML += `
-                <div class="list-group-item d-flex justify-content-between align-items-start">
-                  <div><strong>${item.modelo}</strong><br><small>${item.tipo} × ${item.cantidad}</small></div>
-                  <div class="text-end">
-                    <span class="text-success fw-semibold">S/ ${subtotal.toFixed(2)}</span>
-                    <button class="btn btn-sm btn-outline-danger mt-1" onclick="eliminarDelCarrito(${item.idCarrito})">
-                      <i class="fa fa-trash"></i>
-                    </button>
-                  </div>
-                </div>`;
+          document.getElementById("cartBody").innerHTML = html;
+          document.getElementById("cartTotal").textContent = `S/ ${total}`;
+        }
+
+        document.querySelectorAll('.btn.iphone-btn').forEach(btn => {
+          btn.addEventListener('click', async e => {
+            e.preventDefault();
+            const idProducto = btn.getAttribute('data-id');
+            await fetch('/CarritoController/AddToCart', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ codigoUsuario: parseInt(codigoUsuario), idProducto: parseInt(idProducto) })
             });
-          }
-
-          tot.textContent = `S/ ${total.toFixed(2)}`;
-        }
-
-        async function agregarAlCarrito(id, tipo, nombre, precio) {
-          const codigo = obtenerCodigoUsuario();
-          if (!codigo) { alert("Debes iniciar sesión."); return; }
-
-          const resp = await fetch('/AgregarCart/AddToCart', {
-            method: 'POST',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify({ codigo, id, tipo, modelo: nombre, cantidad: 1, precio_oferta: precio })
+            await refreshCart();
+            bootstrap.Offcanvas.getOrCreateInstance('#offcanvasCart').show();
           });
-
-          if (resp.ok) {
-            await actualizarOffcanvas();
-            new bootstrap.Offcanvas(document.getElementById('offcanvasCart')).show();
-          } else alert("Error al agregar al carrito.");
-        }
-
-        async function eliminarDelCarrito(idCarrito) {
-          if (!confirm("¿Eliminar este producto?")) return;
-          await fetch(`/Carrito/EliminarCarrito?idCarrito=${idCarrito}`);
-          actualizarOffcanvas();
-          if (window.location.pathname.includes("IndexCarrito")) location.reload();
-        }
-
-        document.addEventListener('DOMContentLoaded', () => {
-          actualizarOffcanvas();
-
-          document.querySelectorAll('.btn-add-to-cart').forEach(btn => {
-            btn.addEventListener('click', () => {
-              agregarAlCarrito(
-                btn.dataset.id,
-                btn.dataset.tipo,
-                btn.dataset.nombre,
-                parseFloat(btn.dataset.precio)
-              );
-            });
-          });
-
-          document.getElementById('offcanvasCart')
-                  .addEventListener('show.bs.offcanvas', actualizarOffcanvas);
         });
+
+        document.addEventListener('DOMContentLoaded', refreshCart);
+    </script>
+    <script>
+        const codigoUsuario = "@User.FindFirst("codigo")?.Value ?? "0"";
+
+        async function refreshCart() {
+            const res = await fetch(`/CarritoController/GetCart?codigoUsuario=${codigoUsuario}`);
+            const items = await res.json();
+
+            // Actualiza el contador del badge del carrito
+            const badge = document.querySelector('.badge');
+            if (badge) {
+                badge.textContent = items.length;
+            }
+
+            let total = 0;
+            const html = items.length
+                ? items.map(i => {
+                    total += i.precio_oferta * i.cantidad;
+                    return `<div class="list-group-item d-flex justify-content-between align-items-center">
+                              <div>
+                                <strong>${i.modelo}</strong><br>
+                                <small>Cant: ${i.cantidad}</small>
+                              </div>
+                              <button class="btn btn-sm btn-outline-danger" onclick="eliminarDelCarrito(${i.idCarrito})">
+                                <i class="fa fa-trash"></i>
+                              </button>
+                            </div>`;
+                  }).join('')
+                : "<p class='text-center'>Carrito vacío</p>";
+
+            document.getElementById("carrito-items").innerHTML = html;
+            document.getElementById("carrito-total").textContent = `S/ ${total.toFixed(2)}`;
+        }
+
+        // Cargar carrito al cargar la página
+        document.addEventListener('DOMContentLoaded', refreshCart);
+    </script>
+    <script>
+        async function eliminarDelCarrito(idCarrito) {
+            if (!confirm("¿Estás seguro de eliminar este producto del carrito?")) return;
+
+            await fetch(`/CarritoController/EliminarCarrito?idCarrito=${idCarrito}`, {
+                method: 'GET'
+            });
+
+            // Si estás en la vista de carrito completa, recarga toda la página
+            if (window.location.pathname.includes("IndexCarrito")) {
+                location.reload();
+            } else {
+                // Si estás en el carrito lateral (offcanvas), solo refresca el contenido
+                await refreshCart();
+            }
+        }
     </script>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-k6d4wzSIapyDyv1kpU366/PK5hCdSbCRGRCMv+eplOQJWyd1fbcAu9OCUj5zNLiq"
-            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script>
+        function mostrarGracias() {
+            Swal.fire({
+                title: '¡Gracias por comprar en LlamaStore!',
+                text: 'Tu compra ha sido procesada exitosamente.',
+                imageUrl: '/img/Logos/logo-llamastore.png', // Asegúrate de que esta imagen exista
+                imageHeight: 150,
+                confirmButtonText: 'Cerrar',
+                confirmButtonColor: '#198754'
+            });
+        }
+    </script>
+
+    <script>
+        const codigoUsuario = "@User.FindFirst("codigo")?.Value ?? "0"";
+    </script>
 
 </body>
 

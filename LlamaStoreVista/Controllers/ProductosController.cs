@@ -9,9 +9,27 @@ namespace LlamaStoreVista.Controllers
         private readonly string conexionService = "https://localhost:44331/api/Products/";
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            List<Producto> productos = new List<Producto>();
+
+            using (var client = new HttpClient())
+            {
+                client.BaseAddress = new Uri(conexionService);
+                HttpResponseMessage response = await client.GetAsync("getCelulares"); // Asegúrate que sea el endpoint correcto
+
+                if (response.IsSuccessStatusCode)
+                {
+                    string apiResponse = await response.Content.ReadAsStringAsync();
+                    productos = JsonConvert.DeserializeObject<List<Producto>>(apiResponse);
+                }
+                else
+                {
+                    Console.WriteLine($"Error al llamar a la API: {response.StatusCode}");
+                }
+            }
+
+            return View(productos);
         }
 
         //LISTA DE VENDEDORES CON NUMERACION

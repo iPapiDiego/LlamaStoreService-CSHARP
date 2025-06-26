@@ -43,6 +43,7 @@ namespace LlamaStoreVista.Controllers
                     var claims = new List<Claim>
             {
                 new Claim(ClaimTypes.NameIdentifier, loginResponse.Usuario.Codigo.ToString()),
+                new Claim("codigo", loginResponse.Usuario.Codigo.ToString()),
                 new Claim(ClaimTypes.Email, loginResponse.Usuario.Correo),
                 new Claim(ClaimTypes.Role, loginResponse.Usuario.Idrol == 1 ? "Admin" : "Cliente"),
                 new Claim("Token", loginResponse.Token),
