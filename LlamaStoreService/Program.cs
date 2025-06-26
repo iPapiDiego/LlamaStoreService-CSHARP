@@ -1,3 +1,4 @@
+using LlamaStoreService.Repositories.DAO;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.ComponentModel;
@@ -40,6 +41,7 @@ builder.Services.AddCors(options =>
     });
 });
 
+builder.Services.AddScoped<carritoDAO>();
 
 var app = builder.Build();
 
