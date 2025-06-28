@@ -210,17 +210,14 @@
                 </div>
                 <div class="imagen2">
 
-
-
-
-                @if (Model != null && Model.Any())
-                {
+                    @if (Model != null && Model.Any())
+                    {
                         <div class="row g-4">
-                        @foreach (var item in Model.Take(4))
-                        {
+                            @foreach (var item in Model.Take(4))
+                            {
                                 <div class="col-lg-3 col-md-4 col-sm-6 col-12">
                                     <div class="card iphone-card text-center h-100">
-                                        <img src="../img/iphone 11.jpg" class="iphone-img p-4" alt="iPhone 11" />
+                                        <img src="@Url.Content($"../img/productos/{item.idcel}.png")" class="iphone-img p-4" alt="iPhone 11" />
                                         <div class="card-body">
                                             <h5 class="card-title fw-bold">@item.nombre_marca @item.modelo</h5>
                                             <p class="card-text text-primary fw-bold fs-5">@item.precio.ToString("C")</p>
@@ -229,23 +226,19 @@
                                         </div>
                                     </div>
                                 </div>
-                        }
+                            }
                         </div>
-                }
-                else
-                {
+                    }
+                    else
+                    {
                         <div class="alert alert-warning text-center">
                             No hay productos disponibles por el momento.
                         </div>
-                }
-
-
-
+                    }
 
                 </div>
-
-
             </div>
+
             <br>
 
             <div class="carrusel1">
@@ -340,116 +333,116 @@
                     </div>
                 </div>
             </div>
-    </div>
-    </main>
+
+        </main>
 
 
-    <!--========================================================FOOTER================================================================-->
-    <!--========================================================FOOTER================================================================-->
-    <!--========================================================FOOTER================================================================-->
-    <!--========================================================FOOTER================================================================-->
+        <!--========================================================FOOTER================================================================-->
+        <!--========================================================FOOTER================================================================-->
+        <!--========================================================FOOTER================================================================-->
+        <!--========================================================FOOTER================================================================-->
 
-    <footer>
+        <footer>
 
-        <div class="footer-top">
-            <div class="feature">
-                <h1><i class="fas fa-handshake"></i></h1>
-                <div class="">
-                    <h4>Servicio Perfecto</h4>
-                    <b>Nuestro amigable equipo a la mano los 7 días de la semana.</b>
-                </div>
-            </div>
-            <div class="feature">
-                <h1><i class="fa-solid fa-sack-dollar"></i></h1>
-                <div class="">
-                    <h4>Valor asombroso</h4>
-                    <b>Las marcas que prefieres al precio que deseas.</b>
-                </div>
-            </div>
-            <div class="feature">
-                <h1><i class="fas fa-truck"></i></h1>
-                <div class="">
-                    <h4>Envío rápido y gratuito</h4>
-                    <b>El pedido se envía en un instante y se envía en 1-3 días.</b>
-                </div>
-            </div>
-            <div class="feature">
-                <h1><i class="fas fa-box"></i></h1>
-                <div class="">
-                    <h4>Selección Inmejorable</h4>
-                    <b>Todo lo que quieras para tu carro, todo en un solo lugar.</b>
-                </div>
-            </div>
-        </div>
-
-        <!------------------------------------------------------------------------------------->
-
-        <div class="footer-bottom">
-            <div class="brand">
-                <div class="footer_bottom_logo">
-                    <img src="/img/Logos/transparente.png" />
-                </div>
-                <div class="social-icons">
-                    <a class="underline-hover" href="#"><i class="fab fa-facebook-square"></i></a>
-                    <a class="underline-hover" href="#"><i class="fab fa-instagram"></i></a>
-                    <a class="underline-hover" href="#"><i class="fab fa-linkedin"></i></a>
-                    <a class="underline-hover" href="#"><i class="fab fa-x"></i></a>
-                    <a class="underline-hover" href="#"><i class="fab fa-youtube"></i></a>
-                </div>
-            </div>
-            <div class="links">
-                <div>
-                    <h3>Cuenta</h3>
-                    <ul>
-                        <li><a class="underline-hover" href="#">Órdenes</a></li>
-                        <li><a class="underline-hover" href="#">Wishlist</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3>Catálogo</h3>
-                    <ul>
-                        <li><a class="underline-hover" href="catalogo.php">Comprar por partes</a></li>
-                        <li><a class="underline-hover" href="catalogo.php">Comprar por marcas</a></li>
-                        <li><a class="underline-hover" href="#">Promociones</a></li>
-                    </ul>
-                </div>
-                <div>
-                    <h3>Ayuda</h3>
-                    <ul>
-                        <li><a class="underline-hover" href="sobreNosotros.php">Sobre Nosotros</a></li>
-                        <li><a class="underline-hover" href="preguntasfrecuentes.php">Preguntas Frecuentes</a></li>
-                        <li><a class="underline-hover" href="contactanos.php">Contáctanos</a></li>
-                        <li><a class="underline-hover" href="#">Nuestras Tiendas</a></li>
-                        <li><a class="underline-hover" href="tyc.php">Términos y Condiciones</a></li>
-                        <li><a class="underline-hover" href="#">Libro de Reclamaciones Virtual</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="contact">
-
-                <div class="contac_titulo">
-                    <h3>¡Contáctanos!</h3>
-                </div>
-                <div class="contact_info_1">
-                    <i class="fas fa-map-marker-alt"></i>
-                    <div>
-                        <a class="underline-hover" href="#">calle. Emily Car 115 - Surquillo</a><br>
-                        <b>Lima, Perú</b>
+            <div class="footer-top">
+                <div class="feature">
+                    <h1><i class="fas fa-handshake"></i></h1>
+                    <div class="">
+                        <h4>Servicio Perfecto</h4>
+                        <b>Nuestro amigable equipo a la mano los 7 días de la semana.</b>
                     </div>
                 </div>
-                <div class="contact_info_2">
-                    <i class="fas fa-phone"></i>
-                    <div>
-                        <a class="underline-hover" href="#">Llamano entre las 9 am - 8 pm</a><br>
-                        <a href="tel:666855558464" style="color:#edab4e">6668 5555 8464</a>
-
+                <div class="feature">
+                    <h1><i class="fa-solid fa-sack-dollar"></i></h1>
+                    <div class="">
+                        <h4>Valor asombroso</h4>
+                        <b>Las marcas que prefieres al precio que deseas.</b>
                     </div>
                 </div>
-
+                <div class="feature">
+                    <h1><i class="fas fa-truck"></i></h1>
+                    <div class="">
+                        <h4>Envío rápido y gratuito</h4>
+                        <b>El pedido se envía en un instante y se envía en 1-3 días.</b>
+                    </div>
+                </div>
+                <div class="feature">
+                    <h1><i class="fas fa-box"></i></h1>
+                    <div class="">
+                        <h4>Selección Inmejorable</h4>
+                        <b>Todo lo que quieras para tu carro, todo en un solo lugar.</b>
+                    </div>
+                </div>
             </div>
-        </div>
 
-    </footer>
+            <!------------------------------------------------------------------------------------->
+
+            <div class="footer-bottom">
+                <div class="brand">
+                    <div class="footer_bottom_logo">
+                        <img src="/img/Logos/transparente.png" />
+                    </div>
+                    <div class="social-icons">
+                        <a class="underline-hover" href="#"><i class="fab fa-facebook-square"></i></a>
+                        <a class="underline-hover" href="#"><i class="fab fa-instagram"></i></a>
+                        <a class="underline-hover" href="#"><i class="fab fa-linkedin"></i></a>
+                        <a class="underline-hover" href="#"><i class="fab fa-x"></i></a>
+                        <a class="underline-hover" href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+                <div class="links">
+                    <div>
+                        <h3>Cuenta</h3>
+                        <ul>
+                            <li><a class="underline-hover" href="#">Órdenes</a></li>
+                            <li><a class="underline-hover" href="#">Wishlist</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Catálogo</h3>
+                        <ul>
+                            <li><a class="underline-hover" href="catalogo.php">Comprar por partes</a></li>
+                            <li><a class="underline-hover" href="catalogo.php">Comprar por marcas</a></li>
+                            <li><a class="underline-hover" href="#">Promociones</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h3>Ayuda</h3>
+                        <ul>
+                            <li><a class="underline-hover" href="sobreNosotros.php">Sobre Nosotros</a></li>
+                            <li><a class="underline-hover" href="preguntasfrecuentes.php">Preguntas Frecuentes</a></li>
+                            <li><a class="underline-hover" href="contactanos.php">Contáctanos</a></li>
+                            <li><a class="underline-hover" href="#">Nuestras Tiendas</a></li>
+                            <li><a class="underline-hover" href="tyc.php">Términos y Condiciones</a></li>
+                            <li><a class="underline-hover" href="#">Libro de Reclamaciones Virtual</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="contact">
+
+                    <div class="contac_titulo">
+                        <h3>¡Contáctanos!</h3>
+                    </div>
+                    <div class="contact_info_1">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div>
+                            <a class="underline-hover" href="#">calle. Emily Car 115 - Surquillo</a><br>
+                            <b>Lima, Perú</b>
+                        </div>
+                    </div>
+                    <div class="contact_info_2">
+                        <i class="fas fa-phone"></i>
+                        <div>
+                            <a class="underline-hover" href="#">Llamano entre las 9 am - 8 pm</a><br>
+                            <a href="tel:666855558464" style="color:#edab4e">6668 5555 8464</a>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </footer>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.bundle.min.js"
